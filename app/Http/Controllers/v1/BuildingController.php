@@ -14,6 +14,11 @@ class BuildingController extends Controller
 
     function get()
     {
-        return $this->jsonById("bla", Building::get());
+        return $this->jsonById("all", Building::get());
+    }
+
+    function getById($id)
+    {
+        return $this->jsonById($id, Building::find($id));
     }
 }

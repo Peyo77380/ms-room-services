@@ -25,7 +25,7 @@ Route::group([
     Route::get('/ping', [PingV1::class, 'index']);
 
     Route::get('/building', [BuildingV1::class, 'get']);
-
+    Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
     // /**
     //  * company
     //  */
