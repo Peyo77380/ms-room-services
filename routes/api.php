@@ -26,6 +26,9 @@ Route::group([
 
     Route::get('/building', [BuildingV1::class, 'get']);
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
+    Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
+    Route::post('/building/add', [BuildingV1::class, 'add']);
+
     // /**
     //  * company
     //  */

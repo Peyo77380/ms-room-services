@@ -1,0 +1,45 @@
+{
+    "b": {
+        "name": "La petite bleue",
+        "description": “petite salle de réunion cozy”,
+        "building_id": 1,
+        "floor_id": 2,
+        "surface": 100,
+    "maxCapacity": 4 // int
+    "rules": {
+            "min": {
+            "unit": "d",
+            "value": 2
+            },
+            "public": true,
+            "events": false
+        }
+
+    "color": "red",
+    "openingHours": [
+            {
+    "day" : [ {{1, 3, 5, 7, 4},
+             {"start": 8},
+             {"end": 23}},
+
+            {[ 2 ]
+            },
+
+
+            "start": 9,
+            "end": 23,
+            }
+    "enabled": true,
+            "services": "All" // sinon retourner array [1, 2 ,3,12],
+    "types": [
+                {
+                    "_id": "Object.id",
+                    "name": "Bureau privé",
+                    "created_at": 1621987200,
+                    "updated_at": null,
+                }
+            ],
+            "created_at": 1621987200,
+            "updated_at": null,
+        }
+    }

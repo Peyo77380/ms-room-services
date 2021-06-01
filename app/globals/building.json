@@ -1,0 +1,35 @@
+{
+    "a": {
+    "location": {
+      "address": "address",
+      "city": "city",
+      "zipCode": 12345,
+      "country": "FR",
+      "lat": 48.1159102,
+      "long": -1.7234739
+    },
+    "surface": 2000,
+    "openingHours": {
+      "days": [1, 2, 3, 4, 5, 6],
+      "start": 8,
+      "finish": 23
+    },
+    "description": "blablabla",
+    "pictures": 1,
+    "caractéristiques": ["Salle de bain", "Coin Cuisine"],
+    "state": 1,
+    "created_at": 1621987200,
+    "updated_at": null,
+    "enabled": true,
+    "floors": {
+      "_id": 1,
+      "name": "RDC",
+      "surface": 500,
+      "state": 1,
+      "pictures": 2,
+      "plans": 3,
+      "created_at": 1621987200,
+      "updated_at": null
+    }
+  }
+}
