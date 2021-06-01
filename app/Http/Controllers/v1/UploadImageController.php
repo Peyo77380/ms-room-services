@@ -14,6 +14,39 @@ class UploadImageController extends Controller
 {
     use ApiResponder;
 
+    /**
+     * Return an array of all the images in the database
+     *
+     * @return void
+     */
+    function get()
+    {
+        if (!$images = UploadImage::get()) {
+            return $this->jsonError('Unable to reach database', 400);
+        }
+        return $this->jsonById("all", $images);
+    }
+
+    /**
+     * Return an image by ID
+     *
+     * @param $id
+     * @return void
+     */
+    function getById($id)
+    {
+        if (!$image = UploadImage::find($id)) {
+            return $this->jsonError('Unable to find request item', 404);
+        }
+        return $this->jsonById($id, $image);
+    }
+
+    /**
+     * Store a submitted image in database and return the object
+     *
+     * @param Request $request
+     * @return void
+     */
     function store(Request $request)
     {
         $validatedData = $this->imageSubmissionValidator($request);
@@ -35,6 +68,22 @@ class UploadImageController extends Controller
         return $this->jsonSuccess($image, 'Successfully saved');
     }
 
+    function destroy($id)
+    {
+        if (!$destroy = UploadImage::destroy($id)) {
+            return $this->jsonError('Server could not delete the object from database, please check the ID', 400);
+        }
+
+        return $this->jsonSuccess($id, 'Successfully deleted from database');
+    }
+
+
+    /**
+     * Validate upload image form
+     *
+     * @param Request $request
+     * @return void
+     */
     function imageSubmissionValidator ($request)
     {
         $validator = Validator::make($request->all(),
@@ -47,8 +96,6 @@ class UploadImageController extends Controller
             $messages = [
                 'required' => 'The :attribute field is required',
             ]);
-
-
 
         return $validator;
     }

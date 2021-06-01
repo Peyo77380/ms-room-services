@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
+use App\Models\UploadImage;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +30,11 @@ Route::group([
     Route::get('/building', [BuildingV1::class, 'get']);
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
 
-    Route::post('/uploadImage', [UploadImageV1::class, 'store']);
-    // /**
-    //  * company
-    //  */
-    // Route::get('/company/{id}', [CompanyV1::class, 'get']);
+    Route::prefix('/uploadImage')->group(function () {
+        Route::get('/', [UploadImageV1::class, 'get']);
+        Route::get('/{id}', [UploadImageV1::class, 'getById']);
+        Route::post('/', [UploadImageV1::class, 'store']);
+        Route::delete('/{id}', [UploadImageV1::class, 'destroy']);
+    });
 
-
-    // /**
-    //  * user
-    //  */
-    // Route::get('/user/{id}', [UserV1::class, 'get']);
 });
