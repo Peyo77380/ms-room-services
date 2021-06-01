@@ -34,6 +34,7 @@ Route::group([
         Route::get('/', [UploadImageV1::class, 'get']);
         Route::get('/{id}', [UploadImageV1::class, 'getById']);
         Route::post('/', [UploadImageV1::class, 'store']);
+        Route::put('/{id}', [UploadImageV1::class, 'update']);
         Route::delete('/{id}', [UploadImageV1::class, 'destroy']);
     });
 

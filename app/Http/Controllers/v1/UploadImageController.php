@@ -51,7 +51,7 @@ class UploadImageController extends Controller
     {
         $validatedData = $this->imageSubmissionValidator($request);
         if ($validatedData->fails()) {
-            return $this->jsonError('Invalid data', 400);
+            return $this->jsonError($validatedData->errors()->all(), 400);
         }
 
         $image = new UploadImage();
@@ -68,9 +68,47 @@ class UploadImageController extends Controller
         return $this->jsonSuccess($image, 'Successfully saved');
     }
 
+    /**
+     * Update existing item in database
+     *
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    function update(Request $request, $id)
+    {
+        $validatedData = $this->imageSubmissionValidator($request);
+        if ($validatedData->fails()) {
+            return $this->jsonError($validatedData->errors()->all(), 400);
+        }
+
+        if (!$image = UploadImage::find($id)) {
+            return $this->jsonError('Unable to find item to update', 404);
+        }
+
+        $image->type = $request->input('type');
+        $image->targetId = $request->input('targetId');
+        $image->title = $request->input('title');
+        $image->image = $request->file('image');
+        $image->path = $request->file('image')->store('public/images');
+
+
+        if (!$image->update()) {
+            return $this->jsonError('Server failed storing image upload', 500);
+        }
+
+        return $this->jsonSuccess($image, 'Successfully updated');
+    }
+
+    /**
+     * Destroy existing item in database by Id
+     *
+     * @param $id
+     * @return void
+     */
     function destroy($id)
     {
-        if (!$destroy = UploadImage::destroy($id)) {
+        if (!UploadImage::destroy($id)) {
             return $this->jsonError('Server could not delete the object from database, please check the ID', 400);
         }
 
