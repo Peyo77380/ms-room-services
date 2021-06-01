@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Models\UploadImage;
+use App\Models\Image;
 
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 
-class UploadImageController extends Controller
+class ImageController extends Controller
 {
     use ApiResponder;
 
@@ -21,7 +21,7 @@ class UploadImageController extends Controller
      */
     function get()
     {
-        if (!$images = UploadImage::get()) {
+        if (!$images = Image::get()) {
             return $this->jsonError('Unable to reach database', 400);
         }
         return $this->jsonSuccess($images);
@@ -35,7 +35,7 @@ class UploadImageController extends Controller
      */
     function getById($id)
     {
-        if (!$image = UploadImage::find($id)) {
+        if (!$image = Image::find($id)) {
             return $this->jsonError('Unable to find request item', 404);
         }
         return $this->jsonById($id, $image);
@@ -59,7 +59,7 @@ class UploadImageController extends Controller
             return $imgArray;
         }
 
-        $image = new UploadImage();
+        $image = new Image();
         $image->type = $request->input('type');
         $image->targetId = $request->input('targetId');
         $image->image = $imgArray;
@@ -80,7 +80,7 @@ class UploadImageController extends Controller
      */
     function update(Request $request, $id)
     {
-        
+
         $validatedData = $this->imageSubmissionValidator($request);
         if ($validatedData->fails()) {
             return $this->jsonError($validatedData->errors()->all(), 400);
@@ -91,7 +91,8 @@ class UploadImageController extends Controller
             return $imgArray;
         }
 
-        $image = UploadImage::find($id);
+
+        $image = Image::find($id);
         if (!$image) {
             return $this->jsonError('Could not find the requested ID', 404);
         }
@@ -115,7 +116,8 @@ class UploadImageController extends Controller
      */
     function destroy($id)
     {
-        if (!UploadImage::destroy($id)) {
+        // TODO : Vérifier avec le client s'il faut supprimer le fichier du serveur une fois supprimé
+        if (!Image::destroy($id)) {
             return $this->jsonError('Server could not delete the object from database, please check the ID', 400);
         }
 
@@ -124,6 +126,8 @@ class UploadImageController extends Controller
 
     function setImagesToArray ($request)
     {
+        // TODO : Verifier avec le front quel ojet sera renvoyé par la soumission et l'update
+        // TODO : Vérifier avec les clients si le titre sur chaque photo
 
         $files = [];
         foreach($request->file('images') as $key => $file) {
@@ -165,10 +169,17 @@ class UploadImageController extends Controller
         return $validator;
     }
 
+    /**
+     * Validate uploaded images format
+     *
+     * @param array $fileInfo
+     * @return void
+     */
     function imageDetailsValidator (array $fileInfo)
     {
         $validator = Validator::make($fileInfo,
             $rules = [
+                // TODO : Vérifier avec les clients la taill des images, et les formats potentiels.
                 'file' => 'required|image|mimes:jpg,png,jpeg|max:512',
                 'title' => 'required|string|min:5'
             ],

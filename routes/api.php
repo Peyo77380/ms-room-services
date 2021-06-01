@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
-use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
-use App\Models\UploadImage;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Http\Controllers\v1\ImageController as UploadImageV1;
 
 /*
 |--------------------------------------------------------------------------

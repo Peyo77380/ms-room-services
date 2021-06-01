@@ -38,12 +38,4 @@ trait ApiResponder
     }
 
 
-    function internalProcessCheck ($datas, $status)
-    {
-        return json_encode([
-            'status' => $status,
-            'datas' => $datas
-        ]);
-    }
-
 }
