@@ -24,7 +24,7 @@ class UploadImageController extends Controller
         if (!$images = UploadImage::get()) {
             return $this->jsonError('Unable to reach database', 400);
         }
-        return $this->jsonById("all", $images);
+        return $this->jsonSuccess($images);
     }
 
     /**
@@ -54,12 +54,15 @@ class UploadImageController extends Controller
             return $this->jsonError($validatedData->errors()->all(), 400);
         }
 
+        $imgArray = $this->setImagesToArray($request);
+        if ($imgArray->getStatusCode() === 415) {
+            return $imgArray;
+        }
+
         $image = new UploadImage();
         $image->type = $request->input('type');
         $image->targetId = $request->input('targetId');
-        $image->title = $request->input('title');
-        $image->image = $request->file('image');
-        $image->path = $request->file('image')->store('public/images');
+        $image->image = $imgArray;
 
         if (!$image->save()) {
             return $this->jsonError('Server failed storing image upload', 500);
@@ -73,31 +76,35 @@ class UploadImageController extends Controller
      *
      * @param Request $request
      * @param $id
-     * @return void
+     * @return json
      */
     function update(Request $request, $id)
     {
+        
         $validatedData = $this->imageSubmissionValidator($request);
         if ($validatedData->fails()) {
             return $this->jsonError($validatedData->errors()->all(), 400);
         }
 
-        if (!$image = UploadImage::find($id)) {
-            return $this->jsonError('Unable to find item to update', 404);
+        $imgArray = $this->setImagesToArray($request);
+        if ($imgArray->getStatusCode() === 415) {
+            return $imgArray;
+        }
+
+        $image = UploadImage::find($id);
+        if (!$image) {
+            return $this->jsonError('Could not find the requested ID', 404);
         }
 
         $image->type = $request->input('type');
         $image->targetId = $request->input('targetId');
-        $image->title = $request->input('title');
-        $image->image = $request->file('image');
-        $image->path = $request->file('image')->store('public/images');
+        $image->image = $imgArray;
 
-
-        if (!$image->update()) {
+        if (!$image->update($id)) {
             return $this->jsonError('Server failed storing image upload', 500);
         }
 
-        return $this->jsonSuccess($image, 'Successfully updated');
+        return $this->jsonSuccess($image, 'Successfully saved');
     }
 
     /**
@@ -115,21 +122,41 @@ class UploadImageController extends Controller
         return $this->jsonSuccess($id, 'Successfully deleted from database');
     }
 
+    function setImagesToArray ($request)
+    {
+
+        $files = [];
+        foreach($request->file('images') as $key => $file) {
+            $imgFile = [];
+            $imgFile['file'] = $file;
+            $imgFile['path'] = $request->file('images')[$key]->store('public/images');
+            $imgFile['title'] = $request->input('imagesTitles')[$key];
+
+            $validatedImages = $this->imageDetailsValidator($imgFile);
+            if ($validatedImages->fails()) {
+                return $this->jsonError($validatedImages->errors()->all(), 415);
+            }
+
+            array_push($files, ['path' => $imgFile['path'], 'title' => $imgFile['title']]);
+        }
+
+        return $this->jsonSuccess($files);
+    }
 
     /**
      * Validate upload image form
      *
      * @param Request $request
-     * @return void
+     * @return
      */
     function imageSubmissionValidator ($request)
     {
         $validator = Validator::make($request->all(),
             $rules = [
-                'image' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+                'imagesTitles' => 'required|array',
+                'images' => 'required|array',
                 'type' => 'required|integer|min:0|max:4',
                 'targetId' => 'required',
-                'title' => 'required|string'
             ],
             $messages = [
                 'required' => 'The :attribute field is required',
@@ -137,4 +164,25 @@ class UploadImageController extends Controller
 
         return $validator;
     }
+
+    function imageDetailsValidator (array $fileInfo)
+    {
+        $validator = Validator::make($fileInfo,
+            $rules = [
+                'file' => 'required|image|mimes:jpg,png,jpeg|max:512',
+                'title' => 'required|string|min:5'
+            ],
+            $messages = [
+                'required' => 'The :attribute field is required',
+                'string' => 'The :attribute field should be a string',
+                'image' => 'The uploaded file is not an image',
+                'mimes' => 'The image should be a jpg, a jpeg or a png file',
+                'max:512' => 'The file is too large. (Max : 512MO)'
+            ]
+            );
+
+        return $validator;
+    }
+
 }
+

@@ -19,8 +19,8 @@ class UploadImage extends Model
         'type',
         'targetId',
         'image',
-        'title',
-        'path'
+        'path',
+        'title'
     ];
 
 }
