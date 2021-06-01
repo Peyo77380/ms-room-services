@@ -17,6 +17,7 @@ trait ApiResponder
         ], $code);
     }
 
+
     function jsonById($id, $datas)
     {
         if ($datas) {
@@ -35,4 +36,14 @@ trait ApiResponder
             'message' => $message
         ], $code);
     }
+
+
+    function internalProcessCheck ($datas, $status)
+    {
+        return json_encode([
+            'status' => $status,
+            'datas' => $datas
+        ]);
+    }
+
 }
