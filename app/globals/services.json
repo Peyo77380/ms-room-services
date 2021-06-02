@@ -1,0 +1,17 @@
+{
+    "a": {
+        "name": "Café croissant",
+        "type": 1,
+        "description": "blabla",
+        "price": "_id",
+        "enable": true,
+        "availability": {
+            "days": [ 1, 2, 3, 4, 5, 6, 7],
+            "start": 8,
+            "finish": 11,
+            "memberOnly": false
+        },
+        "created_at": 1621987200,
+        "updated_at": null
+    }
+}

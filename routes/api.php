@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
+use App\Http\Controllers\v1\ServicesController as ServicesV1;
 use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
 use App\Models\UploadImage;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -29,8 +30,13 @@ Route::group([
 
     Route::get('/building', [BuildingV1::class, 'get']);
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
-    Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
+    Route::delete('/building/delete/{id}', [BuildingV1::class, 'destroy']);
     Route::post('/building/add', [BuildingV1::class, 'add']);
+
+    Route::get('/services', [ServicesV1::class, 'get']);
+    Route::get('/services/{id}', [ServicesV1::class, 'getByID']);
+    Route::delete('/services/delete/{id}', [ServicesV1::class, 'destroy']);
+    Route::post('/services/add', [ServicesV1::class, 'add']);
 
     // /**
     //  * company

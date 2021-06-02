@@ -8,15 +8,12 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Building;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
+
+use App\Http\Requests\Building\BuildingStoreRequest;
 
 class BuildingController extends Controller
 {
     use ApiResponder;
-    private $posts;
-
-
 
     function get()
     {
@@ -33,15 +30,14 @@ class BuildingController extends Controller
         return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Building::destroy($id), 204);
     }
 
-    public function add(Request $request)
+    public function add(BuildingStoreRequest $request)
     {
-        $validatedData = $this->buildingSubmissionValidator($request);
-        if ($validatedData->fails()) {
-            return $this->jsonError('Invalid data', 400);
-        }
 
-        $building = new Building();
-        $building->location = $request->input('location');
+
+        $building = new Building($request->all());
+
+
+       /*  $building->location = $request->input('location');
 
         $building->surface = $request->input('surface');
         //TODO: A faire
@@ -51,26 +47,8 @@ class BuildingController extends Controller
         $building->characteristics = $request->input('characteristics');
         $building->state = $request->input('state');
         $building->enabled = $request->input('enabled');
-        $building->floors =  $request->input('floors');
+        $building->floors =  $request->input('floors'); */
+
         $building->save();
     }
-
-    function buildingSubmissionValidator($request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            $rules = [
-                'location' => 'required|json',
-                'surface' => 'required|integer|min:0',
-                'openingHours' => 'required',
-                'characteristics' => 'required'
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required',
-            ]
-        );
-        return $validator;
-    }
-
-
 }
