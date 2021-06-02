@@ -32,4 +32,10 @@ class Room extends Model
         'type'
     ];
 
+    // TODO : ajouter relation quand  BuildingController et RoomController OK
+    // public function building ()
+    // {
+    //     return $this->belongsTo(Building::class);
+    // }
+
 }

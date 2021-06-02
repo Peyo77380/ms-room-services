@@ -27,4 +27,10 @@ class Building extends Model
         'floors'
     ];
 
+    // TODO : ajouter relation quand  BuildingController et RoomController OK
+    // public function Rooms ()
+    // {
+    //     $this->hasMany(Room::class);
+    // }
+
 }

@@ -17,11 +17,14 @@ class RoomUpdateRequest extends FormRequest
         return [
             'name' => 'string|between:5,255',
             'description' => 'string|between:10,255',
-            'surface' => 'integer',
+            'buildingId' => 'unique:connection.buildings',
+            // TODO: voir avec Florian : comment identifier Floor?
+            // 'floorId' => 'required',
+            'surface' => 'integer|min:1',
             'rules' => 'array',
             'rules.maxCapacity' => 'integer',
             'rules.minRental' => 'array',
-            'rules.minRental.unit' => 'string|min:1|max:1',
+            'rules.minRental.unit' => 'string|size:1',
             'rules.minRental.value' => 'integer',
             'rules.public' => 'boolean',
             'rules.events' => 'boolean',
