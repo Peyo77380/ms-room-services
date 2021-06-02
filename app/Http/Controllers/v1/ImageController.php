@@ -98,6 +98,7 @@ class ImageController extends Controller
         }
 
         $image->type = $request->input('type');
+        // TODO : ajouter gestion de la foreign key
         $image->targetId = $request->input('targetId');
         $image->image = $imgArray;
 
