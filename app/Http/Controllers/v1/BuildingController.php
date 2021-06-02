@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Building;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Validator;
+
+use App\Http\Requests\Building\BuildingStoreRequest;
 
 class BuildingController extends Controller
 {
@@ -33,12 +33,9 @@ class BuildingController extends Controller
         return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Building::destroy($id), 204);
     }
 
-    public function add(Request $request)
+    public function add(BuildingStoreRequest $request)
     {
-        $validatedData = $this->buildingSubmissionValidator($request);
-        if ($validatedData->fails()) {
-            return $this->jsonError('Invalid data', 400);
-        }
+
 
         $building = new Building();
         $building->location = $request->input('location');
@@ -54,23 +51,4 @@ class BuildingController extends Controller
         $building->floors =  $request->input('floors');
         $building->save();
     }
-
-    function buildingSubmissionValidator($request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            $rules = [
-                'location' => 'required|json',
-                'surface' => 'required|integer|min:0',
-                'openingHours' => 'required',
-                'characteristics' => 'required'
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required',
-            ]
-        );
-        return $validator;
-    }
-
-
 }
