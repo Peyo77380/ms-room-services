@@ -23,7 +23,6 @@ class Room extends Model
         // TODO : foreign key
         'floorId',
         'surface',
-        'maxCapacity',
         'rules',
         'color',
         // TODO : à demander au client : est-ce nécessaire de mettre un champ correspondant aux horaires d'ouvertures (si jamais une salle est ouverte moins longtemps que le batiment dans lequel elle se situe)

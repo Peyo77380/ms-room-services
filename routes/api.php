@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\ImageController as UploadImageV1;
+use App\Http\Controllers\v1\RoomController as RoomV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,17 +31,20 @@ Route::group([
     Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
     Route::post('/building/add', [BuildingV1::class, 'add']);
 
-    // /**
-    //  * company
-    //  */
-    // Route::get('/company/{id}', [CompanyV1::class, 'get']);
-
-    Route::prefix('/uploadImage')->group(function () {
+    Route::prefix('/image')->group(function () {
         Route::get('/', [UploadImageV1::class, 'get']);
         Route::get('/{id}', [UploadImageV1::class, 'getById']);
         Route::post('/', [UploadImageV1::class, 'store']);
         Route::put('/{id}', [UploadImageV1::class, 'update']);
         Route::delete('/{id}', [UploadImageV1::class, 'destroy']);
+    });
+
+    Route::prefix('/room')->group(function () {
+        Route::get('/', [RoomV1::class, 'get']);
+        Route::get('/{id}', [RoomV1::class, 'getById']);
+        Route::post('/', [RoomV1::class, 'store']);
+        Route::put('/{id}', [RoomV1::class, 'update']);
+        Route::delete('/{id}', [RoomV1::class, 'destroy']);
     });
 
 });
