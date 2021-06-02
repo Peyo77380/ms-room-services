@@ -148,6 +148,7 @@ class ImageController extends Controller
         return $this->jsonSuccess($files);
     }
 
+    // TODO : créer validation request dans Request/Image/ImageStoreRequest.php
     /**
      * Validate upload image form
      *
@@ -183,6 +184,7 @@ class ImageController extends Controller
                 // TODO : Vérifier avec les clients la taill des images, et les formats potentiels.
                 'file' => 'required|image|mimes:jpg,png,jpeg|max:512',
                 'title' => 'required|string|min:5'
+                // 'pictures.*.ext' => 'required|between:3,4'
             ],
             $messages = [
                 'required' => 'The :attribute field is required',
