@@ -5,10 +5,9 @@ namespace App\Http\Controllers\v1;
 use App\Models\Room;
 
 use App\Traits\ApiResponder;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Room\RoomStoreRequest;
+use App\Http\Requests\Room\RoomUpdateRequest;
 
 class RoomController extends Controller
 {
@@ -34,7 +33,7 @@ class RoomController extends Controller
     function getById($id)
     {
         if (!$image = Room::find($id)) {
-            return $this->jsonError('Nothing found at this ID', 404);
+            return $this->jsonError('Nothing found at this ID - Code R10', 404);
         }
         return $this->jsonById($id, $image);
     }
@@ -49,11 +48,51 @@ class RoomController extends Controller
     public function store (RoomStoreRequest $request)
     {
         $room = Room::create($request->all());
-        if ($room) {
-            return $this->jsonSuccess($room);
+        if (!$room) {
+            return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
         }
-        return $this->jsonError('Something is wrong, please check datas', 409);
+        return $this->jsonSuccess($room);
 
+    }
+
+    /**
+     * Update room in database from form by id
+     *
+     * @param $id
+     * @param RoomUpdateRequest $request
+     * @return JSON
+     */
+    public function update ($id, RoomUpdateRequest $request)
+    {
+        $room = Room::find($id);
+
+        if (!$room) {
+            return $this->jsonError('Something is wrong, please check datas - Code R30', 409);
+        }
+
+        $updatedRoom = $room->update($request->all());
+
+        if(!$updatedRoom) {
+            return $this->jsonError('Could not update this item - Code R31', 502);
+        }
+
+        return $this->jsonSuccess($updatedRoom);
+
+    }
+
+    /**
+     * Delete Room in database by ID
+     *
+     * @param  $id
+     * @return JSON
+     */
+    public function destroy ($id)
+    {
+        if (!$destroy = Room::destroy($id)) {
+            return $this->jsonError('Nothing found at this ID - Code R40', 404);
+        }
+
+        return $this->jsonSuccess(null, 'Successfully deleted from database');
     }
 
 
