@@ -17,7 +17,7 @@ class RoomStoreRequest extends FormRequest
         return [
             'name' => 'required|string|between:5,255',
             'description' => 'required|string|between:10,255',
-            'buildingId' => 'required|exist:App\Models\Building,_id',
+            'buildingId' => 'required|exists:App\Models\Building,_id',
             // TODO: voir avec Florian : comment identifier Floor?
             //'floorId' => 'required',
             'surface' => 'integer|min:1',

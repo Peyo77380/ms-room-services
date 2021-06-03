@@ -15,14 +15,14 @@ class BookingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'roomId' => 'required|exist:App\Models\Room,_id',
+            'roomId' => 'required|exists:App\Models\Room,_id',
             // TODO : a vérifier au moment où client ID sera accessible (cf MS-CRM)
             'clientId' => 'required|int',
             // TODO : a vérifier au moment où company ID sera accessible (cf MS-CRM)
             'companyId' => 'required|int',
             'state' => 'int|between:0,5',
-            'start' => 'required|date_format: d-m-Y H:i',
-            'end' => 'required|date_format: d-m-Y H:i',
+            'start' => 'required|date_format:d-m-Y H:i',
+            'end' => 'required|date_format:d-m-Y H:i',
             // TODO : à vérifier qd serviceController sera dispo
             'services.*.id' => 'required|int',
             'services.*.qty' => 'required|int|min:1'

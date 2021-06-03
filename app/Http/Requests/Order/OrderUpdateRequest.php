@@ -15,10 +15,10 @@ class OrderUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'bookingId' => 'exist:App\Models\Building,_id',
-            // 'services.*.id' => 'exist:App\Models\Service,_id',
+            // TODO : est-ce qu'une commande est FORCEMENT liée à une réserrvation de salle? ou est-ce que quelqu'un peut passer qqs minutes et prendre un café, sans forcément avoir de salle?
             //TODO : changer qd bookinController et serviceController OK les deux lignes commentées
-            'bookingId' => 'int',
+            'bookingId' => 'exists:App\Models\Booking,_id',
+            // 'services.*.id' => 'exist:App\Models\Service,_id',
             'services.*.id' => 'int',
             'services.*.qty' => 'int|min:1',
             'comment' => 'string',
