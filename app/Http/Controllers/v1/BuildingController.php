@@ -32,23 +32,14 @@ class BuildingController extends Controller
 
     public function add(BuildingStoreRequest $request)
     {
-
-
         $building = new Building($request->all());
+        $building->save();
+    }
 
-
-       /*  $building->location = $request->input('location');
-
-        $building->surface = $request->input('surface');
-        //TODO: A faire
-        $building->openingHours = [1, 2, 3];
-
-        $building->description = $request->input('description');
-        $building->characteristics = $request->input('characteristics');
-        $building->state = $request->input('state');
-        $building->enabled = $request->input('enabled');
-        $building->floors =  $request->input('floors'); */
-
+    public function update($id, BuildingStoreRequest $request)
+    {
+        $building = Building::find($id);
+        $building->fill($request->all());
         $building->save();
     }
 }

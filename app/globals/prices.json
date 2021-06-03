@@ -1,0 +1,22 @@
+{
+   "a":{
+        "hourlyRate": 50,
+        "halfDailyRate": 190,
+        "dailyRate": 350,
+        "startDate": 1621987200,
+        "endDate": null,
+        "memberDiscountAvailbable": true,
+        "created_at": 1621987200,
+        "updated_at": null
+         },
+    "b":{
+        "hourlyRate": 60,
+        "halfDailyRate": 200,
+        "dailyRate": 400,
+        "startDate": 1621987200,
+        "endDate": null,
+        "memberDiscountAvailbable": true,
+        "created_at": 1621987201,
+        "updated_at": null
+        }
+}

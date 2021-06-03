@@ -35,5 +35,11 @@ class ServicesController extends Controller
         $services = new Services($request->all());
         $services->save();
     }
-    
+    public function update($id, ServicesStoreRequest $request)
+    {
+        $services = Services::find($id);
+        $services->fill($request->all());
+        $services->save();
+    }
+
 }
