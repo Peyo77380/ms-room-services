@@ -21,7 +21,11 @@ class RoomController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Room::get());
+        if ($image = Room::get()) {
+            return $this->jsonSuccess($image);
+        }
+
+        return $this->jsonDatabaseError();
     }
 
     /**
@@ -91,8 +95,6 @@ class RoomController extends Controller
 
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
-
-
 
 }
 

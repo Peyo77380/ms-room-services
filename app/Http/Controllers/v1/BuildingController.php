@@ -30,7 +30,10 @@ class BuildingController extends Controller
 
     public function destroy($id)
     {
-        return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Building::destroy($id), 204);
+        return $this->jsonSuccess(
+            'item : ' . $id . ' successfully deleted',
+            Building::destroy($id), 204
+        );
     }
 
     public function add(BuildingStoreRequest $request)

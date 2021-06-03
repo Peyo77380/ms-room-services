@@ -4,11 +4,8 @@ namespace App\Traits;
 
 trait ApiResponder
 {
-
-
     function jsonSuccess($datas, $message = null, $code = 200)
     {
-
         return response()->json([
             'status' => 'success',
             'time' => now(),
@@ -45,6 +42,10 @@ trait ApiResponder
         ], $code);
     }
 
-    // TODO : rajouter JSON (cf JSONByd ID) pr gérer si pas de réponse de la base
+    function jsonDatabaseError($message = 'Unable to reach database', $code = 500)
+    {
+        return $this->jsonError($message, $code);
+    }
+
 
 }
