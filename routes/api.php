@@ -8,6 +8,7 @@ use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\ImageController as UploadImageV1;
 use App\Http\Controllers\v1\RoomController as RoomV1;
 use App\Http\Controllers\v1\OrderController as OrderV1;
+use App\Http\Controllers\v1\BookingController as BookingV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,5 +55,13 @@ Route::group([
         Route::post('/', [OrderV1::class, 'store']);
         Route::put('/{id}', [OrderV1::class, 'update']);
         Route::delete('/{id}', [OrderV1::class, 'destroy']);
+    });
+
+    Route::prefix('/booking')->group(function () {
+        Route::get('/', [BookingV1::class, 'get']);
+        Route::get('/{id}', [BookingV1::class, 'getById']);
+        Route::post('/', [BookingV1::class, 'store']);
+        Route::put('/{id}', [BookingV1::class, 'update']);
+        Route::delete('/{id}', [BookingV1::class, 'destroy']);
     });
 });

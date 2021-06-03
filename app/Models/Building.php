@@ -25,10 +25,10 @@ class Building extends Model
 
     protected $_id;
 
-    // TODO : ajouter relation quand  BuildingController et RoomController OK
-    // public function Rooms ()
-    // {
-    //     $this->hasMany(Room::class);
-    // }
+
+    public function Rooms ()
+    {
+        $this->hasMany(Room::class);
+    }
 
 }

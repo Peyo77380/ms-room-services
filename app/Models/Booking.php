@@ -4,30 +4,28 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-class Order extends Model
+class Booking extends Model
 {
-
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'bookingId',
-        'services',
-        'comment',
-        'discount',
+        'roomId',
+        'clientId',
+        'companyId',
         'state',
         'start',
-        'end'
+        'end',
+        'services'
     ];
 
     protected $_id;
 
-    public function booking ()
+    public function order ()
     {
-        return $this->belongsTo(Booking::class);
+        return $this->belongsTo(Order::class);
     }
 
 }
