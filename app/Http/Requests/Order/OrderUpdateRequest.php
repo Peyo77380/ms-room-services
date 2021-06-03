@@ -23,7 +23,9 @@ class OrderUpdateRequest extends FormRequest
             'services.*.qty' => 'int|min:1',
             'comment' => 'string',
             'discount' => 'string',
-            'state' => 'int|between:0,5'
+            'state' => 'int|between:0,5',
+            'start' => 'date_format:d-m-Y H:i',
+            'end' => 'date_format:d-m-Y H:i'
         ];
     }
 }
