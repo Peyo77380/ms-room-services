@@ -17,6 +17,14 @@ trait ApiResponder
         ], $code);
     }
 
+    function jsonSuccessWithoutData($message)
+    {
+        return response()->json([
+            'status' => 'success',
+            'time' => now(),
+            'message' => $message
+        ], 200);
+    }
 
     function jsonById($id, $datas)
     {
@@ -37,5 +45,6 @@ trait ApiResponder
         ], $code);
     }
 
+    // TODO : rajouter JSON (cf JSONByd ID) pr gérer si pas de réponse de la base
 
 }

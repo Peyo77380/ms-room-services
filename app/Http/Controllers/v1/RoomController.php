@@ -32,10 +32,7 @@ class RoomController extends Controller
      */
     function getById($id)
     {
-        if (!$image = Room::find($id)) {
-            return $this->jsonError('Nothing found at this ID - Code R10', 404);
-        }
-        return $this->jsonById($id, $image);
+        return $this->jsonById($id, Room::find($id));
     }
 
 
@@ -62,7 +59,7 @@ class RoomController extends Controller
      * @param RoomUpdateRequest $request
      * @return JSON
      */
-    public function update ($id, RoomUpdateRequest $request)
+    public function update (RoomUpdateRequest $request, $id)
     {
         $room = Room::find($id);
 
@@ -88,11 +85,11 @@ class RoomController extends Controller
      */
     public function destroy ($id)
     {
-        if (!$destroy = Room::destroy($id)) {
+        if (!Room::destroy($id)) {
             return $this->jsonError('Nothing found at this ID - Code R40', 404);
         }
 
-        return $this->jsonSuccess(null, 'Successfully deleted from database');
+        return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
 

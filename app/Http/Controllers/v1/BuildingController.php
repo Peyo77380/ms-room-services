@@ -43,7 +43,7 @@ class BuildingController extends Controller
         $building->surface = $request->input('surface');
         //TODO: A faire
         $building->openingHours = [1, 2, 3];
-
+        // TODO : gérer ajout ID floor avec $floor = ['_id' => new ObjectId()] + le reste des données + use MongoDB\BSON\ObjectId;
         $building->description = $request->input('description');
         $building->characteristics = $request->input('characteristics');
         $building->state = $request->input('state');
