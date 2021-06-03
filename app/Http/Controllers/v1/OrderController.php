@@ -2,94 +2,93 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Models\Room;
+use App\Models\Order;
 
 use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Room\RoomStoreRequest;
-use App\Http\Requests\Room\RoomUpdateRequest;
+use App\Http\Requests\Order\OrderStoreRequest;
+use App\Http\Requests\Order\OrderUpdateRequest;
 
-class RoomController extends Controller
+class OrderController extends Controller
 {
     use ApiResponder;
-    private $posts;
 
     /**
-     * Return list of all the rooms in database
+     * Return list of all the orders in database
      *
      * @return JSON
      */
     function get()
     {
-        if ($room = Room::get()) {
-            return $this->jsonSuccess($room);
+        if ($order = Order::get()) {
+            return $this->jsonSuccess($order);
         }
 
         return $this->jsonDatabaseError();
     }
 
     /**
-     * Return one room detail, by ID
+     * Return one order detail, by ID
      *
      * @param  $id
      * @return JSON
      */
     function getById($id)
     {
-        return $this->jsonById($id, Room::find($id));
+        return $this->jsonById($id, Order::find($id));
     }
 
 
     /**
-     * Create Room in database
+     * Create Order in database
      *
-     * @param RoomStoreRequest $request
+     * @param OrderStoreRequest $request
      * @return JSON
      */
-    public function store (RoomStoreRequest $request)
+    public function store (OrderStoreRequest $request)
     {
-        $room = Room::create($request->all());
-        if (!$room) {
+        $order = Order::create($request->all());
+        if (!$order) {
             return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
         }
-        return $this->jsonSuccess($room);
+        return $this->jsonSuccess($order, 'Ordre created');
 
     }
 
     /**
-     * Update room in database from form by id
+     * Update update in database from form by id
      *
      * @param $id
-     * @param RoomUpdateRequest $request
+     * @param OrderUpdateRequest $request
      * @return JSON
      */
-    public function update (RoomUpdateRequest $request, $id)
+    public function update (OrderUpdateRequest $request, $id)
     {
-        $room = Room::find($id);
+        $order = Order::find($id);
 
-        if (!$room) {
+        if (!$order) {
             return $this->jsonError('Something is wrong, please check datas - Code R30', 409);
         }
 
-        $updatedRoom = $room->update($request->all());
+        $updatedOrder = $order->update($request->all());
 
-        if(!$updatedRoom) {
+        if(!$updatedOrder) {
             return $this->jsonError('Could not update this item - Code R31', 502);
         }
 
-        return $this->jsonSuccess($updatedRoom);
+        return $this->jsonSuccess($updatedOrder);
 
     }
 
     /**
-     * Delete Room in database by ID
+     * Delete order in database by ID
      *
      * @param  $id
      * @return JSON
      */
     public function destroy ($id)
     {
-        if (!Room::destroy($id)) {
+        if (!Order::destroy($id)) {
             return $this->jsonError('Nothing found at this ID - Code R40', 404);
         }
 

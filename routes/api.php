@@ -7,6 +7,7 @@ use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\ImageController as UploadImageV1;
 use App\Http\Controllers\v1\RoomController as RoomV1;
+use App\Http\Controllers\v1\OrderController as OrderV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,4 +48,11 @@ Route::group([
         Route::delete('/{id}', [RoomV1::class, 'destroy']);
     });
 
+    Route::prefix('/order')->group(function () {
+        Route::get('/', [OrderV1::class, 'get']);
+        Route::get('/{id}', [OrderV1::class, 'getById']);
+        Route::post('/', [OrderV1::class, 'store']);
+        Route::put('/{id}', [OrderV1::class, 'update']);
+        Route::delete('/{id}', [OrderV1::class, 'destroy']);
+    });
 });
