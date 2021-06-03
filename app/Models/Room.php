@@ -32,6 +32,8 @@ class Room extends Model
         'type'
     ];
 
+    protected $_id;
+
     // TODO : ajouter relation quand  BuildingController et RoomController OK
     // public function building ()
     // {
