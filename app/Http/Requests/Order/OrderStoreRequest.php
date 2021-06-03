@@ -24,9 +24,7 @@ class OrderStoreRequest extends FormRequest
             'services.*.qty' => 'required|int|min:1',
             'comment' => 'string',
             'discount' => 'string',
-            'state' => 'required|int|between:0,5',
-            'start' => 'required|date_format:d-m-Y H:i',
-            'end' => 'required|date_format:d-m-Y H:i'
+            'state' => 'required|int|between:0,5'
         ];
     }
 }

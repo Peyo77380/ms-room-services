@@ -18,9 +18,7 @@ class Order extends Model
         'services',
         'comment',
         'discount',
-        'state',
-        'start',
-        'end'
+        'state'
     ];
 
     protected $_id;
