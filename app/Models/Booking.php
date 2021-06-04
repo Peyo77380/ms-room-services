@@ -28,9 +28,9 @@ class Booking extends Model
         return $this->hasOne(Order::class);
     }
 
-    public function rooms ()
+    public function room ()
     {
-        return $this->belongsTo(Room::class)
+        return $this->belongsTo(Room::class);
     }
 
 }
