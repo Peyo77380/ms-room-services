@@ -8,7 +8,10 @@ use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\ServicesController as ServicesV1;
 use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
 use App\Http\Controllers\v1\PricesController as PricesV1;
-use App\Models\UploadImage;
+use App\Http\Controllers\v1\BookingController as BookingV1;
+use App\Http\Controllers\v1\OrderController as OrderV1;
+use App\Http\Controllers\v1\RoomController as RoomV1;
+use App\Http\Controllers\v1\SearchController as SearchV1;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /*
@@ -46,11 +49,6 @@ Route::group([
     Route::post('/prices/add', [PricesV1::class, 'add']);
     Route::put('/prices/update/{id}', [PricesV1::class, 'update']);
 
-    // /**
-    //  * company
-    //  */
-    // Route::get('/company/{id}', [CompanyV1::class, 'get']);
-
     Route::prefix('/uploadImage')->group(function () {
         Route::get('/', [UploadImageV1::class, 'get']);
         Route::get('/{id}', [UploadImageV1::class, 'getById']);
@@ -84,4 +82,5 @@ Route::group([
     });
 
     Route::get('/search/byName/{name}', [SearchV1::class, 'search']);
+    Route::get('/search/{param}', [SearchV1::class, 'searchAll']);
 });

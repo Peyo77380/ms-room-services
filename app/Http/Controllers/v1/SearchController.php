@@ -14,10 +14,15 @@ class SearchController extends Controller
     use ApiResponder;
     private $posts;
 
-    public function search (Request $request, $name)
+    public function search ($name)
     {
         return $this->jsonSuccess(Room::searchByName($name));
 
+    }
+
+    public function searchAll ($params)
+    {
+        dd($params);
     }
 
 
