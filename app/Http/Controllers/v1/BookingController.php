@@ -25,7 +25,7 @@ class BookingController extends Controller
             return $this->jsonSuccess($booking);
         }
 
-        return $this->jsonDatabaseError();
+        return $this->jsonDatabaseError('Unable to reache database - B10');
     }
 
     /**
@@ -49,7 +49,7 @@ class BookingController extends Controller
     {
         $booking = Booking::create($request->all());
         if (!$booking) {
-            return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
+            return $this->jsonError('Something is wrong, please check datas - Code B20', 409);
         }
         return $this->jsonSuccess($booking);
     }
@@ -66,7 +66,7 @@ class BookingController extends Controller
         $booking = Booking::find($id);
 
         if (!$booking) {
-            return $this->jsonError('Something is wrong, please check datas - Code R30', 409);
+            return $this->jsonError('Something is wrong, please check datas - Code B30', 409);
         }
 
         $updatedBooking = $booking->update($request->all());
@@ -88,7 +88,7 @@ class BookingController extends Controller
     public function destroy ($id)
     {
         if (!Booking::destroy($id)) {
-            return $this->jsonError('Nothing found at this ID - Code R40', 404);
+            return $this->jsonError('Nothing found at this ID - Code B40', 404);
         }
 
         return $this->jsonSuccessWithoutData('Successfully deleted from database');

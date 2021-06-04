@@ -49,7 +49,7 @@ class OrderController extends Controller
     {
         $order = Order::create($request->all());
         if (!$order) {
-            return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
+            return $this->jsonError('Something is wrong, please check datas - Code O20', 409);
         }
         return $this->jsonSuccess($order, 'Ordre created');
 
@@ -67,13 +67,13 @@ class OrderController extends Controller
         $order = Order::find($id);
 
         if (!$order) {
-            return $this->jsonError('Something is wrong, please check datas - Code R30', 409);
+            return $this->jsonError('Something is wrong, please check datas - Code O30', 409);
         }
 
         $updatedOrder = $order->update($request->all());
 
         if(!$updatedOrder) {
-            return $this->jsonError('Could not update this item - Code R31', 502);
+            return $this->jsonError('Could not update this item - Code O31', 502);
         }
 
         return $this->jsonSuccess($updatedOrder);
@@ -89,7 +89,7 @@ class OrderController extends Controller
     public function destroy ($id)
     {
         if (!Order::destroy($id)) {
-            return $this->jsonError('Nothing found at this ID - Code R40', 404);
+            return $this->jsonError('Nothing found at this ID - Code O40', 404);
         }
 
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
