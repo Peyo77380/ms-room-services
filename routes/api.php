@@ -59,4 +59,29 @@ Route::group([
         Route::delete('/{id}', [UploadImageV1::class, 'destroy']);
     });
 
+    Route::prefix('/room')->group(function () {
+        Route::get('/', [RoomV1::class, 'get']);
+        Route::get('/{id}', [RoomV1::class, 'getById']);
+        Route::post('/', [RoomV1::class, 'store']);
+        Route::put('/{id}', [RoomV1::class, 'update']);
+        Route::delete('/{id}', [RoomV1::class, 'destroy']);
+    });
+
+    Route::prefix('/order')->group(function () {
+        Route::get('/', [OrderV1::class, 'get']);
+        Route::get('/{id}', [OrderV1::class, 'getById']);
+        Route::post('/', [OrderV1::class, 'store']);
+        Route::put('/{id}', [OrderV1::class, 'update']);
+        Route::delete('/{id}', [OrderV1::class, 'destroy']);
+    });
+
+    Route::prefix('/booking')->group(function () {
+        Route::get('/', [BookingV1::class, 'get']);
+        Route::get('/{id}', [BookingV1::class, 'getById']);
+        Route::post('/', [BookingV1::class, 'store']);
+        Route::put('/{id}', [BookingV1::class, 'update']);
+        Route::delete('/{id}', [BookingV1::class, 'destroy']);
+    });
+
+    Route::get('/search/byName/{name}', [SearchV1::class, 'search']);
 });

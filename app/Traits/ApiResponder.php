@@ -4,11 +4,8 @@ namespace App\Traits;
 
 trait ApiResponder
 {
-
-
     function jsonSuccess($datas, $message = null, $code = 200)
     {
-
         return response()->json([
             'status' => 'success',
             'time' => now(),
@@ -17,6 +14,14 @@ trait ApiResponder
         ], $code);
     }
 
+    function jsonSuccessWithoutData($message)
+    {
+        return response()->json([
+            'status' => 'success',
+            'time' => now(),
+            'message' => $message
+        ], 200);
+    }
 
     function jsonById($id, $datas)
     {
@@ -37,13 +42,10 @@ trait ApiResponder
         ], $code);
     }
 
-
-    function internalProcessCheck ($datas, $status)
+    function jsonDatabaseError($message = 'Unable to reach database', $code = 500)
     {
-        return json_encode([
-            'status' => $status,
-            'datas' => $datas
-        ]);
+        return $this->jsonError($message, $code);
     }
+
 
 }
