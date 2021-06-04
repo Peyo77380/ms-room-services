@@ -9,6 +9,7 @@ use App\Http\Controllers\v1\ImageController as UploadImageV1;
 use App\Http\Controllers\v1\RoomController as RoomV1;
 use App\Http\Controllers\v1\OrderController as OrderV1;
 use App\Http\Controllers\v1\BookingController as BookingV1;
+use App\Http\Controllers\v1\SearchController as SearchV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,6 @@ Route::group([
         Route::put('/{id}', [BookingV1::class, 'update']);
         Route::delete('/{id}', [BookingV1::class, 'destroy']);
     });
+
+    Route::get('/search/byName/{name}', [SearchV1::class, 'search']);
 });

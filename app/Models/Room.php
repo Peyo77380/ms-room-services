@@ -31,6 +31,7 @@ class Room extends Model
 
     protected $_id;
 
+
     // TODO : ajouter relation quand  BuildingController et RoomController OK
     // public function building ()
     // {
@@ -40,6 +41,13 @@ class Room extends Model
     public function rooms ()
     {
         return $this->hasMany(Booking::class);
+    }
+
+
+    // TODO : adapt select cf FRONT
+    public static function searchByName($name)
+    {
+        return self::where('name', 'LIKE', '%' . $name . '%')->get();
     }
 
 }

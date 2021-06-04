@@ -96,5 +96,6 @@ class RoomController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
+    
 }
 
