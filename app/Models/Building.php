@@ -39,4 +39,8 @@ class Building extends Model
         return $this->hasMany(Services::class);
     }
 
+    public static function search ($fields)
+    {
+        return self::where($fields)->get();
+    }
 }

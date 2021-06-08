@@ -7,23 +7,31 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\Room;
+// use App\Models\Room;
 
 class SearchController extends Controller
 {
     use ApiResponder;
     private $posts;
 
-    public function search ($name)
-    {
-        return $this->jsonSuccess(Room::searchByName($name));
+    // public function search ($name)
+    // {
+    //     return $this->jsonSuccess(Room::searchByName($name));
+    // }
 
+    public function searchAll (Request $request)
+    {
+        $class = 'App\Models\\' . ucfirst($request->input('t'));
+        $criterias = self::__findCriterias($request->except('t'));
+        return $this->jsonSuccess($class::search($criterias));
     }
 
-    public function searchAll ($params)
+    private static function __findCriterias ($fields)
     {
-        dd($params);
+        $criterias = [];
+        foreach($fields as $key => $value){
+                $criterias[] = [$key, 'LIKE', '%' . $value . '%'];
+        }
+        return $criterias;
     }
-
-
 }
