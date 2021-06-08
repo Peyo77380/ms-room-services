@@ -30,5 +30,13 @@ class Building extends Model
     {
         $this->hasMany(Room::class);
     }
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+    public function services()
+    {
+        return $this->hasMany(Services::class);
+    }
 
 }

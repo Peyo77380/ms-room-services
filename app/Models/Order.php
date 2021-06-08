@@ -27,13 +27,11 @@ class Order extends Model
 
     public function booking ()
     {
-        return $this->belongsTo(Booking::class);
+        return $this->hasOne(Booking::class);
     }
-
-    //TODO a activer quand service prêt
-    // public function services ()
-    // {
-    //     return $this->hasMany(Service::class);
-    // }
+    public function services ()
+    {
+         return $this->belongsToMany(Service::class);
+    }
 
 }

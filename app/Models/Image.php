@@ -23,5 +23,15 @@ class Image extends Model
         'path',
         'title'
     ];
+    protected $_id;
+
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
+    public function room()
+    {
+        return $this->belongsTo(Building::class);
+    }
 
 }

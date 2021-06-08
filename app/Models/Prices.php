@@ -23,4 +23,12 @@ class Prices extends Model
         'endDate',
         'memberDiscountAvailbable'
     ];
+    public function booking()
+    {
+        return $this->hasOne(Booking::class);
+    }
+    public function order()
+    {
+        return $this->hasOne(Booking::class);
+    }
 }

@@ -23,5 +23,17 @@ class Services extends Model
         'enable',
         'availability'
     ];
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
+    public function bookings()
+    {
+        return $this->belongsToMany(Booking::class);
+    }
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 
 }

@@ -16,7 +16,6 @@ class Room extends Model
         'name',
         'description',
         // TODO : foreign key
-        'buildingId',
         // TODO : foreign key
         'floorId',
         'surface',
@@ -32,15 +31,19 @@ class Room extends Model
     protected $_id;
 
 
-    // TODO : ajouter relation quand  BuildingController et RoomController OK
-    // public function building ()
-    // {
-    //     return $this->belongsTo(Building::class);
-    // }
+
+     public function building ()
+     {
+         return $this->belongsTo(Building::class);
+     }
 
     public function bookings ()
     {
         return $this->hasMany(Booking::class);
+    }
+    public function services()
+    {
+        return $this->hasMany(Services::class);
     }
 
 

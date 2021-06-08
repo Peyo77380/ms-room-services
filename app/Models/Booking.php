@@ -12,7 +12,7 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'roomId',
+        'booking_id',
         'clientId',
         'companyId',
         'state',
@@ -21,16 +21,27 @@ class Booking extends Model
         'services'
     ];
 
-    protected $_id;
+   // protected $_id;
 
-    public function order ()
+    public function order()
     {
         return $this->hasOne(Order::class);
     }
 
-    public function room ()
+    public function rooms()
     {
         return $this->belongsTo(Room::class);
     }
-
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
+    public function prices()
+    {
+        return $this->hasOne(Prices::class);
+    }
+    public function services()
+    {
+        return $this->hasMany(Services::class);
+    }
 }
