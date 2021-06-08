@@ -28,7 +28,6 @@ class SearchController extends Controller
 
     private static function __findCriterias ($fields)
     {
-        dd($fields); 
         $criterias = [];
         foreach($fields as $key => $value){
                 $criterias[] = [$key, 'LIKE', '%' . $value . '%'];
