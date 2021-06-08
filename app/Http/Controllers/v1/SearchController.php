@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
+use App\Models\Search;
 use Illuminate\Http\Request;
 
 // use App\Models\Room;
@@ -21,9 +22,9 @@ class SearchController extends Controller
 
     public function searchAll (Request $request)
     {
-        $class = 'App\Models\\' . ucfirst($request->input('t'));
+        $table = $request->input('t') . 's';
         $criterias = self::__findCriterias($request->except('t'));
-        return $this->jsonSuccess($class::search($criterias));
+        return $this->jsonSuccess(Search::search($table, $criterias));
     }
 
     private static function __findCriterias ($fields)
