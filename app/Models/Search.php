@@ -7,7 +7,7 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Search extends Model
 {
-    public function search($table, $fields)
+    static public function search($table, $fields)
     {
         return DB::collection($table)->where($fields)->get();
     }
