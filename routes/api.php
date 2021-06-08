@@ -82,5 +82,6 @@ Route::group([
     });
 
     Route::get('/search/byName/{name}', [SearchV1::class, 'search']);
-    Route::get('/search/{param}', [SearchV1::class, 'searchAll']);
+    //  Route::get('/search', [SearchV1::class, 'searchAll']);
+    Route::get('/search', [SearchV1::class, 'searchAll']);
 });

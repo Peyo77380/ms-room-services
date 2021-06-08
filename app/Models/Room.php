@@ -50,8 +50,13 @@ class Room extends Model
         return self::where('name', 'LIKE', '%' . $name . '%')->get();
     }
 
-    public static function searchAll($param)
+    public static function searchAll()
     {
-        dd($param);
+        return "coucou";
+    }
+
+    public static function search ($fields)
+    {
+        return self::where($fields)->get();
     }
 }

@@ -31,4 +31,8 @@ class Building extends Model
         $this->hasMany(Room::class);
     }
 
+    public static function search ($fields)
+    {
+        return self::where($fields)->get();
+    }
 }
