@@ -8,6 +8,7 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\BookingStoreRequest;
 use App\Http\Requests\Booking\BookingUpdateRequest;
+use App\Models\Room;
 
 class BookingController extends Controller
 {
@@ -92,6 +93,10 @@ class BookingController extends Controller
         }
 
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
+    }
+    public function getWithDetails()
+    {
+        return Booking::find(1)->order();
     }
 
 }

@@ -27,13 +27,13 @@ class Services extends Model
     {
         return $this->belongsToMany(Order::class);
     }
-    public function bookings()
+    /* public function bookings()
     {
         return $this->belongsToMany(Booking::class);
-    }
+    } */
     public function room()
     {
-        return $this->belongsTo(Room::class);
+        return $this->belongsToMany(Room::class);
     }
 
 }

@@ -74,11 +74,13 @@ Route::group([
     });
 
     Route::prefix('/booking')->group(function () {
+        Route::get('/test', [BookingV1::class, 'getWithDetails']);
         Route::get('/', [BookingV1::class, 'get']);
         Route::get('/{id}', [BookingV1::class, 'getById']);
         Route::post('/', [BookingV1::class, 'store']);
         Route::put('/{id}', [BookingV1::class, 'update']);
         Route::delete('/{id}', [BookingV1::class, 'destroy']);
+
     });
 
     Route::get('/search/byName/{name}', [SearchV1::class, 'search']);

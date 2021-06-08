@@ -13,6 +13,7 @@ class Booking extends Model
      */
     protected $fillable = [
         'booking_id',
+        'order_id',
         'clientId',
         'companyId',
         'state',
@@ -36,12 +37,12 @@ class Booking extends Model
     {
         return $this->belongsTo(Building::class);
     }
-    public function prices()
+    /* public function prices()
     {
         return $this->hasOne(Prices::class);
-    }
-    public function services()
+    } */
+    /* public function services()
     {
         return $this->hasMany(Services::class);
-    }
+    } */
 }
