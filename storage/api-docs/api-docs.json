@@ -1,0 +1,44 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Your super  ApplicationAPI",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/booking/": {
+            "get": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Get all bookings",
+                "description": "Get all bookings",
+                "operationId": "get booking",
+                "requestBody": {
+                    "description": "",
+                    "required": false
+                },
+                "responses": {
+                    "404": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

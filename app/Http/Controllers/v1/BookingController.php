@@ -20,7 +20,27 @@ class BookingController extends Controller
      *
      * @return JSON
      */
-    function get()
+    /**
+ * @OA\GET(
+ * path="/booking/",
+ * summary="Get all bookings",
+ * description="Get all bookings",
+ * operationId="get booking",
+ * tags={"booking"},
+ * @OA\RequestBody(
+ *    required=false,
+ *    description=""
+ * ),
+ * @OA\Response(
+ *    response=404,
+ *    description="Wrong credentials response",
+ *    @OA\JsonContent(
+ *       @OA\Property(property="message", type="string", example="Not found")
+ *        )
+ *     )
+ * )
+ */
+     function get()
     {
         if ($booking = Booking::get()) {
             return $this->jsonSuccess($booking);
