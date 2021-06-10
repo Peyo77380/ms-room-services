@@ -5,24 +5,32 @@
         "version": "1.0.0"
     },
     "paths": {
-        "api/v1/booking/": {
+        "/api/v1/booking": {
             "get": {
                 "tags": [
                     "booking"
                 ],
-                "summary": "Get all bookings",
-                "description": "Return all bookings",
+                "summary": "Returns all the bookings in list.",
+                "description": "Returns all the bookings saved in database in list.",
                 "operationId": "get booking",
                 "responses": {
-                    "201": {
-                        "description": "Successful operation",
+                    "404": {
+                        "description": "Nothing found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Success"
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
                                         }
                                     },
                                     "type": "object"
@@ -30,26 +38,93 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad Request"
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "401": {
-                        "description": "Unauthenticated"
+                    "200": {
+                        "description": "Successfully got the booking list"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Store booking from post form",
+                "description": "Store a new booking from form in database, using post method",
+                "operationId": "Post new booking",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Booking"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "403": {
-                        "description": "Forbidden"
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
-        "api/v1/booking/{id}": {
+        "/api/v1/booking/{id}": {
             "get": {
                 "tags": [
                     "booking"
                 ],
                 "summary": "Returns specified booking with details",
                 "description": "Return the specified booking, by ID, with details",
-                "operationId": "get booking by ID",
+                "operationId": "get booking by Id",
                 "parameters": [
                     {
                         "parameter": "get_booking_id",
@@ -58,20 +133,38 @@
                         "description": "ID of the booking",
                         "schema": {
                             "type": "string",
-                            "default": "60b927367825c419083d3588"
+                            "default": "60b923547825c419083d3585"
                         }
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Successful operation",
+                    "200": {
+                        "description": "Successfully got the wanted booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Success"
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
                                         }
                                     },
                                     "type": "object"
@@ -79,14 +172,193 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Bad Request"
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Update booking from put form based on ID",
+                "description": "Update the targeted booking from form in database, using post method",
+                "operationId": "Update booking",
+                "parameters": [
+                    {
+                        "parameter": "get_booking_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the booking",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923547825c419083d3585"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succesfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully updated"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "401": {
-                        "description": "Unauthenticated"
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "booking"
+                ],
+                "summary": "Delete booking from Delete method based on ID",
+                "description": "Delete the targeted booking from form in database, using delete method",
+                "operationId": "Delete booking",
+                "parameters": [
+                    {
+                        "parameter": "get_booking_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the booking",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923547825c419083d3585"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully deleted"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "403": {
-                        "description": "Forbidden"
+                    "404": {
+                        "description": "ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nothing found at this ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -834,6 +1106,78 @@
     },
     "components": {
         "schemas": {
+            "Booking_success": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Successfully got the booking list"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "time": {
+                        "type": "string",
+                        "example": "Current time"
+                    },
+                    "data": {
+                        "type": "string",
+                        "example": "test"
+                    }
+                },
+                "type": "object"
+            },
+            "Booking": {
+                "title": "Booking",
+                "description": "Booking Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b923547825c419083d3585"
+                    },
+                    "order_id": {
+                        "title": "orderId",
+                        "type": "ObjectId",
+                        "example": "60b927367825c419083d3588"
+                    },
+                    "clientId": {
+                        "title": "clientId",
+                        "type": "integer",
+                        "example": "112"
+                    },
+                    "companyId": {
+                        "title": "companyId",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "state": {
+                        "title": "state",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "start": {
+                        "title": "start",
+                        "type": "timestamp",
+                        "example": "1621987200"
+                    },
+                    "end": {
+                        "title": "end",
+                        "type": "timestamp",
+                        "example": "1622073600"
+                    },
+                    "services": {
+                        "title": "services",
+                        "type": "array",
+                        "items": {}
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Booking"
+                }
+            },
             "Order": {
                 "title": "Order",
                 "description": "Order Model",
