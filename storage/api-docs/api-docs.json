@@ -735,7 +735,7 @@
                 "operationId": "get orders",
                 "responses": {
                     "200": {
-                        "description": "Successfully got the wanted order",
+                        "description": "Successfully got the order",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1094,6 +1094,1116 @@
                     }
                 }
             }
+        },
+        "/api/v1/price": {
+            "get": {
+                "tags": [
+                    "price"
+                ],
+                "summary": "Returns all the prices in list.",
+                "description": "Returns all the price saved in database in list.",
+                "operationId": "get price",
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the prices",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Price"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "price"
+                ],
+                "summary": "Store price from post form",
+                "description": "Store a new price from form in database, using post method",
+                "operationId": "Post new price",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Price"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/price/{id}": {
+            "get": {
+                "tags": [
+                    "price"
+                ],
+                "summary": "Returns specified price with details",
+                "description": "Return the specified price, by ID, with details",
+                "operationId": "get price by Id",
+                "parameters": [
+                    {
+                        "parameter": "get_price_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the price",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b8d5d74e00fd5950e78719"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted price",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Price"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "price"
+                ],
+                "summary": "Update price from put form based on ID",
+                "description": "Update the targeted price from form in database, using post method",
+                "operationId": "Update price",
+                "parameters": [
+                    {
+                        "parameter": "get_price_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the price",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b8d5d74e00fd5950e78719"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succesfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully updated"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "price"
+                ],
+                "summary": "Delete price from Delete method based on ID",
+                "description": "Delete the targeted price from form in database, using delete method",
+                "operationId": "Delete price",
+                "parameters": [
+                    {
+                        "parameter": "get_price_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the price",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b8d5d74e00fd5950e78719"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully deleted"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nothing found at this ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/room": {
+            "get": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Returns all the rooms in list.",
+                "description": "Returns all the rooms saved in database in list.",
+                "operationId": "get rooms",
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the rooms",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Room"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Store room from post form",
+                "description": "Store a new room from form in database, using post method",
+                "operationId": "Post new room",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Room"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/room/{id}": {
+            "get": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Returns specified room with details",
+                "description": "Return the specified room, by ID, with details",
+                "operationId": "get room by Id",
+                "parameters": [
+                    {
+                        "parameter": "get_room_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the room",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923bc7825c419083d3586"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted room",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Room"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Update room from put form based on ID",
+                "description": "Update the targeted room from form in database, using post method",
+                "operationId": "Update room",
+                "parameters": [
+                    {
+                        "parameter": "get_room_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the room",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923bc7825c419083d3586"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succesfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully updated"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Delete room from Delete method based on ID",
+                "description": "Delete the targeted room from form in database, using delete method",
+                "operationId": "Delete room",
+                "parameters": [
+                    {
+                        "parameter": "get_room_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the room",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923bc7825c419083d3586"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully deleted"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nothing found at this ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/service": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Returns all the services in list.",
+                "description": "Returns all the services saved in database in list.",
+                "operationId": "get services",
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the services",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Store service from post form",
+                "description": "Store a new service from form in database, using post method",
+                "operationId": "Post new service",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Service"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/service/{id}": {
+            "get": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Returns specified service with details",
+                "description": "Return the specified service, by ID, with details",
+                "operationId": "get service by Id",
+                "parameters": [
+                    {
+                        "parameter": "get_service_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the service",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b8d5d74e00fd5950e78719"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted service",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Service"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Update service from put form based on ID",
+                "description": "Update the targeted service from form in database, using post method",
+                "operationId": "Update service",
+                "parameters": [
+                    {
+                        "parameter": "get_service_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the service",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b927367825c419083d3588"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succesfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully updated"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "service"
+                ],
+                "summary": "Delete service from Delete method based on ID",
+                "description": "Delete the targeted service from form in database, using delete method",
+                "operationId": "Delete service",
+                "parameters": [
+                    {
+                        "parameter": "get_service_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the service",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b794304e00fd5950e78718"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully deleted"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nothing found at this ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1124,27 +2234,6 @@
                     "message": {
                         "type": "string",
                         "example": "Successfully got the building list"
-                    },
-                    "status": {
-                        "type": "string",
-                        "example": "success"
-                    },
-                    "time": {
-                        "type": "string",
-                        "example": "Current time"
-                    },
-                    "data": {
-                        "type": "string",
-                        "example": "test"
-                    }
-                },
-                "type": "object"
-            },
-            "Order_success": {
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "example": "Successfully got the order list"
                     },
                     "status": {
                         "type": "string",
@@ -1328,6 +2417,196 @@
                 "type": "object",
                 "xml": {
                     "name": "Order"
+                }
+            },
+            "Price": {
+                "title": "Price",
+                "description": "Price Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b8d5d74e00fd5950e78719"
+                    },
+                    "hourlyRate": {
+                        "title": "hourlyRate",
+                        "description": "Price by hour",
+                        "type": "float",
+                        "example": "50.00"
+                    },
+                    "halfDailyRate": {
+                        "title": "halfDailyRate",
+                        "description": "Price by half day",
+                        "type": "float",
+                        "example": "180.00"
+                    },
+                    "dailyRate": {
+                        "title": "dailyRate",
+                        "description": "Price by day",
+                        "type": "float",
+                        "example": "300.00"
+                    },
+                    "startDate": {
+                        "title": "startDate",
+                        "description": "First day of application",
+                        "type": "date",
+                        "example": "2021-06-10 00H00"
+                    },
+                    "endDate": {
+                        "title": "endDate",
+                        "description": "Last day of application",
+                        "type": "date",
+                        "example": "2021-06-15 00H00"
+                    },
+                    "memberDiscountAvailbable": {
+                        "title": "Member availability available",
+                        "description": "Member availability available",
+                        "type": "boolean",
+                        "example": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Price"
+                }
+            },
+            "Room": {
+                "title": "Room",
+                "description": "Room Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b923bc7825c419083d3586"
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the entity",
+                        "type": "string",
+                        "example": "La petite rouge"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of the entity",
+                        "type": "string",
+                        "example": "Petite salle de réunion cozy"
+                    },
+                    "buildingId": {
+                        "title": "BuildingId",
+                        "description": "Building containing of the entity",
+                        "type": "ObjectId",
+                        "example": "60b62cd75a00000082007406"
+                    },
+                    "floorId": {
+                        "title": "floor",
+                        "description": "Floor containing of the entity",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "surface": {
+                        "title": "surface",
+                        "description": "Surface of the entity",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "rules": {
+                        "title": "rules",
+                        "description": "Billing, rental, and miscellanious rules applied to the entity",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "color": {
+                        "title": "color",
+                        "description": "Color hexadecimal code applied to the entity",
+                        "type": "string",
+                        "example": "#3333FF"
+                    },
+                    "openingHours": {
+                        "title": "openingHours",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "enabled": {
+                        "title": "enable",
+                        "description": "Room activating",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "services": {
+                        "title": "services",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "type": {
+                        "title": "type",
+                        "description": "Type of the entity",
+                        "type": "string",
+                        "example": "Bureau privé"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Room"
+                }
+            },
+            "Service": {
+                "title": "Service",
+                "description": "Service Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b794304e00fd5950e78718"
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "café"
+                    },
+                    "type": {
+                        "title": "type",
+                        "description": "Type",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description",
+                        "type": "string",
+                        "example": "Café expresso de notre cafétaria"
+                    },
+                    "price": {
+                        "title": "price",
+                        "description": "Price",
+                        "type": "ObjectId",
+                        "example": "60b8d5d74e00fd5950e78719"
+                    },
+                    "startDate": {
+                        "title": "Availability start date",
+                        "description": "Availability start date",
+                        "type": "date",
+                        "example": "2021-06-10 00H00"
+                    },
+                    "endDate": {
+                        "title": "Availability end date",
+                        "description": "Availability end date",
+                        "type": "date",
+                        "example": "2021-06-11 00H00"
+                    },
+                    "memberDiscountAvailable": {
+                        "title": "Member availability available",
+                        "description": "Member availability available",
+                        "type": "boolean",
+                        "example": "true"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Service"
                 }
             }
         }
