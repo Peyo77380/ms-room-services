@@ -194,7 +194,48 @@ class BookingController extends Controller
      * @param RoomStoreRequest $request
      * @return JSON
      */
-    
+    /**
+     * @OA\Post(
+     *      path="/api/v1/booking",
+     *      summary="Store booking from post form",
+     *      description="Store a new booking from form in database, using post method",
+     *      operationId="Post new booking",
+     *      tags={"booking"},
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successfully stored in database",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="datas",
+     *                  type="array",
+     *                  @OA\Items(),
+     *                  ref="#/components/schemas/Booking"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
+     */
     public function store(BookingStoreRequest $request)
     {
         $booking = Booking::create($request->all());
@@ -210,6 +251,67 @@ class BookingController extends Controller
      * @param $id
      * @param BookingUpdateRequest $request
      * @return JSON
+     */
+    /**
+     * @OA\Put(
+     *      path="/api/v1/booking/{id}",
+     *      summary="Update booking from put form based on ID",
+     *      description="Update the targeted booking from form in database, using post method",
+     *      operationId="Update booking",
+     *      tags={"booking"},
+     *      @OA\Parameter(
+     *          parameter="get_booking_id",
+     *          name="id",
+     *          description="ID of the booking",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b923547825c419083d3585"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Succesfully updated",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Successfully updated"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="success"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
      */
     public function update(BookingUpdateRequest $request, $id)
     {
@@ -234,6 +336,88 @@ class BookingController extends Controller
      * @param  $id
      * @return JSON
      */
+    /**
+     * @OA\Delete(
+     *      path="/api/v1/booking/{id}",
+     *      summary="Delete booking from Delete method based on ID",
+     *      description="Delete the targeted booking from form in database, using delete method",
+     *      operationId="Delete booking",
+     *      tags={"booking"},
+     *      @OA\Parameter(
+     *          parameter="get_booking_id",
+     *          name="id",
+     *          description="ID of the booking",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b923547825c419083d3585"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Succesfully deleted",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Successfully deleted"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="success"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="ID not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Nothing found at this ID"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
+     */
     public function destroy($id)
     {
         if (!Booking::destroy($id)) {
@@ -242,6 +426,7 @@ class BookingController extends Controller
 
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
+
     public function getWithDetails()
     {
         return Booking::find(1)->order();
