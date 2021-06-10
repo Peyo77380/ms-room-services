@@ -12,31 +12,6 @@ use App\Http\Requests\Order\OrderUpdateRequest;
 class OrderController extends Controller
 {
     use ApiResponder;
-    /**
-     * @OA\Schema(
-     *      schema="Order_success",
-     *      @OA\Property(
-     *          property="message",
-     *          type="string",
-     *          example="Successfully got the order list"
-     *          ),
-     *      @OA\Property(
-     *          property="status",
-     *          type="string",
-     *          example="success"
-     *          ),
-     *      @OA\Property(
-     *           property="time",
-     *           type="string",
-     *           example="Current time"
-     *           ),
-     *      @OA\Property(
-     *           property="data",
-     *           type="string",
-     *           example="test"
-     *           )
-     * )
-     */
 
     /**
      * @OA\GET(
@@ -47,7 +22,7 @@ class OrderController extends Controller
      *      tags={"order"},
      *      @OA\Response(
      *          response=200,
-     *          description="Successfully got the wanted order",
+     *          description="Successfully got the order",
      *          @OA\JsonContent(
      *              @OA\Property(
      *                  property="datas",
