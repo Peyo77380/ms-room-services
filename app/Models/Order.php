@@ -4,14 +4,13 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
-
 /**
  * @OA\Schema(
  *      title="Order",
  *      description="Order Model",
  *      @OA\Xml(
-*           name="Order"
-*          )
+ *           name="Order"
+ *          )
  *
  * ),
  */

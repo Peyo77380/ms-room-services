@@ -46,6 +46,18 @@ class OrderController extends Controller
      *      operationId="get orders",
      *      tags={"order"},
      *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the wanted order",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="datas",
+     *                  type="array",
+     *                  @OA\Items(),
+     *                  ref="#/components/schemas/Order"
+    *               )
+    *           )
+     *      ),
+     *      @OA\Response(
      *          response=404,
      *          description="Nothing found",
      *          @OA\JsonContent(
@@ -86,10 +98,6 @@ class OrderController extends Controller
      *                  example="Current time"
      *                  )
      *           )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successfully got the order list",
      *      )
      *  )
      */
@@ -178,10 +186,46 @@ class OrderController extends Controller
 
 
     /**
-     * Create Order in database
-     *
-     * @param OrderStoreRequest $request
-     * @return JSON
+     * @OA\Post(
+     *      path="/api/v1/order",
+     *      summary="Store order from post form",
+     *      description="Store a new order from form in database, using post method",
+     *      operationId="Post new order",
+     *      tags={"order"},
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successfully stored in database",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="datas",
+     *                  type="array",
+     *                  @OA\Items(),
+     *                  ref="#/components/schemas/Order"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )git 
+     *           )
+     *      )
+     * )
      */
     public function store (OrderStoreRequest $request)
     {

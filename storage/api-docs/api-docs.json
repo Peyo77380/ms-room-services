@@ -100,6 +100,21 @@
                 "description": "Returns all the orders saved in database in list.",
                 "operationId": "get orders",
                 "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Order"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
                     "404": {
                         "description": "Nothing found",
                         "content": {
@@ -147,9 +162,55 @@
                                 }
                             }
                         }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Store order from post form",
+                "description": "Store a new order from form in database, using post method",
+                "operationId": "Post new order",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Order"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "200": {
-                        "description": "Successfully got the order list"
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
