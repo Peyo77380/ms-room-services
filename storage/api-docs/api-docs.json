@@ -387,7 +387,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Succesfully delelted",
+                        "description": "Succesfully deleted",
                         "content": {
                             "application/json": {
                                 "schema": {

@@ -335,7 +335,7 @@ class OrderController extends Controller
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Succesfully delelted",
+     *          description="Succesfully deleted",
      *          @OA\JsonContent(
      *              @OA\Property(
      *                  property="message",
