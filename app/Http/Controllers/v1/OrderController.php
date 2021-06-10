@@ -240,7 +240,7 @@ class OrderController extends Controller
     /**
      * @OA\Put(
      *      path="/api/v1/order/{id}",
-     *      summary="Update order from post form based on ID",
+     *      summary="Update order from put form based on ID",
      *      description="Update the targeted order from form in database, using post method",
      *      operationId="Update order",
      *      tags={"order"},
@@ -255,7 +255,7 @@ class OrderController extends Controller
      *          )
      *      ),
      *      @OA\Response(
-     *          response=200,
+     *          response=201,
      *          description="Succesfully updated",
      *          @OA\JsonContent(
      *              @OA\Property(
@@ -317,10 +317,86 @@ class OrderController extends Controller
     }
 
     /**
-     * Delete order in database by ID
-     *
-     * @param  $id
-     * @return JSON
+     * @OA\Delete(
+     *      path="/api/v1/order/{id}",
+     *      summary="Delete order from Delete method based on ID",
+     *      description="Delete the targeted order from form in database, using delete method",
+     *      operationId="Delete order",
+     *      tags={"order"},
+     *      @OA\Parameter(
+     *          parameter="get_order_id",
+     *          name="id",
+     *          description="ID of the order",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b927367825c419083d3588"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Succesfully delelted",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Successfully deleted"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="success"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="ID not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Nothing found at this ID"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
      */
     public function destroy ($id)
     {
