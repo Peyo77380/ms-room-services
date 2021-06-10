@@ -222,7 +222,7 @@ class OrderController extends Controller
      *                  property="time",
      *                  type="string",
      *                  example="Current time"
-     *                  )git 
+     *                  )
      *           )
      *      )
      * )
@@ -238,11 +238,65 @@ class OrderController extends Controller
     }
 
     /**
-     * Update update in database from form by id
-     *
-     * @param $id
-     * @param OrderUpdateRequest $request
-     * @return JSON
+     * @OA\Put(
+     *      path="/api/v1/order/{id}",
+     *      summary="Update order from post form based on ID",
+     *      description="Update the targeted order from form in database, using post method",
+     *      operationId="Update order",
+     *      tags={"order"},
+     *      @OA\Parameter(
+     *          parameter="get_order_id",
+     *          name="id",
+     *          description="ID of the order",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b927367825c419083d3588"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Succesfully updated",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Successfully updated"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="success"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
      */
     public function update (OrderUpdateRequest $request, $id)
     {
