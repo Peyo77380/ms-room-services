@@ -21,26 +21,42 @@ class BookingController extends Controller
      * @return JSON
      */
     /**
- * @OA\GET(
- * path="/booking/",
- * summary="Get all bookings",
- * description="Get all bookings",
- * operationId="get booking",
- * tags={"booking"},
- * @OA\RequestBody(
- *    required=false,
- *    description=""
- * ),
- * @OA\Response(
- *    response=404,
- *    description="Wrong credentials response",
- *    @OA\JsonContent(
- *       @OA\Property(property="message", type="string", example="Not found")
- *        )
- *     )
- * )
- */
-     function get()
+
+     * @OA\GET(
+     * path="api/v1/booking/",
+     * summary="Get all bookings",
+     * description="Return all bookings",
+     * operationId="get booking",
+     * tags={"booking"},
+     * * @OA\Schema(
+     *  schema="BookingSchema",
+     *  title="Booking Model",
+     *  description="Booking model",
+     * ),
+     * @OA\Response(
+
+     *  response=201,
+     *  description="Successful operation",
+     *  @OA\JsonContent(
+     *      @OA\Property(
+     *          property="message", type="string", example="Success"))
+     *  ),
+     * @OA\Response(
+     *  response=400,
+     *  description="Bad Request"
+     *  ),
+     * @OA\Response(
+     *  response=401,
+     *  description="Unauthenticated",
+     *  ),
+     * @OA\Response(
+     *  response=403,
+     *  description="Forbidden"
+     *  )
+     * )
+     */
+
+    function get()
     {
         if ($booking = Booking::get()) {
             return $this->jsonSuccess($booking);
@@ -55,6 +71,58 @@ class BookingController extends Controller
      * @param  $id
      * @return JSON
      */
+
+
+    /**
+     * @OA\GET(
+     * path="api/v1/booking/{id}",
+     * summary="Returns specified booking with details",
+     * description="Return the specified booking, by ID, with details",
+     * operationId="get booking by ID",
+     * tags={"booking"},
+     * * @OA\Schema(
+     *  schema="BookingSchema",
+     *  title="Booking Model",
+     *  description="Booking model",
+     * @OA\Property(
+     *    property="ID",
+     *    description="ID of the wanted booking",
+     *    @OA\Schema(
+     *      type="string", example="60b927367825c419083d3588"
+     *    )
+     *  )
+     * ),
+     * * @OA\Parameter(
+     *   parameter="get_booking_id",
+     *   name="id",
+     *   description="ID of the booking",
+     *   in="path",
+     *   @OA\Schema(
+     *     type="string", default="60b927367825c419083d3588"
+     *   )
+     * ),
+     * @OA\Response(
+
+     *  response=201,
+     *  description="Successful operation",
+     *  @OA\JsonContent(
+     *      @OA\Property(
+     *          property="message", type="string", example="Success"))
+     *  ),
+     * @OA\Response(
+     *  response=400,
+     *  description="Bad Request"
+     *  ),
+     * @OA\Response(
+     *  response=401,
+     *  description="Unauthenticated",
+     *  ),
+     * @OA\Response(
+     *  response=403,
+     *  description="Forbidden"
+     *  )
+     * )
+     */
     function getById($id)
     {
         return $this->jsonById($id, Booking::find($id));
@@ -66,7 +134,7 @@ class BookingController extends Controller
      * @param RoomStoreRequest $request
      * @return JSON
      */
-    public function store (BookingStoreRequest $request)
+    public function store(BookingStoreRequest $request)
     {
         $booking = Booking::create($request->all());
         if (!$booking) {
@@ -82,7 +150,7 @@ class BookingController extends Controller
      * @param BookingUpdateRequest $request
      * @return JSON
      */
-    public function update (BookingUpdateRequest $request, $id)
+    public function update(BookingUpdateRequest $request, $id)
     {
         $booking = Booking::find($id);
 
@@ -92,12 +160,11 @@ class BookingController extends Controller
 
         $updatedBooking = $booking->update($request->all());
 
-        if(!$updatedBooking) {
+        if (!$updatedBooking) {
             return $this->jsonError('Could not update this item - Code R31', 502);
         }
 
         return $this->jsonSuccess($updatedBooking);
-
     }
 
     /**
@@ -106,7 +173,7 @@ class BookingController extends Controller
      * @param  $id
      * @return JSON
      */
-    public function destroy ($id)
+    public function destroy($id)
     {
         if (!Booking::destroy($id)) {
             return $this->jsonError('Nothing found at this ID - Code B40', 404);
@@ -118,6 +185,4 @@ class BookingController extends Controller
     {
         return Booking::find(1)->order();
     }
-
 }
-
