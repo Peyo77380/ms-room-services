@@ -363,6 +363,368 @@
                 }
             }
         },
+        "/api/v1/building": {
+            "get": {
+                "tags": [
+                    "building"
+                ],
+                "summary": "Returns all the buildings in list.",
+                "description": "Returns all the building saved in database in list.",
+                "operationId": "get building",
+                "responses": {
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully got the building list"
+                    }
+                }
+            }
+        },
+        "/api/v1/building/{id}": {
+            "get": {
+                "tags": [
+                    "building"
+                ],
+                "summary": "Returns specified building with details",
+                "description": "Return the specified building, by ID, with details",
+                "operationId": "get building by Id",
+                "parameters": [
+                    {
+                        "parameter": "get_building_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the building",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b5dd464e00fd5950e78717"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted building",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Building"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "building"
+                ],
+                "summary": "Update building from put form based on ID",
+                "description": "Update the targeted building from form in database, using post method",
+                "operationId": "Update building",
+                "parameters": [
+                    {
+                        "parameter": "get_building_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the building",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b5dd464e00fd5950e78717"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succesfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully updated"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/builing/{id}": {
+            "delete": {
+                "tags": [
+                    "builing"
+                ],
+                "summary": "Delete builing from Delete method based on ID",
+                "description": "Delete the targeted builing from form in database, using delete method",
+                "operationId": "Delete builing",
+                "parameters": [
+                    {
+                        "parameter": "get_builing_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the builing",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b5dd464e00fd5950e78717"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully deleted"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nothing found at this ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/building/add": {
+            "post": {
+                "tags": [
+                    "building"
+                ],
+                "summary": "Add building from post form",
+                "description": "Add a new building from form in database, using post method",
+                "operationId": "Post new building",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Building"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/order": {
             "get": {
                 "tags": [
@@ -757,6 +1119,27 @@
                 },
                 "type": "object"
             },
+            "Building_success": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Successfully got the building list"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "time": {
+                        "type": "string",
+                        "example": "Current time"
+                    },
+                    "data": {
+                        "type": "string",
+                        "example": "test"
+                    }
+                },
+                "type": "object"
+            },
             "Order_success": {
                 "properties": {
                     "message": {
@@ -827,6 +1210,73 @@
                 "type": "object",
                 "xml": {
                     "name": "Booking"
+                }
+            },
+            "Building": {
+                "title": "Building",
+                "description": "Building Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b5dd464e00fd5950e78717"
+                    },
+                    "location": {
+                        "title": "location",
+                        "description": "location",
+                        "type": "ObjectId",
+                        "example": "{address, city, zipCode, country, lat, long}"
+                    },
+                    "surface": {
+                        "title": "surface",
+                        "description": "surface of location",
+                        "type": "integer",
+                        "example": "200"
+                    },
+                    "openingHours": {
+                        "title": "openingHours",
+                        "description": "building opening time ",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "description of the building",
+                        "type": "string",
+                        "example": "Building of Art"
+                    },
+                    "pictures": {
+                        "title": "pictures",
+                        "description": "images of the building",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "characterics": {
+                        "title": "characterics",
+                        "description": "characterics of the building",
+                        "type": "string",
+                        "example": "Soundproof building "
+                    },
+                    "state": {
+                        "title": "state",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "enabled": {
+                        "title": "enabled",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "floors": {
+                        "title": "floors",
+                        "type": "object",
+                        "example": ""
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Building"
                 }
             },
             "Order": {
