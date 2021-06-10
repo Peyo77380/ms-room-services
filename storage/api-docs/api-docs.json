@@ -581,7 +581,7 @@
         "/api/v1/builing/{id}": {
             "delete": {
                 "tags": [
-                    "builing"
+                    "building"
                 ],
                 "summary": "Delete builing from Delete method based on ID",
                 "description": "Delete the targeted builing from form in database, using delete method",

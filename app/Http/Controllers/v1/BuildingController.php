@@ -178,7 +178,7 @@ class BuildingController extends Controller
      *      summary="Delete builing from Delete method based on ID",
      *      description="Delete the targeted builing from form in database, using delete method",
      *      operationId="Delete builing",
-     *      tags={"builing"},
+     *      tags={"building"},
      *      @OA\Parameter(
      *          parameter="get_builing_id",
      *          name="id",
