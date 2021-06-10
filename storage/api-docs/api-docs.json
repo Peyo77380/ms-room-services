@@ -36,6 +36,227 @@
                     }
                 }
             }
+        },
+        "/api/v1/order": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Returns all the orders in list.",
+                "description": "Returns all the orders saved in database in list.",
+                "operationId": "get orders",
+                "responses": {
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Successfully got the order list"
+                    }
+                }
+            }
+        },
+        "/api/v1/order/{id}": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Returns specified order with details",
+                "description": "Return the specified order, by ID, with details",
+                "operationId": "get orders by Id",
+                "parameters": [
+                    {
+                        "parameter": "get_order_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the order",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b927367825c419083d3588"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Order_success": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Successfully got the order list"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "time": {
+                        "type": "string",
+                        "example": "Current time"
+                    },
+                    "data": {
+                        "type": "string",
+                        "example": "test"
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "title": "Order",
+                "description": "Order Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b927367825c419083d3588"
+                    },
+                    "bookingId": {
+                        "title": "bookingId",
+                        "type": "ObjectId",
+                        "example": "60b923547825c419083d3585"
+                    },
+                    "services": {
+                        "title": "services",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "comment": {
+                        "title": "comment",
+                        "type": "string",
+                        "example": "Intolérent au lactose"
+                    },
+                    "discount": {
+                        "title": "discount",
+                        "type": "string",
+                        "example": "CouponABC123"
+                    },
+                    "state": {
+                        "title": "discount",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "start": {
+                        "title": "start",
+                        "type": "date",
+                        "example": "2021-06-09 17H00"
+                    },
+                    "end": {
+                        "title": "end",
+                        "type": "date",
+                        "example": "2021-06-09 19H00"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Order"
+                }
+            }
         }
     },
     "security": [

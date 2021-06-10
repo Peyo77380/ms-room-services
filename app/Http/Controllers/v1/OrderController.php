@@ -12,30 +12,168 @@ use App\Http\Requests\Order\OrderUpdateRequest;
 class OrderController extends Controller
 {
     use ApiResponder;
+    /**
+     * @OA\Schema(
+     *      schema="Order_success",
+     *      @OA\Property(
+     *          property="message",
+     *          type="string",
+     *          example="Successfully got the order list"
+     *          ),
+     *      @OA\Property(
+     *          property="status",
+     *          type="string",
+     *          example="success"
+     *          ),
+     *      @OA\Property(
+     *           property="time",
+     *           type="string",
+     *           example="Current time"
+     *           ),
+     *      @OA\Property(
+     *           property="data",
+     *           type="string",
+     *           example="test"
+     *           )
+     * )
+     */
 
     /**
-     * Return list of all the orders in database
-     *
-     * @return JSON
+     * @OA\GET(
+     *      path="/api/v1/order",
+     *      summary="Returns all the orders in list.",
+     *      description="Returns all the orders saved in database in list.",
+     *      operationId="get orders",
+     *      tags={"order"},
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the order list",
+     *      )
+     *  )
      */
     function get()
     {
         if ($order = Order::get()) {
             return $this->jsonSuccess($order);
         }
-
         return $this->jsonDatabaseError();
     }
 
+
     /**
-     * Return one order detail, by ID
-     *
-     * @param  $id
-     * @return JSON
+     * @OA\GET(
+     *      path="/api/v1/order/{id}",
+     *      summary="Returns specified order with details",
+     *      description="Return the specified order, by ID, with details",
+     *      operationId="get orders by Id",
+     *      tags={"order"},
+     *      @OA\Parameter(
+     *          parameter="get_order_id",
+     *          name="id",
+     *          description="ID of the order",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b927367825c419083d3588"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the wanted order",
+     *          @OA\JsonContent(ref="#/components/schemas/Order")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *                 ),
+     *              @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 example="error"
+     *                 ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
      */
     function getById($id)
     {
-        return $this->jsonById($id, Order::find($id));
+        if (Order::find($id)) {
+            return $this->jsonById($id, Order::find($id));
+        }
+        return $this->jsonError('Not found', 404);
     }
 
 
@@ -96,4 +234,3 @@ class OrderController extends Controller
     }
 
 }
-
