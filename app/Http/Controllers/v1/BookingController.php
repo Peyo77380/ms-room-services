@@ -21,39 +21,85 @@ class BookingController extends Controller
      * @return JSON
      */
     /**
-
-     * @OA\GET(
-     * path="api/v1/booking/",
-     * summary="Get all bookings",
-     * description="Return all bookings",
-     * operationId="get booking",
-     * tags={"booking"},
-     * * @OA\Schema(
-     *  schema="BookingSchema",
-     *  title="Booking Model",
-     *  description="Booking model",
-     * ),
-     * @OA\Response(
-
-     *  response=201,
-     *  description="Successful operation",
-     *  @OA\JsonContent(
+     * @OA\Schema(
+     *      schema="Booking_success",
      *      @OA\Property(
-     *          property="message", type="string", example="Success"))
-     *  ),
-     * @OA\Response(
-     *  response=400,
-     *  description="Bad Request"
-     *  ),
-     * @OA\Response(
-     *  response=401,
-     *  description="Unauthenticated",
-     *  ),
-     * @OA\Response(
-     *  response=403,
-     *  description="Forbidden"
-     *  )
+     *          property="message",
+     *          type="string",
+     *          example="Successfully got the booking list"
+     *          ),
+     *      @OA\Property(
+     *          property="status",
+     *          type="string",
+     *          example="success"
+     *          ),
+     *      @OA\Property(
+     *           property="time",
+     *           type="string",
+     *           example="Current time"
+     *           ),
+     *      @OA\Property(
+     *           property="data",
+     *           type="string",
+     *           example="test"
+     *           )
      * )
+     */
+
+    /**
+     * @OA\GET(
+     *      path="/api/v1/booking",
+     *      summary="Returns all the bookings in list.",
+     *      description="Returns all the bookings saved in database in list.",
+     *      operationId="get booking",
+     *      tags={"booking"},
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the booking list",
+     *      )
+     *  )
      */
 
     function get()
@@ -71,56 +117,70 @@ class BookingController extends Controller
      * @param  $id
      * @return JSON
      */
-
-
     /**
      * @OA\GET(
-     * path="api/v1/booking/{id}",
-     * summary="Returns specified booking with details",
-     * description="Return the specified booking, by ID, with details",
-     * operationId="get booking by ID",
-     * tags={"booking"},
-     * * @OA\Schema(
-     *  schema="BookingSchema",
-     *  title="Booking Model",
-     *  description="Booking model",
-     * @OA\Property(
-     *    property="ID",
-     *    description="ID of the wanted booking",
-     *    @OA\Schema(
-     *      type="string", example="60b927367825c419083d3588"
-     *    )
-     *  )
-     * ),
-     * * @OA\Parameter(
-     *   parameter="get_booking_id",
-     *   name="id",
-     *   description="ID of the booking",
-     *   in="path",
-     *   @OA\Schema(
-     *     type="string", default="60b927367825c419083d3588"
-     *   )
-     * ),
-     * @OA\Response(
-
-     *  response=201,
-     *  description="Successful operation",
-     *  @OA\JsonContent(
-     *      @OA\Property(
-     *          property="message", type="string", example="Success"))
-     *  ),
-     * @OA\Response(
-     *  response=400,
-     *  description="Bad Request"
-     *  ),
-     * @OA\Response(
-     *  response=401,
-     *  description="Unauthenticated",
-     *  ),
-     * @OA\Response(
-     *  response=403,
-     *  description="Forbidden"
-     *  )
+     *      path="/api/v1/booking/{id}",
+     *      summary="Returns specified booking with details",
+     *      description="Return the specified booking, by ID, with details",
+     *      operationId="get booking by Id",
+     *      tags={"booking"},
+     *      @OA\Parameter(
+     *          parameter="get_booking_id",
+     *          name="id",
+     *          description="ID of the booking",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b923547825c419083d3585"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the wanted booking",
+     *          @OA\JsonContent(ref="#/components/schemas/Booking")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *                 ),
+     *              @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 example="error"
+     *                 ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
      * )
      */
     function getById($id)
@@ -134,6 +194,7 @@ class BookingController extends Controller
      * @param RoomStoreRequest $request
      * @return JSON
      */
+    
     public function store(BookingStoreRequest $request)
     {
         $booking = Booking::create($request->all());
