@@ -1103,6 +1103,376 @@
                 }
             }
         },
+        "/api/v1/room": {
+            "get": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Returns all the rooms in list.",
+                "description": "Returns all the rooms saved in database in list.",
+                "operationId": "get rooms",
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the rooms",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Room"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Store room from post form",
+                "description": "Store a new room from form in database, using post method",
+                "operationId": "Post new room",
+                "responses": {
+                    "201": {
+                        "description": "Successfully stored in database",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "datas": {
+                                            "$ref": "#/components/schemas/Room"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/room/{id}": {
+            "get": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Returns specified room with details",
+                "description": "Return the specified room, by ID, with details",
+                "operationId": "get room by Id",
+                "parameters": [
+                    {
+                        "parameter": "get_room_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the room",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923bc7825c419083d3586"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully got the wanted room",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Room"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Nothing found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Not found"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Update room from put form based on ID",
+                "description": "Update the targeted room from form in database, using post method",
+                "operationId": "Update room",
+                "parameters": [
+                    {
+                        "parameter": "get_room_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the room",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923bc7825c419083d3586"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Succesfully updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully updated"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "room"
+                ],
+                "summary": "Delete room from Delete method based on ID",
+                "description": "Delete the targeted room from form in database, using delete method",
+                "operationId": "Delete room",
+                "parameters": [
+                    {
+                        "parameter": "get_room_id",
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the room",
+                        "schema": {
+                            "type": "string",
+                            "default": "60b923bc7825c419083d3586"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully deleted"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "ID not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Nothing found at this ID"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Database error"
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "Current time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/service": {
             "get": {
                 "tags": [
@@ -1119,7 +1489,7 @@
                                 "schema": {
                                     "properties": {
                                         "datas": {
-                                            "$ref": "#/components/schemas/Services"
+                                            "$ref": "#/components/schemas/Service"
                                         }
                                     },
                                     "type": "object"
@@ -1192,7 +1562,7 @@
                                 "schema": {
                                     "properties": {
                                         "datas": {
-                                            "$ref": "#/components/schemas/Services"
+                                            "$ref": "#/components/schemas/Service"
                                         }
                                     },
                                     "type": "object"
@@ -1253,7 +1623,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/Services"
+                                    "$ref": "#/components/schemas/Service"
                                 }
                             }
                         }
@@ -1651,7 +2021,87 @@
                     "name": "Price"
                 }
             },
-            "Services": {
+            "Room": {
+                "title": "Room",
+                "description": "Room Model",
+                "properties": {
+                    "_id": {
+                        "title": "_id",
+                        "description": "_id of the entity",
+                        "type": "ObjectId",
+                        "example": "60b923bc7825c419083d3586"
+                    },
+                    "name": {
+                        "title": "name",
+                        "description": "Name of the entity",
+                        "type": "string",
+                        "example": "La petite rouge"
+                    },
+                    "description": {
+                        "title": "description",
+                        "description": "Description of the entity",
+                        "type": "string",
+                        "example": "Petite salle de réunion cozy"
+                    },
+                    "buildingId": {
+                        "title": "BuildingId",
+                        "description": "Building containing of the entity",
+                        "type": "ObjectId",
+                        "example": "60b62cd75a00000082007406"
+                    },
+                    "floorId": {
+                        "title": "floor",
+                        "description": "Floor containing of the entity",
+                        "type": "integer",
+                        "example": "2"
+                    },
+                    "surface": {
+                        "title": "surface",
+                        "description": "Surface of the entity",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "rules": {
+                        "title": "rules",
+                        "description": "Billing, rental, and miscellanious rules applied to the entity",
+                        "type": "integer",
+                        "example": "100"
+                    },
+                    "color": {
+                        "title": "color",
+                        "description": "Color hexadecimal code applied to the entity",
+                        "type": "string",
+                        "example": "#3333FF"
+                    },
+                    "openingHours": {
+                        "title": "openingHours",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "enabled": {
+                        "title": "enable",
+                        "description": "Room activating",
+                        "type": "boolean",
+                        "example": "true"
+                    },
+                    "services": {
+                        "title": "services",
+                        "type": "array",
+                        "items": {}
+                    },
+                    "type": {
+                        "title": "type",
+                        "description": "Type of the entity",
+                        "type": "string",
+                        "example": "Bureau privé"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Room"
+                }
+            },
+            "Service": {
                 "title": "Service",
                 "description": "Service Model",
                 "properties": {

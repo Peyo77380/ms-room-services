@@ -6,12 +6,12 @@ use App\Traits\ApiResponder;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\Services;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Services\ServicesStoreRequest;
 
-class ServicesController extends Controller
+class ServiceController extends Controller
 {
     use ApiResponder;
 
@@ -30,7 +30,7 @@ class ServicesController extends Controller
      *                  property="datas",
      *                  type="array",
      *                  @OA\Items(),
-     *                  ref="#/components/schemas/Services"
+     *                  ref="#/components/schemas/Service"
      *               )
      *           )
      *      ),
@@ -80,7 +80,7 @@ class ServicesController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Services::get());
+        return $this->jsonSuccess(Service::get());
     }
 
 
@@ -104,7 +104,7 @@ class ServicesController extends Controller
      *      @OA\Response(
      *          response=200,
      *          description="Successfully got the wanted service",
-     *          @OA\JsonContent(ref="#/components/schemas/Services")
+     *          @OA\JsonContent(ref="#/components/schemas/Service")
      *      ),
      *      @OA\Response(
      *          response=404,
@@ -152,7 +152,7 @@ class ServicesController extends Controller
      */
     function getById($id)
     {
-        return $this->jsonById($id, Services::find($id));
+        return $this->jsonById($id, Service::find($id));
     }
 
     /**
@@ -239,7 +239,7 @@ class ServicesController extends Controller
      */
     public function destroy($id)
     {
-        return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Services::destroy($id), 204);
+        return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Service::destroy($id), 204);
     }
 
 
@@ -258,7 +258,7 @@ class ServicesController extends Controller
      *                  property="datas",
      *                  type="array",
      *                  @OA\Items(),
-     *                  ref="#/components/schemas/Services"
+     *                  ref="#/components/schemas/Service"
      *              )
      *          )
      *      ),
@@ -287,7 +287,7 @@ class ServicesController extends Controller
      */
     public function add(ServicesStoreRequest $request)
     {
-        $services = new Services($request->all());
+        $services = new Service($request->all());
         $services->save();
     }
 
@@ -355,7 +355,7 @@ class ServicesController extends Controller
      */
     public function update($id, ServicesStoreRequest $request)
     {
-        $services = Services::find($id);
+        $services = Service::find($id);
         $services->fill($request->all());
         $services->save();
     }

@@ -4,6 +4,16 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *      title="Room",
+ *      description="Room Model",
+ *      @OA\Xml(
+ *           name="Room"
+ *          )
+ *
+ * ),
+ */
 class Room extends Model
 {
 
@@ -15,7 +25,7 @@ class Room extends Model
     protected $fillable = [
         'name',
         'description',
-        // TODO : foreign key
+        'buildingId',
         // TODO : foreign key
         'floorId',
         'surface',
@@ -28,9 +38,123 @@ class Room extends Model
         'type'
     ];
 
+    /**
+     *@OA\Property(
+     *          title="_id",
+     *          description="_id of the entity",
+     *          type="ObjectId",
+     *          example="60b923bc7825c419083d3586"
+     *          )
+     */
     protected $_id;
+    /**
+     *@OA\Property(
+     *          title="name",
+     *          description="Name of the entity",
+     *          type="string",
+     *          example="La petite rouge"
+     *          )
+     */
+    protected $name;
+
+    /**
+     *@OA\Property(
+     *          title="description",
+     *          description="Description of the entity",
+     *          type="string",
+     *          example="Petite salle de réunion cozy"
+     *          )
+     */
+    protected $description;
+
+    /**
+     *@OA\Property(
+     *          title="BuildingId",
+     *          description="Building containing of the entity",
+     *          type="ObjectId",
+     *          example="60b62cd75a00000082007406"
+     *          )
+     */
+    protected $buildingId;
+
+    /**
+     *@OA\Property(
+     *          title="floor",
+     *          description="Floor containing of the entity",
+     *          type="integer",
+     *          example="2"
+     *          )
+     */
+    protected $floorId;
+
+    /**
+     *@OA\Property(
+     *          title="surface",
+     *          description="Surface of the entity",
+     *          type="integer",
+     *          example="100"
+     *          )
+     */
+    protected $surface;
+
+    /**
+     *@OA\Property(
+     *          title="rules",
+     *          description="Billing, rental, and miscellanious rules applied to the entity",
+     *          type="integer",
+     *          example="100"
+     *          )
+     */
+    protected $rules;
+
+    /**
+     *@OA\Property(
+     *          title="color",
+     *          description="Color hexadecimal code applied to the entity",
+     *          type="string",
+     *          example="#3333FF"
+     *          )
+     */
+    protected $color;
+
+    /**
+      * @OA\Property(
+      *          title="openingHours",
+      *          type="array",
+      *          @OA\Items({})
+      *          )
+      */
+    protected $openingHours;
+
+    /**
+     *@OA\Property(
+     *          title="enable",
+     *          description="Room activating",
+     *          type="boolean",
+     *          example="true"
+     *          )
+     */
+    protected $enabled;
 
 
+    /**
+      * @OA\Property(
+      *          title="services",
+      *          type="array",
+      *          @OA\Items({})
+      *          )
+      */
+    protected $services;
+
+    /**
+     *@OA\Property(
+     *          title="type",
+     *          description="Type of the entity",
+     *          type="string",
+     *          example="Bureau privé"
+     *          )
+     */
+    protected $type;
 
      public function building ()
      {

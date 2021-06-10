@@ -37,7 +37,6 @@ class Price extends Model
      *          type="ObjectId",
      *          example="60b8d5d74e00fd5950e78719"
      *          )
-     *
      */
     protected $_id;
 
@@ -48,7 +47,6 @@ class Price extends Model
      *          type="float",
      *          example="50.00"
      *          )
-     *
      */
     protected $hourlyRate;
 
