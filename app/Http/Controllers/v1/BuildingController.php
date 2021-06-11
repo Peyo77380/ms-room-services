@@ -10,6 +10,7 @@ use App\Models\Building;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Building\BuildingStoreRequest;
+use App\Http\Requests\Building\BuildingUpdateRequest;
 
 class BuildingController extends Controller
 {
@@ -39,7 +40,7 @@ class BuildingController extends Controller
         $building->save();
     }
 
-    public function update($id, BuildingStoreRequest $request)
+    public function update($id, BuildingUpdateRequest $request)
     {
         $building = Building::find($id);
         $building->fill($request->all());
