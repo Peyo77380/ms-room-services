@@ -10,6 +10,7 @@ use App\Models\Services;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Services\ServicesStoreRequest;
+use App\Http\Requests\Services\ServicesUpdateRequest;
 
 class ServicesController extends Controller
 {
@@ -35,7 +36,7 @@ class ServicesController extends Controller
         $services = new Services($request->all());
         $services->save();
     }
-    public function update($id, ServicesStoreRequest $request)
+    public function update($id, ServicesUpdateRequest $request)
     {
         $services = Services::find($id);
         $services->fill($request->all());
