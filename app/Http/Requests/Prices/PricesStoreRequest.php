@@ -15,8 +15,8 @@ class PricesStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'hourlyRate' => 'required',
-            'dailyRate' => 'required',
+            'hourlyRate' => '//TODO required',
+            'dailyRate' => '//TODO required',
         ];
     }
 }
