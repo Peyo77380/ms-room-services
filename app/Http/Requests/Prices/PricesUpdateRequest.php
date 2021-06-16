@@ -4,7 +4,7 @@ namespace App\Http\Requests\Prices;
 
 use App\Http\Requests\FormRequest;
 
-class RoomUpdateRequest extends FormRequest
+class PriceUpdateRequest extends FormRequest
 {
 
     public function authorize()

@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Room\RoomStoreRequest;
 use App\Http\Requests\Room\RoomUpdateRequest;
 
+
 class RoomController extends Controller
 {
     use ApiResponder;
@@ -96,6 +97,6 @@ class RoomController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
-    
+
 }
 
