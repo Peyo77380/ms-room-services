@@ -5,7 +5,6 @@ RUN apt-get update -y && apt-get install -y libmcrypt-dev && apt-get install lib
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN docker-php-ext-install pdo
 RUN pecl install mongodb && docker-php-ext-enable mongodb
-# RUN echo "extension=mongodb.so" >> /usr/local/etc/php/php.ini
 
 WORKDIR /app
 COPY . /app
