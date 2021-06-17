@@ -15,8 +15,6 @@ class Room extends Model
     protected $fillable = [
         'name',
         'description',
-        // TODO : foreign key
-        // TODO : foreign key
         'floorId',
         'surface',
         'rules',

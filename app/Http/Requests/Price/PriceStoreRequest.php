@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Prices;
+namespace App\Http\Requests\Price;
 
 use App\Http\Requests\FormRequest;
 
-class PricesStoreRequest extends FormRequest
+class PriceStoreRequest extends FormRequest
 {
 
     public function authorize()
@@ -15,8 +15,8 @@ class PricesStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'hourlyRate' => '//TODO required',
-            'dailyRate' => '//TODO required',
+            'hourlyRate' => 'required|number',
+            'dailyRate' => 'required|number',
         ];
     }
 }

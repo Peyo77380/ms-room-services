@@ -15,8 +15,8 @@ class ServicesStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'type' => 'required',
+            'name' => 'required|string',
+            'type' => 'required|string',
         ];
     }
 }

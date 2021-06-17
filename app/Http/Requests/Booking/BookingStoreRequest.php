@@ -23,8 +23,7 @@ class BookingStoreRequest extends FormRequest
             'state' => 'int|between:0,5',
             'start' => 'required|date_format:d-m-Y H:i',
             'end' => 'required|date_format:d-m-Y H:i',
-            // TODO : à vérifier qd serviceController sera dispo
-            'services.*.id' => 'required|int',
+            'services.*.id' => 'required|exists:App\Models\Service,_id',
             'services.*.qty' => 'required|int|min:1'
 
         ];

@@ -23,8 +23,7 @@ class BookingUpdateRequest extends FormRequest
             'state' => 'int|between:0,5',
             'start' => 'date_format:d-m-Y H:i',
             'end' => 'date_format:d-m-Y H:i',
-            // TODO : à vérifier qd serviceController sera dispo
-            'services.*.id' => 'int',
+            'services.*.id' => 'int,exists:App\Models\Service,_id',
             'services.*.qty' => 'int|min:1'
         ];
     }

@@ -15,7 +15,8 @@ class ServicesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            // TODO : à modifier en fonction du front
+            'name' => 'string',
+            'type' => 'string'
         ];
     }
 }
