@@ -354,5 +354,4 @@ class PriceController extends Controller
         $services->fill($request->all());
         $services->save();
     }
-
 }

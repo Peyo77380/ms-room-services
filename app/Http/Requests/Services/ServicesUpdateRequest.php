@@ -4,7 +4,7 @@ namespace App\Http\Requests\Services;
 
 use App\Http\Requests\FormRequest;
 
-class ServicesStoreRequest extends FormRequest
+class ServicesUpdateRequest extends FormRequest
 {
 
     public function authorize()
@@ -15,8 +15,8 @@ class ServicesStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string',
-            'type' => 'required|string',
+            'name' => 'string',
+            'type' => 'string'
         ];
     }
 }

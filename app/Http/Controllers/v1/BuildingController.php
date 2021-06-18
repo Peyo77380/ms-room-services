@@ -10,6 +10,7 @@ use App\Models\Building;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Building\BuildingStoreRequest;
+use App\Http\Requests\Building\BuildingUpdateRequest;
 
 class BuildingController extends Controller
 {
@@ -258,7 +259,8 @@ class BuildingController extends Controller
     {
         return $this->jsonSuccess(
             'item : ' . $id . ' successfully deleted',
-            Building::destroy($id), 204
+            Building::destroy($id),
+            204
         );
     }
 

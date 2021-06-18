@@ -25,13 +25,11 @@ class Room extends Model
     protected $fillable = [
         'name',
         'description',
-        'buildingId',
-        // TODO : foreign key
+        'buildingId', // TODO : foreign key
         'floorId',
         'surface',
         'rules',
-        'color',
-        // TODO : à demander au client : est-ce nécessaire de mettre un champ correspondant aux horaires d'ouvertures (si jamais une salle est ouverte moins longtemps que le batiment dans lequel elle se situe)
+        'color', // TODO : à demander au client : est-ce nécessaire de mettre un champ correspondant aux horaires d'ouvertures (si jamais une salle est ouverte moins longtemps que le batiment dans lequel elle se situe)
         'openingHours',
         'enabled',
         'services',
@@ -118,12 +116,12 @@ class Room extends Model
     protected $color;
 
     /**
-      * @OA\Property(
-      *          title="openingHours",
-      *          type="array",
-      *          @OA\Items({})
-      *          )
-      */
+     * @OA\Property(
+     *          title="openingHours",
+     *          type="array",
+     *          @OA\Items({})
+     *          )
+     */
     protected $openingHours;
 
     /**
@@ -138,12 +136,12 @@ class Room extends Model
 
 
     /**
-      * @OA\Property(
-      *          title="services",
-      *          type="array",
-      *          @OA\Items({})
-      *          )
-      */
+     * @OA\Property(
+     *          title="services",
+     *          type="array",
+     *          @OA\Items({})
+     *          )
+     */
     protected $services;
 
     /**
@@ -156,12 +154,12 @@ class Room extends Model
      */
     protected $type;
 
-     public function building ()
-     {
-         return $this->belongsTo(Building::class);
-     }
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
 
-    public function bookings ()
+    public function bookings()
     {
         return $this->hasMany(Booking::class);
     }
@@ -182,7 +180,7 @@ class Room extends Model
         return "coucou";
     }
 
-    public static function search ($fields)
+    public static function search($fields)
     {
         return self::where($fields)->get();
     }

@@ -10,6 +10,7 @@ use App\Models\Service;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\Services\ServicesStoreRequest;
+use App\Http\Requests\Services\ServicesUpdateRequest;
 
 class ServiceController extends Controller
 {
@@ -359,5 +360,4 @@ class ServiceController extends Controller
         $services->fill($request->all());
         $services->save();
     }
-
 }
