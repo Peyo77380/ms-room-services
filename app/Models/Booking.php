@@ -4,6 +4,16 @@ namespace App\Models;
 
 use Jenssegers\Mongodb\Eloquent\Model;
 
+/**
+ * @OA\Schema(
+ *      title="Booking",
+ *      description="Booking Model",
+ *      @OA\Xml(
+*           name="Booking"
+*          )
+ *
+ * ),
+ */
 class Booking extends Model
 {
     /**
@@ -12,7 +22,8 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        'roomId',
+        //'booking_id',
+        'order_id',
         'clientId',
         'companyId',
         'state',
@@ -21,16 +32,110 @@ class Booking extends Model
         'services'
     ];
 
+   /**
+     *@OA\Property(
+     *          title="_id",
+     *          description="_id of the entity",
+     *          type="ObjectId",
+     *          example="60b923547825c419083d3585"
+     *          )
+     *
+     */
     protected $_id;
 
-    public function order ()
+    /**
+     *
+     *@OA\Property(
+     *          title="orderId",
+     *          type="ObjectId",
+     *          example="60b927367825c419083d3588"
+     *          )
+     */
+    protected $order_id;
+
+    /**
+     *
+     *@OA\Property(
+     *          title="clientId",
+     *          type="integer",
+     *          example="112"
+     *          )
+     */
+    protected $clientId;
+
+    /**
+     *
+     *@OA\Property(
+     *          title="companyId",
+     *          type="integer",
+     *          example="2"
+     *          )
+     */
+    protected $companyId;
+
+    /**
+     * @OA\Property(
+     *          title="state",
+     *          type="integer",
+     *          example = "1"
+     *          )
+     * 0 => commandé
+     * 1 => validé
+     * 2 => annulé par le client
+     * 3 => annulé par l'espace de coworking
+     */
+    protected $state;
+
+    /**
+     *
+     *@OA\Property(
+     *          title="start",
+     *          type="timestamp",
+     *          example="1621987200"
+     *          )
+     */
+    protected $start;
+
+    /**
+     *
+     *@OA\Property(
+     *          title="end",
+     *          type="timestamp",
+     *          example="1622073600"
+     *          )
+     */
+    protected $end;
+
+    /**
+      * @OA\Property(
+      *          title="services",
+      *          type="array",
+      *          @OA\Items({})
+      *          )
+      */
+    protected $services;
+
+
+
+    public function order()
     {
         return $this->hasOne(Order::class);
     }
 
-    public function rooms ()
+    public function rooms()
     {
-        return $this->belongsTo(Room::class)
+        return $this->belongsTo(Room::class);
     }
-
+    public function building()
+    {
+        return $this->belongsTo(Building::class);
+    }
+    /* public function prices()
+    {
+        return $this->hasOne(Prices::class);
+    } */
+    /* public function services()
+    {
+        return $this->hasMany(Services::class);
+    } */
 }

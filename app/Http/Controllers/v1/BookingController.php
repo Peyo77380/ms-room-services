@@ -8,6 +8,7 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\BookingStoreRequest;
 use App\Http\Requests\Booking\BookingUpdateRequest;
+use App\Models\Room;
 
 class BookingController extends Controller
 {
@@ -19,6 +20,88 @@ class BookingController extends Controller
      *
      * @return JSON
      */
+    /**
+     * @OA\Schema(
+     *      schema="Booking_success",
+     *      @OA\Property(
+     *          property="message",
+     *          type="string",
+     *          example="Successfully got the booking list"
+     *          ),
+     *      @OA\Property(
+     *          property="status",
+     *          type="string",
+     *          example="success"
+     *          ),
+     *      @OA\Property(
+     *           property="time",
+     *           type="string",
+     *           example="Current time"
+     *           ),
+     *      @OA\Property(
+     *           property="data",
+     *           type="string",
+     *           example="test"
+     *           )
+     * )
+     */
+
+    /**
+     * @OA\GET(
+     *      path="/api/v1/booking",
+     *      summary="Returns all the bookings in list.",
+     *      description="Returns all the bookings saved in database in list.",
+     *      operationId="get booking",
+     *      tags={"booking"},
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the booking list",
+     *      )
+     *  )
+     */
+
     function get()
     {
         if ($booking = Booking::get()) {
@@ -34,6 +117,72 @@ class BookingController extends Controller
      * @param  $id
      * @return JSON
      */
+    /**
+     * @OA\GET(
+     *      path="/api/v1/booking/{id}",
+     *      summary="Returns specified booking with details",
+     *      description="Return the specified booking, by ID, with details",
+     *      operationId="get booking by Id",
+     *      tags={"booking"},
+     *      @OA\Parameter(
+     *          parameter="get_booking_id",
+     *          name="id",
+     *          description="ID of the booking",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b923547825c419083d3585"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the wanted booking",
+     *          @OA\JsonContent(ref="#/components/schemas/Booking")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *                 ),
+     *              @OA\Property(
+     *                 property="status",
+     *                 type="string",
+     *                 example="error"
+     *                 ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
+     */
     function getById($id)
     {
         return $this->jsonById($id, Booking::find($id));
@@ -45,7 +194,49 @@ class BookingController extends Controller
      * @param RoomStoreRequest $request
      * @return JSON
      */
-    public function store (BookingStoreRequest $request)
+    /**
+     * @OA\Post(
+     *      path="/api/v1/booking",
+     *      summary="Store booking from post form",
+     *      description="Store a new booking from form in database, using post method",
+     *      operationId="Post new booking",
+     *      tags={"booking"},
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successfully stored in database",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="datas",
+     *                  type="array",
+     *                  @OA\Items(),
+     *                  ref="#/components/schemas/Booking"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
+     */
+    public function store(BookingStoreRequest $request)
     {
         $booking = Booking::create($request->all());
         if (!$booking) {
@@ -61,7 +252,68 @@ class BookingController extends Controller
      * @param BookingUpdateRequest $request
      * @return JSON
      */
-    public function update (BookingUpdateRequest $request, $id)
+    /**
+     * @OA\Put(
+     *      path="/api/v1/booking/{id}",
+     *      summary="Update booking from put form based on ID",
+     *      description="Update the targeted booking from form in database, using post method",
+     *      operationId="Update booking",
+     *      tags={"booking"},
+     *      @OA\Parameter(
+     *          parameter="get_booking_id",
+     *          name="id",
+     *          description="ID of the booking",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b923547825c419083d3585"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Succesfully updated",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Successfully updated"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="success"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
+     */
+    public function update(BookingUpdateRequest $request, $id)
     {
         $booking = Booking::find($id);
 
@@ -71,12 +323,11 @@ class BookingController extends Controller
 
         $updatedBooking = $booking->update($request->all());
 
-        if(!$updatedBooking) {
+        if (!$updatedBooking) {
             return $this->jsonError('Could not update this item - Code R31', 502);
         }
 
         return $this->jsonSuccess($updatedBooking);
-
     }
 
     /**
@@ -85,7 +336,89 @@ class BookingController extends Controller
      * @param  $id
      * @return JSON
      */
-    public function destroy ($id)
+    /**
+     * @OA\Delete(
+     *      path="/api/v1/booking/{id}",
+     *      summary="Delete booking from Delete method based on ID",
+     *      description="Delete the targeted booking from form in database, using delete method",
+     *      operationId="Delete booking",
+     *      tags={"booking"},
+     *      @OA\Parameter(
+     *          parameter="get_booking_id",
+     *          name="id",
+     *          description="ID of the booking",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string",
+     *              default="60b923547825c419083d3585"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Succesfully deleted",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Successfully deleted"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="success"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="ID not found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Nothing found at this ID"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     * )
+     */
+    public function destroy($id)
     {
         if (!Booking::destroy($id)) {
             return $this->jsonError('Nothing found at this ID - Code B40', 404);
@@ -94,5 +427,8 @@ class BookingController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
+    public function getWithDetails()
+    {
+        return Booking::find(1)->order();
+    }
 }
-
