@@ -85,4 +85,13 @@ Route::group([
     Route::get('/search/byName/{name}', [SearchV1::class, 'search']);
     //  Route::get('/search', [SearchV1::class, 'searchAll']);
     Route::get('/search', [SearchV1::class, 'searchAll']);
+
+
+    Route::prefix('/events')->group(function () {
+        Route::get('/', [EventsV1::class, 'get']);
+        Route::get('/{id}', [EventsV1::class, 'getById']);
+        Route::post('/', [EventsV1::class, 'store']);
+        Route::put('/{id}', [EventsV1::class, 'update']);
+        Route::delete('/{id}', [EventsV1::class, 'destroy']);
+
 });
