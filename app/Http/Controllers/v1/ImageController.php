@@ -7,12 +7,22 @@ use App\Models\Image;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 
 
 class ImageController extends Controller
 {
     use ApiResponder;
+
+    function __construct ()
+    {
+        $this->client = new Client([
+            'base_uri' => 'http://172.21.0.1:80/api/'
+        ]);
+
+
+    }
 
     /**
      * Return an array of all the images in the database
@@ -21,10 +31,14 @@ class ImageController extends Controller
      */
     function get()
     {
-        if (!$images = Image::get()) {
-            return $this->jsonError('Unable to reach database', 400);
+        $response = $this->client->request('GET', 'image');
+
+        if ($response->getStatusCode() == 200 && $datas = $response->getBody()->getContents()) {
+            return $this->jsonSuccess(json_decode($datas)->datas, 'youpiiiii');
         }
-        return $this->jsonSuccess($images);
+
+        return $this->jsonError('nein', 500);
+
     }
 
     /**
@@ -35,79 +49,45 @@ class ImageController extends Controller
      */
     function getById($id)
     {
-        if (!$image = Image::find($id)) {
-            return $this->jsonError('Unable to find request item', 404);
+        $response = $this->client->request('GET', 'image/'.$id);
+
+        if ($response->getStatusCode() == 200 && $datas = $response->getBody()->getContents()) {
+            return $this->jsonSuccess(json_decode($datas), 'youpiiiii');
         }
-        return $this->jsonById($id, $image);
+
+        return $this->jsonError('nein', 500);
     }
 
-    /**
-     * Store a submitted image in database and return the object
-     *
-     * @param Request $request
-     * @return void
-     */
-    function store(Request $request)
-    {
-        $validatedData = $this->imageSubmissionValidator($request);
-        if ($validatedData->fails()) {
-            return $this->jsonError($validatedData->errors()->all(), 400);
-        }
+    // /**
+    //  * Store a submitted image in database and return the object
+    //  *
+    //  * @param Request $request
+    //  * @return void
+    //  */
+    // function store(Request $request)
+    // {
+    //     $validatedData = $this->imageSubmissionValidator($request);
+    //     if ($validatedData->fails()) {
+    //         return $this->jsonError($validatedData->errors()->all(), 400);
+    //     }
 
-        $imgArray = $this->setImagesToArray($request);
-        if ($imgArray->getStatusCode() === 415) {
-            return $imgArray;
-        }
+    //     $imgArray = $this->setImagesToArray($request);
+    //     if ($imgArray->getStatusCode() === 415) {
+    //         return $imgArray;
+    //     }
 
-        $image = new Image();
-        $image->type = $request->input('type');
-        $image->targetId = $request->input('targetId');
-        $image->image = $imgArray;
+    //     $image = new Image();
+    //     $image->type = $request->input('type');
+    //     $image->targetId = $request->input('targetId');
+    //     $image->image = $imgArray;
 
-        if (!$image->save()) {
-            return $this->jsonError('Server failed storing image upload', 500);
-        }
+    //     if (!$image->save()) {
+    //         return $this->jsonError('Server failed storing image upload', 500);
+    //     }
 
-        return $this->jsonSuccess($image, 'Successfully saved');
-    }
+    //     return $this->jsonSuccess($image, 'Successfully saved');
+    // }
 
-    /**
-     * Update existing item in database
-     *
-     * @param Request $request
-     * @param $id
-     * @return json
-     */
-    function update(Request $request, $id)
-    {
-
-        $validatedData = $this->imageSubmissionValidator($request);
-        if ($validatedData->fails()) {
-            return $this->jsonError($validatedData->errors()->all(), 400);
-        }
-
-        $imgArray = $this->setImagesToArray($request);
-        if ($imgArray->getStatusCode() === 415) {
-            return $imgArray;
-        }
-
-
-        $image = Image::find($id);
-        if (!$image) {
-            return $this->jsonError('Could not find the requested ID', 404);
-        }
-
-        $image->type = $request->input('type');
-        // TODO : ajouter gestion de la foreign key
-        $image->targetId = $request->input('targetId');
-        $image->image = $imgArray;
-
-        if (!$image->update($id)) {
-            return $this->jsonError('Server failed storing image upload', 500);
-        }
-
-        return $this->jsonSuccess($image, 'Successfully saved');
-    }
 
     /**
      * Destroy existing item in database by Id
@@ -117,85 +97,14 @@ class ImageController extends Controller
      */
     function destroy($id)
     {
-        // TODO : Vérifier avec le client s'il faut supprimer le fichier du serveur une fois supprimé
-        if (!Image::destroy($id)) {
-            return $this->jsonError('Server could not delete the object from database, please check the ID', 400);
+        // TODO : en attente de MS-Custom-Fields la route n'est pas encore dispo.
+        $response = $this->client->request('DELETE', 'image/'.$id);
+
+        if ($response->getStatusCode() == 204) {
+            return $this->jsonSuccessNoDatas('Successfully deleted');
         }
 
-        return $this->jsonSuccess($id, 'Successfully deleted from database');
-    }
-
-    function setImagesToArray ($request)
-    {
-        // TODO : Verifier avec le front quel ojet sera renvoyé par la soumission et l'update
-        // TODO : Vérifier avec les clients si le titre sur chaque photo
-
-        $files = [];
-        foreach($request->file('images') as $key => $file) {
-            $imgFile = [];
-            $imgFile['file'] = $file;
-            $imgFile['path'] = $request->file('images')[$key]->store('public/images');
-            $imgFile['title'] = $request->input('imagesTitles')[$key];
-
-            $validatedImages = $this->imageDetailsValidator($imgFile);
-            if ($validatedImages->fails()) {
-                return $this->jsonError($validatedImages->errors()->all(), 415);
-            }
-
-            array_push($files, ['path' => $imgFile['path'], 'title' => $imgFile['title']]);
-        }
-
-        return $this->jsonSuccess($files);
-    }
-
-    // TODO : créer validation request dans Request/Image/ImageStoreRequest.php
-    /**
-     * Validate upload image form
-     *
-     * @param Request $request
-     * @return
-     */
-    function imageSubmissionValidator ($request)
-    {
-        $validator = Validator::make($request->all(),
-            $rules = [
-                'imagesTitles' => 'required|array',
-                'images' => 'required|array',
-                'type' => 'required|integer|min:0|max:4',
-                'targetId' => 'required',
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required',
-            ]);
-
-        return $validator;
-    }
-
-    /**
-     * Validate uploaded images format
-     *
-     * @param array $fileInfo
-     * @return void
-     */
-    function imageDetailsValidator (array $fileInfo)
-    {
-        $validator = Validator::make($fileInfo,
-            $rules = [
-                // TODO : Vérifier avec les clients la taill des images, et les formats potentiels.
-                'file' => 'required|image|mimes:jpg,png,jpeg|max:512',
-                'title' => 'required|string|min:5'
-                // 'pictures.*.ext' => 'required|between:3,4'
-            ],
-            $messages = [
-                'required' => 'The :attribute field is required',
-                'string' => 'The :attribute field should be a string',
-                'image' => 'The uploaded file is not an image',
-                'mimes' => 'The image should be a jpg, a jpeg or a png file',
-                'max:512' => 'The file is too large. (Max : 512MO)'
-            ]
-            );
-
-        return $validator;
+        return $this->jsonError('nein', 500);
     }
 
 }

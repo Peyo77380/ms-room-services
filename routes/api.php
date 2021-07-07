@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\ServicesController as ServicesV1;
-use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
+use App\Http\Controllers\v1\ImageController as ImageV1;
 use App\Http\Controllers\v1\PriceController as PricesV1;
 use App\Http\Controllers\v1\BookingController as BookingV1;
 use App\Http\Controllers\v1\OrderController as OrderV1;
@@ -48,12 +48,12 @@ Route::group([
     Route::post('/price/add', [PricesV1::class, 'add']);
     Route::put('/price/update/{id}', [PricesV1::class, 'update']);
 
-    Route::prefix('/uploadImage')->group(function () {
-        Route::get('/', [UploadImageV1::class, 'get']);
-        Route::get('/{id}', [UploadImageV1::class, 'getById']);
-        Route::post('/', [UploadImageV1::class, 'store']);
-        Route::put('/{id}', [UploadImageV1::class, 'update']);
-        Route::delete('/{id}', [UploadImageV1::class, 'destroy']);
+    Route::prefix('/image')->group(function () {
+        Route::get('/', [ImageV1::class, 'get']);
+        Route::get('/{id}', [ImageV1::class, 'getById']);
+        Route::post('/', [ImageV1::class, 'store']);
+        Route::put('/{id}', [ImageV1::class, 'update']);
+        Route::delete('/{id}', [ImageV1::class, 'destroy']);
     });
 
     Route::prefix('/room')->group(function () {
