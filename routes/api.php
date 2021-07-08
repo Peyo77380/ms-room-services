@@ -49,8 +49,9 @@ Route::group([
     Route::put('/price/update/{id}', [PricesV1::class, 'update']);
 
     Route::prefix('/image')->group(function () {
-        Route::get('/', [ImageV1::class, 'get']);
+        Route::get('/files/{filename}', [ImageV1::class, 'getFileByFilename']);
         Route::get('/{id}', [ImageV1::class, 'getById']);
+        Route::get('/', [ImageV1::class, 'get']);
         Route::post('/', [ImageV1::class, 'store']);
         Route::put('/{id}', [ImageV1::class, 'update']);
         Route::delete('/{id}', [ImageV1::class, 'destroy']);

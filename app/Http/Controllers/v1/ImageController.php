@@ -4,10 +4,13 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Image;
 
+use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -56,6 +59,22 @@ class ImageController extends Controller
         }
 
         return $this->jsonError('nein', 500);
+    }
+
+    function getFileByFilename($filename)
+    {
+        $imageResult = $this->client->request('GET', 'image/files/'.$filename);
+
+        $image = $imageResult->getBody()->getContents();
+
+        $decodedimage = base64_decode(preg_replace('#^data:image/w+;base64,#i', '', $image));
+
+        $tmpFilePath = 'app/public/img/test.png';
+        file_put_contents($tmpFilePath, $decodedimage);
+
+        return response()->file($tmpFilePath, [$decodedimage]);
+
+
     }
 
     // /**
