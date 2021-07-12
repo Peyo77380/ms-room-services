@@ -33,8 +33,10 @@ Route::group([
 
     Route::get('/building', [BuildingV1::class, 'get']);
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
-    Route::delete('/building/delete/{id}', [BuildingV1::class, 'destroy']);
-    Route::post('/building/add', [BuildingV1::class, 'add']);
+    Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
+    Route::post('/building', [BuildingV1::class, 'add']);
+    Route::put('/building/{id}', [BuildingV1::class, 'update']);
+
 
     Route::get('/service', [ServicesV1::class, 'get']);
     Route::get('/service/{id}', [ServicesV1::class, 'getByID']);
