@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
-use App\Http\Controllers\v1\ServicesController as ServicesV1;
+use App\Http\Controllers\v1\ServiceController as ServiceV1;
 use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
 use App\Http\Controllers\v1\PriceController as PricesV1;
 use App\Http\Controllers\v1\BookingController as BookingV1;
@@ -33,20 +33,22 @@ Route::group([
 
     Route::get('/building', [BuildingV1::class, 'get']);
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
-    Route::delete('/building/delete/{id}', [BuildingV1::class, 'destroy']);
-    Route::post('/building/add', [BuildingV1::class, 'add']);
+    Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
+    Route::post('/building', [BuildingV1::class, 'add']);
+    Route::put('/building/{id}', [BuildingV1::class, 'update']);
 
-    Route::get('/service', [ServicesV1::class, 'get']);
-    Route::get('/service/{id}', [ServicesV1::class, 'getByID']);
-    Route::delete('/service/delete/{id}', [ServicesV1::class, 'destroy']);
-    Route::post('/service/add', [ServicesV1::class, 'add']);
-    Route::put('/service/update/{id}', [ServicesV1::class, 'update']);
+
+    Route::get('/service', [ServiceV1::class, 'get']);
+    Route::get('/service/{id}', [ServiceV1::class, 'getByID']);
+    Route::delete('/service/{id}', [ServiceV1::class, 'destroy']);
+    Route::post('/service', [ServiceV1::class, 'add']);
+    Route::put('/service/{id}', [ServiceV1::class, 'update']);
 
     Route::get('/price', [PricesV1::class, 'get']);
     Route::get('/price/{id}', [PricesV1::class, 'getByID']);
-    Route::delete('/price/delete/{id}', [PricesV1::class, 'destroy']);
+    Route::delete('/price/{id}', [PricesV1::class, 'destroy']);
     Route::post('/price/add', [PricesV1::class, 'add']);
-    Route::put('/price/update/{id}', [PricesV1::class, 'update']);
+    Route::put('/price/{id}', [PricesV1::class, 'update']);
 
     Route::prefix('/uploadImage')->group(function () {
         Route::get('/', [UploadImageV1::class, 'get']);
