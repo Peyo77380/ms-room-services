@@ -16,9 +16,7 @@ class BuildingStoreRequest extends FormRequest
     {
         return [
             'location.address' => 'required',
-            'surface' => 'required|integer|min:0',
-            'openingHours' => 'required',
-            'characteristics' => 'required',
+
             // 'pictures.*.ext' => 'required|between:3,4'
         ];
     }
