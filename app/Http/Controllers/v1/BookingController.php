@@ -16,11 +16,6 @@ class BookingController extends Controller
     private $posts;
 
     /**
-     * Return list of all the rooms in database
-     *
-     * @return JSON
-     */
-    /**
      * @OA\Schema(
      *      schema="Booking_success",
      *      @OA\Property(
@@ -112,12 +107,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Return one booking detail, by ID
-     *
-     * @param  $id
-     * @return JSON
-     */
-    /**
      * @OA\GET(
      *      path="/api/v1/booking/{id}",
      *      summary="Returns specified booking with details",
@@ -189,12 +178,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Create booking in database
-     *
-     * @param RoomStoreRequest $request
-     * @return JSON
-     */
-    /**
      * @OA\Post(
      *      path="/api/v1/booking",
      *      summary="Store booking from post form",
@@ -245,13 +228,6 @@ class BookingController extends Controller
         return $this->jsonSuccess($booking);
     }
 
-    /**
-     * Update booking in database from form by id
-     *
-     * @param $id
-     * @param BookingUpdateRequest $request
-     * @return JSON
-     */
     /**
      * @OA\Put(
      *      path="/api/v1/booking/{id}",
@@ -330,12 +306,6 @@ class BookingController extends Controller
         return $this->jsonSuccess($updatedBooking);
     }
 
-    /**
-     * Delete booking in database by ID
-     *
-     * @param  $id
-     * @return JSON
-     */
     /**
      * @OA\Delete(
      *      path="/api/v1/booking/{id}",
@@ -427,8 +397,4 @@ class BookingController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
-    public function getWithDetails()
-    {
-        return Booking::find(1)->order();
-    }
 }
