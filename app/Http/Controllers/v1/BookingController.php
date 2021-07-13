@@ -106,6 +106,16 @@ class BookingController extends Controller
         return $this->jsonDatabaseError('Unable to reache database - B10');
     }
 
+    function getWithDetails (Booking $booking)
+    {
+        if ($result = $booking->with('room')->get()) {
+            return $this->jsonSuccess($result);
+        }
+
+        return $this->jsonDatabaseError('Unable to reache database - B10');
+    }
+
+
     /**
      * @OA\GET(
      *      path="/api/v1/booking/{id}",

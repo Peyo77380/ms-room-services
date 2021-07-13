@@ -23,8 +23,9 @@ class Booking extends Model
      */
     protected $fillable = [
         'order_id',
-        'clientId',
-        'companyId',
+        'room_id',
+        'client_id',
+        'company_id',
         'state',
         'start',
         'end'
