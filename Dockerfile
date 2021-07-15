@@ -1,6 +1,6 @@
 FROM php:7.4-apache
 
-RUN apt-get update && apt-get install libmcrypt-dev -y && apt-get install libssl-dev -y
+RUN apt-get update && apt-get install libmcrypt-dev -y && apt-get install libssl-dev -y && apt-get install git -y
 RUN pecl install mongodb && docker-php-ext-enable mongodb
 RUN docker-php-ext-install pdo
 RUN apt-get update && apt-get install -y \

@@ -35,6 +35,7 @@ services:
       REDIS_PORT: 6379
     volumes:
       - ./:/app
+      - /app/vendor
     depends_on:
       redis:
         condition: service_healthy
