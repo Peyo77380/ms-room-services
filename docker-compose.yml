@@ -30,7 +30,7 @@ services:
     environment:
       CACHE_DRIVER: redis
       REDIS_CLIENT: predis
-      REDIS_HOST: reddis-ms-room-services
+      REDIS_HOST: redis-ms-room-services
       REDIS_PASSWORD: null
       REDIS_PORT: 6379
     volumes:
