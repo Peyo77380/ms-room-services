@@ -21,5 +21,7 @@ class Events extends Model
         'rezervedMembers',
         'date',
         'statute'
+        // TODO :
+        // type: possible de réserver si membre ou public
     ];
 }
