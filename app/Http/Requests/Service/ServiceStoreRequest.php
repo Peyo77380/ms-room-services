@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Services;
+namespace App\Http\Requests\Service;
 
 use App\Http\Requests\FormRequest;
 
-class ServicesUpdateRequest extends FormRequest
+class ServiceStoreRequest extends FormRequest
 {
 
     public function authorize()
@@ -15,8 +15,8 @@ class ServicesUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string',
-            'type' => 'string'
+            'name' => 'required|string',
+            'type' => 'required|string'
         ];
     }
 }

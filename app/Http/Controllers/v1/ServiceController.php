@@ -9,8 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Services\ServicesStoreRequest;
-use App\Http\Requests\Services\ServicesUpdateRequest;
+use App\Http\Requests\Service\ServiceStoreRequest;
+use App\Http\Requests\Service\ServiceUpdateRequest;
+use App\Libs\PriceLibs;
 
 class ServiceController extends Controller
 {
@@ -286,10 +287,12 @@ class ServiceController extends Controller
      *      )
      * )
      */
-    public function add(ServicesStoreRequest $request)
+    public function add(ServiceStoreRequest $request)
     {
-        $services = new Service($request->all());
-        $services->save();
+        $service = Service::create($request->all());
+
+        $prices = PriceLibs::set(1, $service->_id, $request->prices);
+
     }
 
 
@@ -354,10 +357,11 @@ class ServiceController extends Controller
      *      )
      * )
      */
-    public function update($id, ServicesStoreRequest $request)
+    public function update($id, ServiceUpdateRequest $request)
     {
-        $services = Service::find($id);
-        $services->fill($request->all());
-        $services->save();
+        $service = Service::find($id);
+        $service->update($request->all());
+
+        $prices = PriceLibs::replace(1, $id, $request->prices);
     }
 }

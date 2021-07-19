@@ -16,19 +16,21 @@ class Price extends Model
      * @var array
      */
     protected $fillable = [
-        'hourlyRate',
-        'halfDailyRate',
-        'dailyRate',
         'startDate',
         'endDate',
-        'memberDiscountAvailbable'
+        'amounts',
+        'relatedEntityId',
+        'relatedEntityType' //0: room, 1: service/product
     ];
-    public function booking()
+
+    public function service()
     {
-        return $this->hasOne(Booking::class);
+        return $this->hasOne(Service::class);
     }
-    public function order()
+
+    public function room ()
     {
-        return $this->hasOne(Booking::class);
+        return $this->hasOne(Room::class);
     }
+
 }
