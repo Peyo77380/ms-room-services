@@ -32,7 +32,7 @@ class Service extends Model
         // TODO : image_id
         'key',
         'state', // Activated or not,
-        'content', // 
+        'content', // TODO : A quoi ça correspond?
         // TODO : A voir avec Flo : 'variation'
     ];
 
