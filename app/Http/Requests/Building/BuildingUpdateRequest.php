@@ -16,7 +16,7 @@ class BuildingUpdateRequest extends FormRequest
     {
         return [
             //TODO : mettre à jour quand front OK
-            'surface' => '|integer|min:0',
+            'surface' => 'integer|min:0',
             'openingHours' => '',
             'characteristics' => '',
             // 'pictures.*.ext' => 'required|between:3,4'
