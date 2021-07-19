@@ -24,7 +24,8 @@ class Service extends Model
     protected $fillable = [
         'name',
         'type',
-        'description'
+        'description',
+        'archived_at'
     ];
 
     /**
@@ -70,11 +71,21 @@ class Service extends Model
      */
     protected $description;
 
+    /**
+     *@OA\Property(
+     *          title="archived_at",
+     *          description="Archiving date",
+     *          type="string",
+     *          example="2021-07-19T14:41:26+00:00"
+     *          )
+     */
+    protected $archived_at;
+
     public function orders()
     {
         return $this->belongsToMany(Order::class);
     }
-    
+
     public function room()
     {
         return $this->belongsToMany(Room::class);

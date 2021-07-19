@@ -82,7 +82,12 @@ class ServiceController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Service::get());
+        return $this->jsonSuccess(Service::whereNull('archived_at')->get());
+    }
+
+    function getArchived()
+    {
+        return $this->jsonSuccess(Service::whereNotNull('archived_at')->get());
     }
 
 
@@ -160,7 +165,7 @@ class ServiceController extends Controller
     /**
      * @OA\Delete(
      *      path="/api/v1/service/{id}",
-     *      summary="Delete service from Delete method based on ID",
+     *      summary="Delete (archive) service from Delete method based on ID",
      *      description="Delete the targeted service from form in database, using delete method",
      *      operationId="Delete service",
      *      tags={"service"},
@@ -241,7 +246,9 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Service::destroy($id), 204);
+        $service = Service::find($id);
+        $archived = $service->update(["archived_at" => date_format(now(), 'c')]);
+        return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
     }
 
 
@@ -290,9 +297,9 @@ class ServiceController extends Controller
     public function add(ServiceStoreRequest $request)
     {
         $service = Service::create($request->all());
+        $service->prices = PriceLibs::set(1, $service->_id, $request->prices);
 
-        $prices = PriceLibs::set(1, $service->_id, $request->prices);
-
+        return $service;
     }
 
 
@@ -359,9 +366,13 @@ class ServiceController extends Controller
      */
     public function update($id, ServiceUpdateRequest $request)
     {
-        $service = Service::find($id);
+        $service = Service::with('prices')->find($id);
         $service->update($request->all());
 
-        $prices = PriceLibs::replace(1, $id, $request->prices);
+        if ($request->prices) {
+            $service->prices = PriceLibs::replace(1, $id, $request->prices);
+        }
+
+        return $service;
     }
 }

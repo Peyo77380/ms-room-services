@@ -12,9 +12,9 @@ class PriceLibs {
 
     static function replace ($type, $relatedEntity, $datas)
     {
-        Self::__updateOldPrice($type, $relatedEntity);
-
-        Self::__setNewPrice($type, $relatedEntity, $datas);
+        if (Self::__updateOldPrice($type, $relatedEntity)) {
+            return Self::__setNewPrice($type, $relatedEntity, $datas);
+        };
     }
 
     static private function __setNewPrice ($type, $relatedEntity, $datas)
@@ -22,7 +22,7 @@ class PriceLibs {
         // $type => 0 : room, 1: products/services
         $newPrices['relatedEntityId'] = $relatedEntity;
         $newPrices['relatedEntityType'] = $type;
-        $newPrices['startDate'] = new \Datetime();
+        $newPrices['startDate'] = time();
         $newPrices['amounts'] = $datas;
         return Price::create($newPrices);
     }
@@ -36,7 +36,7 @@ class PriceLibs {
             ->first();
 
         if ($oldPrice) {
-            $oldPrice->update(['endDate' => new \Datetime()]);
+            return $oldPrice->update(['endDate' => time()]);
         };
     }
 

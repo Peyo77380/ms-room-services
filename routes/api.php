@@ -39,6 +39,7 @@ Route::group([
 
 
     Route::get('/service', [ServiceV1::class, 'get']);
+    Route::get('/service/archived', [ServiceV1::class, 'getArchived']);
     Route::get('/service/{id}', [ServiceV1::class, 'getByID']);
     Route::delete('/service/{id}', [ServiceV1::class, 'destroy']);
     Route::post('/service', [ServiceV1::class, 'add']);
