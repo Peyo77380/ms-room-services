@@ -9,10 +9,9 @@ use Jenssegers\Mongodb\Eloquent\Model;
  *      title="Booking",
  *      description="Booking Model",
  *      @OA\Xml(
-*           name="Booking"
-*          )
- *
- * ),
+ *           name="Booking"
+ *          )
+ * )
  */
 class Booking extends Model
 {
