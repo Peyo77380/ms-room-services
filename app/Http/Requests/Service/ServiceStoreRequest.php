@@ -16,7 +16,16 @@ class ServiceStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'type' => 'required|string'
+            // TODO : voir si modifiable
+            'type' => 'required|numeric|gt:0|lt:3',
+            'display' => 'required|string',
+            'descriptionLong' => 'string',
+            'descriptionShort' => 'string',
+            // TODO : required?
+            'key' => 'required|string',
+            'state' => 'required|boolean'
+            //variation?
+            // image_id
         ];
     }
 }

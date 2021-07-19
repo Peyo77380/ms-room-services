@@ -23,9 +23,17 @@ class Service extends Model
      */
     protected $fillable = [
         'name',
-        'type',
-        'description',
-        'archived_at'
+        'type', // 1 = product, 2 = service
+        'category_id', // Category Id from ms-customFields
+        'display', // Display privilege to the role (and under) (eg : admin, member, shop) => default value by front : admin
+        'descriptionLong',
+        'descriptionShort',
+        'archived_at',
+        // TODO : image_id
+        'key',
+        'state', // Activated or not,
+        'content', // 
+        // TODO : A voir avec Flo : 'variation'
     ];
 
     /**
