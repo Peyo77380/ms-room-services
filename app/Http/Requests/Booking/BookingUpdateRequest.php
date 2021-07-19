@@ -21,10 +21,8 @@ class BookingUpdateRequest extends FormRequest
             // TODO : a vérifier au moment où company ID sera accessible (cf MS-CRM)
             'companyId' => 'int',
             'state' => 'int|between:0,5',
-            'start' => 'date_format:d-m-Y H:i',
-            'end' => 'date_format:d-m-Y H:i',
-            'services.*.id' => 'int,exists:App\Models\Service,_id',
-            'services.*.qty' => 'int|min:1'
+            'start' => 'date_format:"Y-m-d\TH:i:s"',
+            'end' => 'date_format:"Y-m-d\TH:i:s"',
         ];
     }
 }
