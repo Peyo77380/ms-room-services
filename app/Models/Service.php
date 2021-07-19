@@ -86,7 +86,7 @@ class Service extends Model
      *          example="member"
      *          )
      */
-    protected $display,
+    protected $display;
 
     /**
      *@OA\Property(
@@ -116,7 +116,7 @@ class Service extends Model
     *          example="2021-07-19T14:41:26+00:00"
     *          )
     */
-    protected $archived_at,
+    protected $archived_at;
 
     /**
     *@OA\Property(
@@ -126,7 +126,7 @@ class Service extends Model
     *          example="CAFE_PETIT"
     *          )
     */
-    protected $key,
+    protected $key;
 
     /**
     *@OA\Property(
@@ -136,10 +136,10 @@ class Service extends Model
     *          example="TRUE"
     *          )
     */
-    protected $state,
+    protected $state;
 
 
-    protected $content, // TODO : A quoi ça correspond?
+    protected $content; // TODO : A quoi ça correspond?
 
     public function orders()
     {
