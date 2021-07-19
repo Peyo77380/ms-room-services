@@ -8,12 +8,16 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Price extends Model
 {
-    use HasFactory;
+
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * @OA\Schema(
+     *      title="Service",
+     *      description="Service Model",
+     *      @OA\Xml(
+     *           name="Service"
+     *          )
+     * ),
      */
     protected $fillable = [
         'startDate',
@@ -25,7 +29,7 @@ class Price extends Model
 
     public function service()
     {
-        return $this->hasOne(Service::class);
+        return $this->belongsTo(Service::class);
     }
 
     public function room ()

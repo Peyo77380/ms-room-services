@@ -20,8 +20,8 @@ class ServiceController extends Controller
     /**
      * @OA\GET(
      *      path="/api/v1/service",
-     *      summary="Returns all the services in list.",
-     *      description="Returns all the services saved in database in list.",
+     *      summary="Returns all the active services in list.",
+     *      description="Returns all the active services saved in database in list.",
      *      operationId="get services",
      *      tags={"service"},
      *      @OA\Response(
@@ -85,6 +85,69 @@ class ServiceController extends Controller
         return $this->jsonSuccess(Service::whereNull('archived_at')->get());
     }
 
+    /**
+     * @OA\GET(
+     *      path="/api/v1/service",
+     *      summary="Returns archived the services in list.",
+     *      description="Returns all the archived services saved in database in list.",
+     *      operationId="get services",
+     *      tags={"service"},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the services",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="datas",
+     *                  type="array",
+     *                  @OA\Items(),
+     *                  ref="#/components/schemas/Service"
+     *               )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     *  )
+     */
     function getArchived()
     {
         return $this->jsonSuccess(Service::whereNotNull('archived_at')->get());

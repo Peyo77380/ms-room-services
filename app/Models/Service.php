@@ -11,7 +11,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
  *      @OA\Xml(
  *           name="Service"
  *          )
- *
  * ),
  */
 class Service extends Model
@@ -71,23 +70,76 @@ class Service extends Model
 
     /**
      *@OA\Property(
-     *          title="description",
-     *          description="Description",
+     *          title="category_id",
+     *          description="Category Id from ms-customFields",
      *          type="string",
-     *          example="Café expresso de notre cafétaria"
+     *          example="Food"
      *          )
      */
-    protected $description;
+    protected $category_id;
 
     /**
      *@OA\Property(
-     *          title="archived_at",
-     *          description="Archiving date",
+     *          title="display",
+     *          description="Allow displaying depending on user role",
      *          type="string",
-     *          example="2021-07-19T14:41:26+00:00"
+     *          example="member"
      *          )
      */
-    protected $archived_at;
+    protected $display,
+
+    /**
+     *@OA\Property(
+     *          title="descriptionLong",
+     *          description="Long description of the service or product",
+     *          type="string",
+     *          example="This is a really long description of our perfect product"
+     *          )
+     */
+    protected $descriptionLong;
+
+    /**
+    *@OA\Property(
+    *          title="descriptionShort",
+    *          description="Short description of the service or product",
+    *          type="string",
+    *          example="Short description of our product"
+    *          )
+    */
+    protected $descriptionShort;
+
+    /**
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at,
+
+    /**
+    *@OA\Property(
+    *          title="key",
+    *          description="Key of the product",
+    *          type="string",
+    *          example="CAFE_PETIT"
+    *          )
+    */
+    protected $key,
+
+    /**
+    *@OA\Property(
+    *          title="state",
+    *          description="Activate the product for users or not",
+    *          type="boolean",
+    *          example="TRUE"
+    *          )
+    */
+    protected $state,
+
+
+    protected $content, // TODO : A quoi ça correspond?
 
     public function orders()
     {
