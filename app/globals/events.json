@@ -1,0 +1,28 @@
+{
+    "a": {
+        "title": "petit déjeuner d'rentrée" ,
+        "photo": "alt = petit déjeuner d'rentrée" ,
+        "description": "pas grand chose",
+        "capacityMin": 5,
+        "capacityMax": 25,
+        "price": {
+            "member": 70,
+            "noMember": 100
+        },
+        "rezervedMembers": {
+            "statute ": {
+                "yes": true,
+                "no": false
+            }
+        },
+        "date": {
+            "begin":1621989200,
+            "end":1621991215
+        },
+        "statut": {
+            "run": 0,
+            "archived": 1
+        },
+        "created_at": 1621987200,
+        "updated_at": null
+}

@@ -373,7 +373,7 @@ class BuildingController extends Controller
      *      )
      * )
      */
-    public function update($id, BuildingStoreRequest $request)
+    public function update($id, BuildingUpdateRequest $request)
     {
         $building = Building::find($id);
         $building->fill($request->all());

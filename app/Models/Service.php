@@ -23,12 +23,17 @@ class Service extends Model
      */
     protected $fillable = [
         'name',
-        'type',
-        'description',
-        'price',
-        'startDate',
-        'endDate',
-        'memberDiscountAvailable'
+        'variation',
+        'type', // 0 = produit, 1 = service
+        'category', // experiences, adhésion... => fetch from custom fields
+        'longDescription',
+        'shortDescription',
+        'content',
+        'prices', // collection of prices
+        'state', // true : activated, false: disactivated
+        'quantity', // TODO : créer nouvelle table?
+        'memberDiscountAvailable' // TODO : validé avec la colloc?
+        // TODO : image?
     ];
 
     /**

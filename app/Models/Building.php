@@ -22,6 +22,7 @@ class Building extends Model
      * @var array
      */
     protected $fillable = [
+        'name',
         'location',
         'surface',
         'openingHours',

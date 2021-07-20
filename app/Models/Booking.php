@@ -9,10 +9,9 @@ use Jenssegers\Mongodb\Eloquent\Model;
  *      title="Booking",
  *      description="Booking Model",
  *      @OA\Xml(
-*           name="Booking"
-*          )
- *
- * ),
+ *           name="Booking"
+ *          )
+ * )
  */
 class Booking extends Model
 {
@@ -22,14 +21,13 @@ class Booking extends Model
      * @var array
      */
     protected $fillable = [
-        //'booking_id',
         'order_id',
-        'clientId',
-        'companyId',
+        'room_id',
+        'client_id',
+        'company_id',
         'state',
         'start',
-        'end',
-        'services'
+        'end'
     ];
 
    /**
@@ -106,36 +104,13 @@ class Booking extends Model
      */
     protected $end;
 
-    /**
-      * @OA\Property(
-      *          title="services",
-      *          type="array",
-      *          @OA\Items({})
-      *          )
-      */
-    protected $services;
-
-
-
     public function order()
     {
         return $this->hasOne(Order::class);
     }
 
-    public function rooms()
+    public function room()
     {
         return $this->belongsTo(Room::class);
     }
-    public function building()
-    {
-        return $this->belongsTo(Building::class);
-    }
-    /* public function prices()
-    {
-        return $this->hasOne(Prices::class);
-    } */
-    /* public function services()
-    {
-        return $this->hasMany(Services::class);
-    } */
 }
