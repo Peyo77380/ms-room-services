@@ -12,7 +12,7 @@ class PriceLibs {
 
     static function replace ($type, $relatedEntity, $datas)
     {
-        if (Self::__updateOldPrice($type, $relatedEntity, $datas['startDate'])) {
+        if (Self::__updateOldPrice($type, $relatedEntity, $datas['startDate'] ? $datas['startDate'] : null )) {
             return Self::__setNewPrice($type, $relatedEntity, $datas);
         };
     }
@@ -22,12 +22,13 @@ class PriceLibs {
         // $type => 0 : room, 1: products/services
         $newPrices['relatedEntityId'] = $relatedEntity;
         $newPrices['relatedEntityType'] = $type;
-        $newPrices['startDate'] = $datas['startDate'] ? $datas['startDate'] : time();
+        $newPrices['startDate'] = isset($datas['startDate']) ? $datas['startDate'] : time();
         $newPrices['amounts'] = [
             'public' => $datas['public'],
-            'member' => $datas['member'] ? $datas['member'] : null,
-            'co' => $datas['co'] ? $datas['co'] : null,
+            'member' => isset($datas['member']) ? $datas['member'] : null,
+            'co' => isset($datas['co']) ? $datas['co'] : null,
         ];
+
         return Price::create($newPrices);
     }
 
@@ -40,7 +41,7 @@ class PriceLibs {
             ->first();
 
         if ($oldPrice) {
-            return $oldPrice->update(['endDate' => $date ? $date : time()]);
+            return $oldPrice->update(['endDate' => isset($date) ? $date : time()]);
         };
     }
 

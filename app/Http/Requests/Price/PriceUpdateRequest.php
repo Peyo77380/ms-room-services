@@ -15,12 +15,11 @@ class PriceUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'hourlyRate' => 'integer',
-            'halfDailyRate' => 'integer',
-            'dailyRate'  => 'integer',
+            'public' => 'numeric',
+            'member' => 'numeric',
+            'co' => 'numeric',
             'startDate' => 'timestamp',
-            'endDate'  => 'timestamp',
-            'memberDiscountAvailbable' => 'boolean'
+            'endDate'  => 'timestamp'
         ];
     }
 }

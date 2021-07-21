@@ -15,8 +15,11 @@ class PriceStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'hourlyRate' => 'required|number',
-            'dailyRate' => 'required|number',
+            'public' => 'required|numeric',
+            'member' => 'numeric',
+            'co' => 'numeric',
+            'startDate' => 'timestamp',
+            'endDate'  => 'timestamp'
         ];
     }
 }

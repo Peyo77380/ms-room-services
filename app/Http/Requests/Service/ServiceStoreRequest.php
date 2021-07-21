@@ -24,10 +24,10 @@ class ServiceStoreRequest extends FormRequest
             // TODO : required?
             'key' => 'required|string',
             'state' => 'required|boolean',
-            'price.startTime' => 'date',
-            'price.public' => 'required|numeric',
-            'price.member' => 'numeric',
-            'price.co' => 'numeric'
+            'prices.startDate' => 'date',
+            'prices.public' => 'required|numeric',
+            'prices.member' => 'numeric',
+            'prices.co' => 'numeric'
             //variation?
             // image_id
         ];
