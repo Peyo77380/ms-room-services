@@ -16,7 +16,6 @@ class EventStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string',
-            'photo' => 'required',
             'description' => 'required|string',
             'capacityMin' => 'required|int',
             'capacityMax' => 'int|int',

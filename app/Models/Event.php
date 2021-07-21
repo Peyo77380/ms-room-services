@@ -13,15 +13,17 @@ class Event extends Model
      */
     protected $fillable = [
         'title',
-        'photo',
+        'images',
         'description',
         'capacityMin',
         'capacityMax',
         'price',
-        'rezervedMembers',
-        'date',
-        'statute'
+        'availability',
+        'startDate',
+        'endDate',
+        'status'
         // TODO :
         // type: possible de réserver si membre ou public
+        // TODO : voir si ajouter booking ?
     ];
 }

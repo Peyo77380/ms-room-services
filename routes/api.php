@@ -60,6 +60,7 @@ Route::group([
 
     Route::prefix('/room')->group(function () {
         Route::get('/', [RoomV1::class, 'get']);
+        Route::get('/available', [RoomV1::class, 'findAvailableRoom']);
         Route::get('/{id}', [RoomV1::class, 'getById']);
         Route::post('/', [RoomV1::class, 'store']);
         Route::put('/{id}', [RoomV1::class, 'update']);

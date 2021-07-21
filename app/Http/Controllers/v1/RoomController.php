@@ -8,7 +8,7 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Room\RoomStoreRequest;
 use App\Http\Requests\Room\RoomUpdateRequest;
-
+use App\Libs\BookingLib;
 
 class RoomController extends Controller
 {
@@ -381,6 +381,14 @@ class RoomController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
+    public function findAvailableRoom ()
+    {
+        $availableRooms = BookingLib::findFreeRoom("2021-07-13T13:00:00", "2021-07-14T20:00:00", 0, 2);
+        if(!$availableRooms) {
+            return $this->jsonError('Could not update this item - Code R31', 502);
+        }
 
+        return $this->jsonSuccess($availableRooms);
+    }
 }
 

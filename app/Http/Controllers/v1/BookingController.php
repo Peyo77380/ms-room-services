@@ -118,6 +118,7 @@ class BookingController extends Controller
     }
 
 
+
     /**
      * @OA\GET(
      *      path="/api/v1/booking/{id}",
