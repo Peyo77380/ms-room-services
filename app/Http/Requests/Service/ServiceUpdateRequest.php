@@ -16,7 +16,20 @@ class ServiceUpdateRequest extends FormRequest
     {
         return [
             'name' => 'string',
-            'type' => 'string'
+            // TODO : voir si modifiable
+            'type' => 'numeric|gt:0|lt:3',
+            'display' => 'string',
+            'descriptionLong' => 'string',
+            'descriptionShort' => 'string',
+            // TODO : required?
+            'key' => 'string',
+            'state' => 'boolean',
+            'prices.startDate' => 'date',
+            'prices.public' => 'required|numeric',
+            'prices.member' => 'numeric',
+            'prices.co' => 'numeric'
+            //variation?
+            // image_id
         ];
     }
 }
