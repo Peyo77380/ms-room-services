@@ -82,7 +82,12 @@ class ServiceController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Service::whereNull('archived_at')->get());
+        $services = Service::whereNull('archived_at')->get();
+
+        foreach($services as $el) {
+            $el->prices = PriceLibs::find($el['type'], $el['_id']);
+        }
+        return $this->jsonSuccess($services);
     }
 
     /**
@@ -150,7 +155,12 @@ class ServiceController extends Controller
      */
     function getArchived()
     {
-        return $this->jsonSuccess(Service::whereNotNull('archived_at')->get());
+        $services = Service::whereNotNull('archived_at')->get();
+
+        foreach($services as $el) {
+            $el->prices = PriceLibs::find($el['type'], $el['_id']);
+        }
+        return $this->jsonSuccess($services);
     }
 
 
@@ -222,7 +232,9 @@ class ServiceController extends Controller
      */
     function getById($id)
     {
-        return $this->jsonById($id, Service::find($id));
+        $service = Service::find($id);
+        $service->price = PriceLibs::find($service['type'], $service['_id']);
+        return $this->jsonById($id, $service);
     }
 
     /**
@@ -360,7 +372,7 @@ class ServiceController extends Controller
     public function add(ServiceStoreRequest $request)
     {
         $service = Service::create($request->all());
-        $service->prices = PriceLibs::set(1, $service->_id, $request->prices);
+        $service->prices = PriceLibs::set($service->type, $service->_id, $request->prices);
 
         return $this->jsonSuccess('created',$service, 201);;
     }

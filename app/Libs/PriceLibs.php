@@ -17,6 +17,11 @@ class PriceLibs {
         };
     }
 
+    static function find ($type, $relatedEntity)
+    {
+        return Price::where('relatedEntityType', '=', $type)->where('relatedEntityId', '=', $relatedEntity)->get();
+    }
+
     static private function __setNewPrice ($type, $relatedEntity, $datas)
     {
         // $type => 0 : room, 1: products/services
