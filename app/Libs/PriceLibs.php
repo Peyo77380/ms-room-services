@@ -29,9 +29,9 @@ class PriceLibs {
         $newPrices['relatedEntityType'] = $type;
         $newPrices['startDate'] = isset($datas['startDate']) ? $datas['startDate'] : time();
         $newPrices['amounts'] = [
-            'public' => $datas['public'],
-            'member' => isset($datas['member']) ? $datas['member'] : null,
-            'co' => isset($datas['co']) ? $datas['co'] : null,
+            'public' => $datas['amounts']['public'],
+            'member' => isset($datas['amounts']['member']) ? $datas['amounts']['member'] : null,
+            'co' => isset($datas['amounts']['co']) ? $datas['amounts']['co'] : null,
         ];
 
 

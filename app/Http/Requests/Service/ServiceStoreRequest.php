@@ -25,9 +25,10 @@ class ServiceStoreRequest extends FormRequest
             'key' => 'required|string',
             'state' => 'required|boolean',
             'prices.startDate' => 'date',
-            'prices.public' => 'required|numeric',
-            'prices.member' => 'numeric',
-            'prices.co' => 'numeric'
+            'prices.amounts' => 'required',
+            'prices.amounts.public' => 'required|numeric',
+            'prices.amounts.member' => 'numeric',
+            'prices.amounts.co' => 'numeric'
             //variation?
             // image_id
         ];
