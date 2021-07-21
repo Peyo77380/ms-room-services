@@ -7,7 +7,7 @@ use App\Models\Price;
 class PriceLibs {
     static function set ($type, $relatedEntity, $datas)
     {
-        Self::__setNewPrice($type, $relatedEntity, $datas);
+        return Self::__setNewPrice($type, $relatedEntity, $datas);
     }
 
     static function replace ($type, $relatedEntity, $datas)
@@ -29,7 +29,12 @@ class PriceLibs {
             'co' => isset($datas['co']) ? $datas['co'] : null,
         ];
 
-        return Price::create($newPrices);
+
+
+        $price = Price::create($newPrices);
+
+        return $price->fresh();
+
     }
 
     static private function __updateOldPrice ($type, $relatedEntity, $date)

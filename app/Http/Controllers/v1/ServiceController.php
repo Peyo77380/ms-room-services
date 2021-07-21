@@ -362,7 +362,7 @@ class ServiceController extends Controller
         $service = Service::create($request->all());
         $service->prices = PriceLibs::set(1, $service->_id, $request->prices);
 
-        return $service;
+        return $this->jsonSuccess('created',$service, 201);;
     }
 
 
@@ -429,13 +429,13 @@ class ServiceController extends Controller
      */
     public function update($id, ServiceUpdateRequest $request)
     {
-        $service = Service::with('prices')->find($id);
+        $service = Service::find($id);
         $service->update($request->all());
 
         if ($request->prices) {
             $service->prices = PriceLibs::replace(1, $id, $request->prices);
         }
 
-        return $service;
+        return $this->jsonSuccess('updated',$service, 200);;
     }
 }
