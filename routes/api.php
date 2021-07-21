@@ -11,7 +11,7 @@ use App\Http\Controllers\v1\PriceController as PricesV1;
 use App\Http\Controllers\v1\BookingController as BookingV1;
 use App\Http\Controllers\v1\OrderController as OrderV1;
 use App\Http\Controllers\v1\RoomController as RoomV1;
-use App\Http\Controllers\v1\SearchController as SearchV1;
+use App\Http\Controllers\v1\EventController as EventV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,13 +93,14 @@ Route::group([
     });
 
 
-    Route::prefix('/events')->group(
+    Route::prefix('/event')->group(
         function () {
-            Route::get('/', [EventsV1::class, 'get']);
-            Route::get('/{id}', [EventsV1::class, 'getById']);
-            Route::post('/', [EventsV1::class, 'store']);
-            Route::put('/{id}', [EventsV1::class, 'update']);
-            Route::delete('/{id}', [EventsV1::class, 'destroy']);
+            Route::get('/', [EventV1::class, 'get']);
+            Route::get('/{id}', [EventV1::class, 'getById']);
+            Route::post('/', [EventV1::class, 'store']);
+            Route::post('/duplicate/{id}', [EventV1::class, 'duplicate']);
+            Route::put('/{id}', [EventV1::class, 'update']);
+            Route::delete('/{id}', [EventV1::class, 'destroy']);
         }
     );
 });

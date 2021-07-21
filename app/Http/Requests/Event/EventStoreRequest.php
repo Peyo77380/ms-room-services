@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Events;
+namespace App\Http\Requests\Event;
 
 use App\Http\Requests\FormRequest;
 
-class EventsUpdateRequest extends FormRequest
+class EventStoreRequest extends FormRequest
 {
 
     public function authorize()

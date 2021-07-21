@@ -5,41 +5,59 @@ namespace App\Http\Controllers\v1;
 use App\Traits\ApiResponder;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Events\EventsStoreRequest as EventsEventsStoreRequest;
-use App\Http\Requests\Events\EventsUpdateRequest as EventsEventsUpdateRequest;
-use App\Models\Events;
+use App\Http\Requests\Event\EventStoreRequest;
+use App\Http\Requests\Event\EventUpdateRequest;
+use App\Models\Event;
 
-use App\Http\Requests\V1\Company\EventsStoreRequest;
 
-use App\Http\Requests\V1\Company\EventsUpdateRequest;
-
-class EventsController extends Controller
+class EventController extends Controller
 {
     use ApiResponder;
 
-    function get($id)
+    function get()
     {
-        return $this->jsonById($id, Events::find($id));
+        return $this->jsonSuccess(Event::get());
+    }
+
+    function getById($id)
+    {
+        return $this->jsonById($id, Event::find($id));
     }
 
     /**
      * create event
      */
-    function store(EventsEventsStoreRequest $request)
+    function store(EventStoreRequest $request)
     {
-        $events = Events::create($request->all());
+        $events = Event::create($request->all());
         if ($events) {
             return $this->jsonSuccess($events);
         }
         return $this->jsonError('Event already exist', 409);
     }
 
+    function duplicate ($id)
+    {
+        $event = Event::find($id);
+        if (!$event) {
+            return $this->jsonError('Nothing at this Id', 404);
+        }
+        $duplicate = $event->replicate();
+        $saved = $duplicate->save();
+
+        if (!$saved) {
+            return $this->jsonError('Unable to duplicate', 500);
+        }
+        return $this->jsonSuccess($duplicate, 'duplicated', 201);
+
+    }
+
     /**
      * update event
      */
-    public function update(EventsEventsUpdateRequest $request, $id)
+    public function update(EventUpdateRequest $request, $id)
     {
-        $event = Events::find($id);
+        $event = Event::find($id);
 
         if (!$event) {
             return $this->jsonError('Something is wrong, please check datas - Code B30', 409);
@@ -60,7 +78,7 @@ class EventsController extends Controller
      */
     function delete($id)
     {
-        $event = Events::find($id);
+        $event = Event::find($id);
         if($event){
             $event->status=99;
             return $this->jsonSuccessNoDatas("The event '$event->title' has been archived");
