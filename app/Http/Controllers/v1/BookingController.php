@@ -117,6 +117,19 @@ class BookingController extends Controller
         return $this->jsonDatabaseError('Unable to reache database - B10');
     }
 
+    function getCalendarDetails (Booking $booking)
+    {
+        if ($result = $booking->with('room')->get()) {
+            foreach ($result as $el) {
+                $el['color'] = $el['room']['color'];
+                $el['title'] = "Client : " . $el['client_id'] . " - Company : " . $el['company_id'];
+            }
+            return $this->jsonSuccess($result);
+        }
+
+        return $this->jsonDatabaseError('Unable to reache database - B10');
+    }
+
 
     /**
      * @OA\GET(
