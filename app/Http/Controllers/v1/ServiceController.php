@@ -233,7 +233,7 @@ class ServiceController extends Controller
     function getById($id)
     {
         $service = Service::find($id);
-        $service->price = PriceLibs::find($service['type'], $service['_id']);
+        $service->prices = PriceLibs::find($service['type'], $service['_id']);
         return $this->jsonById($id, $service);
     }
 
