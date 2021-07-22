@@ -25,8 +25,8 @@ class ServiceUpdateRequest extends FormRequest
             'key' => 'string',
             'state' => 'boolean',
             'prices.startDate' => 'date',
-            'prices.amounts' => 'required',
-            'prices.amounts.public' => 'required|numeric',
+            'prices.amounts' => 'required_if:prices,true',
+            'prices.amounts.public' => 'required_if:prices,true|numeric',
             'prices.amounts.member' => 'numeric',
             'prices.amounts.co' => 'numeric'
             //variation?

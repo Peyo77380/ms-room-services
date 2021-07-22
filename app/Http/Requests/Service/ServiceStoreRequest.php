@@ -24,6 +24,7 @@ class ServiceStoreRequest extends FormRequest
             // TODO : required?
             'key' => 'required|string',
             'state' => 'required|boolean',
+            'prices' => 'required',
             'prices.startDate' => 'date',
             'prices.amounts' => 'required',
             'prices.amounts.public' => 'required|numeric',
