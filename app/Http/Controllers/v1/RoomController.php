@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Room\RoomStoreRequest;
 use App\Http\Requests\Room\RoomUpdateRequest;
 use App\Libs\BookingLib;
+use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -381,9 +382,10 @@ class RoomController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
-    public function findAvailableRoom ()
+    // TODO : créer un RoomFindRequest pour la validation?
+    public function findAvailableRoom (Request $request)
     {
-        $availableRooms = BookingLib::findFreeRoom("2021-07-13T13:00:00", "2021-07-14T20:00:00", 0, 2);
+        $availableRooms = BookingLib::findFreeRoom("2021-07-13T13:00:00", "2021-07-14T20:00:00", null, 5);
         if(!$availableRooms) {
             return $this->jsonError('Could not update this item - Code R31', 502);
         }
