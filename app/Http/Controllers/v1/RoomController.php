@@ -385,7 +385,12 @@ class RoomController extends Controller
     // TODO : créer un RoomFindRequest pour la validation?
     public function findAvailableRoom (Request $request)
     {
-        $availableRooms = BookingLib::findFreeRoom("2021-07-13T13:00:00", "2021-07-14T20:00:00", null, 5);
+        $availableRooms = BookingLib::findFreeRoom(
+            $request->input('start'),
+            $request->input('end'),
+            $request->input('minCapacity'),
+            $request->input('maxCapacity')
+        );
         if(!$availableRooms) {
             return $this->jsonError('Could not update this item - Code R31', 502);
         }
