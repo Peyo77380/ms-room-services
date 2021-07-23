@@ -4,10 +4,15 @@ namespace App\Libs;
 
 use App\Models\Booking;
 use App\Models\Room;
-use Mockery\Undefined;
 
 class BookingLib
 {
+
+    static public function makeBooking ()
+    {
+            
+    }
+
     static public function findFreeRoom ($startDate, $endDate, $minCapacity = null, $maxCapacity = null)
     {
         $bookedRooms = Self::__findBookedRoomsBetweenDates($startDate, $endDate);

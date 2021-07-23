@@ -15,7 +15,6 @@ use App\Models\Room;
 class BookingController extends Controller
 {
     use ApiResponder;
-    private $posts;
 
     /**
      * @OA\Schema(
