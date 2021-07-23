@@ -442,7 +442,8 @@ class ServiceController extends Controller
     public function update($id, ServiceUpdateRequest $request)
     {
         $service = Service::find($id);
-        $service->update($request->all());
+        // type & category_id are fixed and cannot be change
+        $service->update($request->except(['category_id', 'type']));
 
         if ($request->prices) {
             $service->prices = PriceLibs::replace(1, $id, $request->prices);
