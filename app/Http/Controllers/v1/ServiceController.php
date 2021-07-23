@@ -9,8 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
-use App\Http\Requests\Services\ServicesStoreRequest;
-use App\Http\Requests\Services\ServicesUpdateRequest;
+use App\Http\Requests\Service\ServiceStoreRequest;
+use App\Http\Requests\Service\ServiceUpdateRequest;
+use App\Libs\PriceLibs;
 
 class ServiceController extends Controller
 {
@@ -19,8 +20,8 @@ class ServiceController extends Controller
     /**
      * @OA\GET(
      *      path="/api/v1/service",
-     *      summary="Returns all the services in list.",
-     *      description="Returns all the services saved in database in list.",
+     *      summary="Returns all the active services in list.",
+     *      description="Returns all the active services saved in database in list.",
      *      operationId="get services",
      *      tags={"service"},
      *      @OA\Response(
@@ -81,7 +82,85 @@ class ServiceController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Service::get());
+        $services = Service::whereNull('archived_at')->get();
+
+        foreach($services as $el) {
+            $el->prices = PriceLibs::find($el['type'], $el['_id']);
+        }
+        return $this->jsonSuccess($services);
+    }
+
+    /**
+     * @OA\GET(
+     *      path="/api/v1/service",
+     *      summary="Returns archived the services in list.",
+     *      description="Returns all the archived services saved in database in list.",
+     *      operationId="get services",
+     *      tags={"service"},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the services",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="datas",
+     *                  type="array",
+     *                  @OA\Items(),
+     *                  ref="#/components/schemas/Service"
+     *               )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      )
+     *  )
+     */
+    function getArchived()
+    {
+        $services = Service::whereNotNull('archived_at')->get();
+
+        foreach($services as $el) {
+            $el->prices = PriceLibs::find($el['type'], $el['_id']);
+        }
+        return $this->jsonSuccess($services);
     }
 
 
@@ -153,13 +232,15 @@ class ServiceController extends Controller
      */
     function getById($id)
     {
-        return $this->jsonById($id, Service::find($id));
+        $service = Service::find($id);
+        $service->prices = PriceLibs::find($service['type'], $service['_id']);
+        return $this->jsonById($id, $service);
     }
 
     /**
      * @OA\Delete(
      *      path="/api/v1/service/{id}",
-     *      summary="Delete service from Delete method based on ID",
+     *      summary="Delete (archive) service from Delete method based on ID",
      *      description="Delete the targeted service from form in database, using delete method",
      *      operationId="Delete service",
      *      tags={"service"},
@@ -240,7 +321,9 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Service::destroy($id), 204);
+        $service = Service::find($id);
+        $archived = $service->update(["archived_at" => date_format(now(), 'c')]);
+        return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
     }
 
 
@@ -286,10 +369,12 @@ class ServiceController extends Controller
      *      )
      * )
      */
-    public function add(ServicesStoreRequest $request)
+    public function add(ServiceStoreRequest $request)
     {
-        $services = new Service($request->all());
-        $services->save();
+        $service = Service::create($request->all());
+        $service->prices = PriceLibs::set($service->type, $service->_id, $request->prices);
+
+        return $this->jsonSuccess('created',$service, 201);;
     }
 
 
@@ -354,10 +439,15 @@ class ServiceController extends Controller
      *      )
      * )
      */
-    public function update($id, ServicesStoreRequest $request)
+    public function update($id, ServiceUpdateRequest $request)
     {
-        $services = Service::find($id);
-        $services->fill($request->all());
-        $services->save();
+        $service = Service::find($id);
+        $service->update($request->all());
+
+        if ($request->prices) {
+            $service->prices = PriceLibs::replace(1, $id, $request->prices);
+        }
+
+        return $this->jsonSuccess('updated',$service, 200);;
     }
 }
