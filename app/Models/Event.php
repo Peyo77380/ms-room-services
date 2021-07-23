@@ -17,13 +17,20 @@ class Event extends Model
         'description',
         'capacityMin',
         'capacityMax',
-        'price',
-        'availability',
+        'display',
         'startDate',
         'endDate',
-        'status'
-        // TODO :
-        // type: possible de réserver si membre ou public
-        // TODO : voir si ajouter booking ?
+        'status',
+        'booking_id'
     ];
+
+    public function bookings ()
+    {
+        return $this->hasOne(Room::class);
+    }
+
+    public function prices ()
+    {
+        return $this->hasMany(Price::class);
+    }
 }

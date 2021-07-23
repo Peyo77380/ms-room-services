@@ -34,7 +34,12 @@ class Price extends Model
 
     public function room ()
     {
-        return $this->hasOne(Room::class);
+        return $this->belongsTo(Room::class);
+    }
+
+    public function event ()
+    {
+        return $this->belongsTo(Event::class);
     }
 
 }

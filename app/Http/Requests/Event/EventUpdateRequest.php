@@ -15,16 +15,19 @@ class EventUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
-            'photo' => 'required',
-            'description' => 'required|string',
-            'capacityMin' => 'required|int',
-            'capacityMax' => 'int|int',
-            'price' => 'required|int',
-            'rezervedMembers' => 'required|boolean',
-            'date' => 'required|date_format:d-m-Y H:i',
-            'statute' => 'required|int'
-
+            'name' => 'string',
+            'description' => 'string',
+            'capacityMin' => 'int',
+            'capacityMax' => 'int',
+            'prices.startDate' => 'date',
+            'prices.amounts' => 'required',
+            'prices.amounts.public' => 'required|numeric',
+            'prices.amounts.member' => 'numeric',
+            'prices.amounts.co' => 'numeric',
+            'display' => 'string',
+            'startDate' => 'date',
+            'endDate' => 'date',
+            'status' => 'boolean'
         ];
     }
 }

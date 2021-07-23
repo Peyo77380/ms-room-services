@@ -15,15 +15,20 @@ class EventStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'name' => 'required|string',
             'description' => 'required|string',
-            'capacityMin' => 'required|int',
-            'capacityMax' => 'int|int',
-            'price' => 'required|int',
-            'rezervedMembers' => 'required|boolean',
-            'date' => 'required|date_format:d-m-Y H:i',
-            'statute' => 'required|int'
-
+            'capacityMin' => 'int',
+            'capacityMax' => 'int',
+            'prices' => 'required',
+            'prices.startDate' => 'date',
+            'prices.amounts' => 'required',
+            'prices.amounts.public' => 'required|numeric',
+            'prices.amounts.member' => 'numeric',
+            'prices.amounts.co' => 'numeric',
+            'display' => 'required|string',
+            'startDate' => 'required|date',
+            'endDate' => 'required|date',
+            'status' => 'required|boolean'
         ];
     }
 }

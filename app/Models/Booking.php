@@ -113,4 +113,14 @@ class Booking extends Model
     {
         return $this->belongsTo(Room::class);
     }
+
+    public function price ()
+    {
+        return $this->hasOne(Price::class);
+    }
+
+    public function event ()
+    {
+        return $this->hasOne(Event::class);
+    }
 }
