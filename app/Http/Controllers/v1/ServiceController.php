@@ -449,6 +449,6 @@ class ServiceController extends Controller
             $service->prices = PriceLibs::replace(1, $id, $request->prices);
         }
 
-        return $this->jsonSuccess('updated',$service, 200);;
+        return $this->jsonSuccess('updated',$service, 200);
     }
 }

@@ -2,26 +2,47 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Traits\ApiResponder;
+use App\Models\Event;
 
+use App\Libs\PriceLibs;
+use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
-use App\Models\Event;
 
 
 class EventController extends Controller
 {
     use ApiResponder;
 
+    public $__Price_RelatedEntityType_Nb = 3;
+
     function get()
     {
-        return $this->jsonSuccess(Event::get());
+        $events = Event::whereNull('archived_at')->get();
+
+        foreach($events as $el) {
+            $el->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $el['_id']);
+        }
+        return $this->jsonSuccess($events);
     }
 
-    function getById($id)
+
+    function getArchived()
     {
-        return $this->jsonById($id, Event::find($id));
+        $events = Event::whereNotNull('archived_at')->get();
+
+        foreach($events as $el) {
+            $el->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $el['_id']);
+        }
+        return $this->jsonSuccess($events);
+    }
+
+    public function getById($id)
+    {
+        $event = Event::find($id);
+        $event->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $event['_id']);
+        return $this->jsonById($id, $event);
     }
 
     /**
@@ -29,19 +50,24 @@ class EventController extends Controller
      */
     function store(EventStoreRequest $request)
     {
-        $events = Event::create($request->all());
-        if ($events) {
-            return $this->jsonSuccess($events);
-        }
-        return $this->jsonError('Event already exist', 409);
+        $event = Event::create($request->all());
+        $event->prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->prices);
+
+        return $this->jsonSuccess('created',$event, 201);;
     }
 
     function duplicate ($id)
     {
         $event = Event::find($id);
+
         if (!$event) {
             return $this->jsonError('Nothing at this Id', 404);
         }
+        $event->endDate = null;
+        $event->startDate = null;
+        $event->display = "admin";
+        $event->status = 0;
+
         $duplicate = $event->replicate();
         $saved = $duplicate->save();
 
@@ -58,18 +84,16 @@ class EventController extends Controller
     public function update(EventUpdateRequest $request, $id)
     {
         $event = Event::find($id);
-
         if (!$event) {
             return $this->jsonError('Something is wrong, please check datas - Code B30', 409);
         }
+        $event->update($request->all());
 
-        $updatedEvent = $event->update($request->all());
-
-        if(!$updatedEvent) {
-            return $this->jsonError('Could not update this item - Code R31', 502);
+        if ($request->prices) {
+            $event->prices = PriceLibs::replace($this->__Price_RelatedEntityType_Nb, $id, $request->prices);
         }
 
-        return $this->jsonSuccess($updatedEvent);
+        return $this->jsonSuccess('updated',$event, 200);
 
     }
 
@@ -79,10 +103,13 @@ class EventController extends Controller
     function delete($id)
     {
         $event = Event::find($id);
-        if($event){
-            $event->status=99;
-            return $this->jsonSuccessNoDatas("The event '$event->title' has been archived");
+        if (!$event) {
+            return $this->jsonError('Something is wrong, please check datas - Code B30', 409);
         }
+        if ($archived = $event->update(["archived_at" => date_format(now(), 'c')])) {
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
+        };
+
     }
 
 }

@@ -12,7 +12,7 @@ class PriceLibs {
 
     static function replace ($type, $relatedEntity, $datas)
     {
-        if (Self::__updateOldPrice($type, $relatedEntity, $datas['startDate'] ? $datas['startDate'] : null )) {
+        if (Self::__updateOldPrice($type, $relatedEntity, isset($datas['startDate']) ? $datas['startDate'] : null )) {
             return Self::__setNewPrice($type, $relatedEntity, $datas);
         };
     }
@@ -53,6 +53,8 @@ class PriceLibs {
         if ($oldPrice) {
             return $oldPrice->update(['endDate' => isset($date) ? $date : time()]);
         };
+
+        return true;
     }
 
 

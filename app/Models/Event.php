@@ -21,7 +21,8 @@ class Event extends Model
         'startDate',
         'endDate',
         'status',
-        'booking_id'
+        'booking_id',
+        'archived_at'
     ];
 
     public function bookings ()
