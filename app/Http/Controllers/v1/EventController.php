@@ -17,7 +17,7 @@ class EventController extends Controller
 
     public $__Price_RelatedEntityType_Nb = 3;
 
-    function get()
+    public function get()
     {
         $events = Event::whereNull('archived_at')->get();
 
@@ -28,7 +28,7 @@ class EventController extends Controller
     }
 
 
-    function getArchived()
+    public function getArchived()
     {
         $events = Event::whereNotNull('archived_at')->get();
 
@@ -48,7 +48,7 @@ class EventController extends Controller
     /**
      * create event
      */
-    function store(EventStoreRequest $request)
+    public function store(EventStoreRequest $request)
     {
         $event = Event::create($request->all());
         $event->prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->prices);
@@ -56,7 +56,7 @@ class EventController extends Controller
         return $this->jsonSuccess('created',$event, 201);;
     }
 
-    function duplicate ($id)
+    public function duplicate ($id)
     {
         $event = Event::find($id);
 
@@ -100,7 +100,7 @@ class EventController extends Controller
     /**
      * delete event
      */
-    function delete($id)
+    public function delete($id)
     {
         $event = Event::find($id);
         if (!$event) {
