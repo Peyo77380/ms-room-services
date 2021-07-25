@@ -9,7 +9,8 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
-
+use App\Libs\BookingLib;
+use App\Models\Booking;
 
 class EventController extends Controller
 {
@@ -51,7 +52,26 @@ class EventController extends Controller
     public function store(EventStoreRequest $request)
     {
         $event = Event::create($request->all());
-        $event->prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->prices);
+
+        $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->prices);
+
+        if (isset($prices['error'])) {
+            return $this->jsonError('Could not create the booking', 500);
+        }
+        $event->prices = $prices;
+
+        $booking = BookingLib::makeBooking(
+            $request->input('startDate'),
+            $request->input('endDate'),
+            $request->input('room_id'),
+            $request->input('client_id'),
+            $request->input('company_id')
+        );
+
+        if (isset($booking['error'])) {
+            return $this->jsonError('Could not create the booking', 500);
+        }
+        $event->booking = $booking;
 
         return $this->jsonSuccess('created',$event, 201);;
     }
@@ -90,7 +110,11 @@ class EventController extends Controller
         $event->update($request->all());
 
         if ($request->prices) {
-            $event->prices = PriceLibs::replace($this->__Price_RelatedEntityType_Nb, $id, $request->prices);
+            $event->prices = PriceLibs::replace(
+                $this->__Price_RelatedEntityType_Nb,
+                $id,
+                $request->prices
+            );
         }
 
         return $this->jsonSuccess('updated',$event, 200);

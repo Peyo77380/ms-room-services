@@ -12,14 +12,24 @@ class PriceLibs {
 
     static function replace ($type, $relatedEntity, $datas)
     {
-        if (Self::__updateOldPrice($type, $relatedEntity, isset($datas['startDate']) ? $datas['startDate'] : null )) {
+        if (Self::__updateOldPrice(
+            $type,
+            $relatedEntity,
+            isset($datas['startDate']) ? $datas['startDate'] : null
+            ))
+            {
             return Self::__setNewPrice($type, $relatedEntity, $datas);
         };
+
+        return ['error' => true];
+
     }
 
     static function find ($type, $relatedEntity)
     {
-        return Price::where('relatedEntityType', '=', $type)->where('relatedEntityId', '=', $relatedEntity)->get();
+        return Price::where('relatedEntityType', '=', $type)
+            ->where('relatedEntityId', '=', $relatedEntity)
+            ->get();
     }
 
     static private function __setNewPrice ($type, $relatedEntity, $datas)
@@ -38,7 +48,11 @@ class PriceLibs {
 
         $price = Price::create($newPrices);
 
-        return $price->fresh();
+        if($new = $price->fresh()) {
+            return $new;
+        }
+
+        return ['error' => true];
 
     }
 
