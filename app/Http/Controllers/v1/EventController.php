@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
 use App\Libs\BookingLib;
-use App\Models\Booking;
 
 class EventController extends Controller
 {
@@ -24,6 +23,7 @@ class EventController extends Controller
 
         foreach($events as $el) {
             $el->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $el['_id']);
+            $el->booking = BookingLib::findBookingByEventId($el->_id);
         }
         return $this->jsonSuccess($events);
     }
@@ -43,6 +43,9 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         $event->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $event['_id']);
+
+        $event->booking = BookingLib::findBookingByEventId($event->_id);
+
         return $this->jsonById($id, $event);
     }
 
@@ -65,7 +68,8 @@ class EventController extends Controller
             $request->input('endDate'),
             $request->input('room_id'),
             $request->input('client_id'),
-            $request->input('company_id')
+            $request->input('company_id'),
+            $event->_id
         );
 
         if (isset($booking['error'])) {

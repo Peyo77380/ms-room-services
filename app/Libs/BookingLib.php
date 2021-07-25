@@ -7,13 +7,25 @@ use App\Models\Room;
 
 class BookingLib
 {
+    static public function findBookingByEventId ($event_id)
+    {
+        $booking = new Booking();
+
+        return $booking
+            ->where(
+                function ($q) use ($event_id){
+                    $q->where('other.event_id', '=', $event_id);
+                })
+            ->first();
+    }
 
     static public function makeBooking (
         $start,
         $end,
         $room_id,
         $client_id,
-        $company_id
+        $company_id,
+        $event_id
         )
     {
         $booking = new Booking();
@@ -23,10 +35,11 @@ class BookingLib
             'end' => $end,
             'roomd_id' => $room_id,
             'client_id' => $client_id,
-            'company_id' => $company_id
+            'company_id' => $company_id,
+            'other' => ['event_id' => $event_id]
         ]);
 
-        $saved ? $saved : ['error' => true];
+        return $saved ? $saved : ['error' => true];
 
     }
 

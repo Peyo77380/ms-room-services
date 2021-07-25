@@ -34,7 +34,7 @@ class PriceLibs {
 
     static private function __setNewPrice ($type, $relatedEntity, $datas)
     {
-        // $type => 0 : room, 1: products/services
+        // $type => 0 : room, 1: products/services, 3 : booking/room
         $newPrices['relatedEntityId'] = $relatedEntity;
         $newPrices['relatedEntityType'] = $type;
         $newPrices['startDate'] = isset($datas['startDate']) ? $datas['startDate'] : time();

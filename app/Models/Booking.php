@@ -27,7 +27,8 @@ class Booking extends Model
         'company_id',
         'state',
         'start',
-        'end'
+        'end',
+        'other'
     ];
 
    /**
