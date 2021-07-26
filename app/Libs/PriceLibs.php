@@ -46,7 +46,6 @@ class PriceLibs {
             $newPrices['amounts'] = Self::__prepareMainPricesList($datas['amounts']);
         }
 
-
         $price = Price::create($newPrices);
 
         if($new = $price->fresh()) {

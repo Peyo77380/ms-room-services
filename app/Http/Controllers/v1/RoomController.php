@@ -306,17 +306,17 @@ class RoomController extends Controller
         }
 
         if ($request->input('prices')) {
-            $prices = PriceLibs::replace($this->__Price_RelatedEntityType_Nb, $room->_id, $request->prices);
+            $prices = PriceLibs::replace($this->__Price_RelatedEntityType_Nb, $room->_id, $request->input('prices'));
 
             if(isset($prices['error'])) {
                 return $this->jsonError('Could not update this item - Code R31', 502);
             }
 
-            $updatedRoom->prices = $prices;
+            $room->prices = $prices;
         }
 
 
-        return $this->jsonSuccess($updatedRoom);
+        return $this->jsonSuccess($room);
 
     }
 
