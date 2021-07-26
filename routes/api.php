@@ -45,11 +45,11 @@ Route::group([
     Route::post('/service', [ServiceV1::class, 'add']);
     Route::put('/service/{id}', [ServiceV1::class, 'update']);
 
-    Route::get('/price', [PricesV1::class, 'get']);
-    Route::get('/price/{id}', [PricesV1::class, 'getByID']);
-    Route::delete('/price/{id}', [PricesV1::class, 'destroy']);
-    Route::post('/price/add', [PricesV1::class, 'add']);
-    Route::put('/price/{id}', [PricesV1::class, 'update']);
+    // Route::get('/price', [PricesV1::class, 'get']);
+    // Route::get('/price/{id}', [PricesV1::class, 'getByID']);
+    // Route::delete('/price/{id}', [PricesV1::class, 'destroy']);
+    // Route::post('/price/add', [PricesV1::class, 'add']);
+    // Route::put('/price/{id}', [PricesV1::class, 'update']);
 
     Route::prefix('/uploadImage')->group(function () {
         Route::get('/', [UploadImageV1::class, 'get']);
