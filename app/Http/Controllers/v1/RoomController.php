@@ -4,12 +4,13 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Room;
 
+use App\Libs\BookingLib;
 use App\Traits\ApiResponder;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Room\RoomStoreRequest;
+use App\Http\Requests\Room\RoomSearchRequest;
 use App\Http\Requests\Room\RoomUpdateRequest;
-use App\Libs\BookingLib;
-use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
@@ -382,8 +383,7 @@ class RoomController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
-    // TODO : créer un RoomFindRequest pour la validation?
-    public function findAvailableRoom (Request $request)
+    public function findAvailableRoom (RoomSearchRequest $request)
     {
         $availableRooms = BookingLib::findFreeRoom(
             $request->input('start'),
