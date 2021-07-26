@@ -121,7 +121,7 @@ class BookingController extends Controller
     {
         if ($result = $booking->with('room')->get()) {
             foreach ($result as $el) {
-                if (isset($el['color'])) {
+                if (isset($el['room']['color'])) {
                     $el['color'] = $el['room']['color'];
                 }
 
