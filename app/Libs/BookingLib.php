@@ -7,40 +7,101 @@ use App\Models\Room;
 
 class BookingLib
 {
+
+
     static public function findBookingByEventId ($event_id)
     {
         $booking = new Booking();
 
         return $booking
-            ->where(
-                function ($q) use ($event_id){
-                    $q->where('other.event_id', '=', $event_id);
-                })
+        ->where(
+            function ($q) use ($event_id){
+                $q->where('other.event_id', '=', $event_id);
+            })
             ->first();
-    }
+        }
 
     static public function makeBooking (
         $start,
         $end,
         $room_id,
         $client_id,
-        $company_id,
-        $event_id
+        $company_id = null,
+        $event_id = null
         )
-    {
-        $booking = new Booking();
+        {
+            if (Self::__checkForRoomBooking (
+                $room_id,
+                $start,
+                $end
+                )) {
+                    return ['error' => 'A booking already exists for this room at the same time.'];
+                }
 
-        $saved = $booking->create([
-            'start' => $start,
-            'end' => $end,
-            'roomd_id' => $room_id,
-            'client_id' => $client_id,
-            'company_id' => $company_id,
-            'other' => ['event_id' => $event_id]
-        ]);
+                $bookingData = Self::__prepareBookingData(
+                    $start,
+                    $end,
+                    $room_id,
+                    $client_id,
+                    $company_id,
+                    $event_id
+                );
 
-        return $saved ? $saved : ['error' => true];
+                $booking = new Booking();
 
+                $saved = $booking->create($bookingData);
+
+                return $saved ? $saved : ['error' => 'Could not create booking'];
+
+            }
+
+        static private function __checkForRoomBooking ( $room_id, $startDate, $endDate )
+        {
+            $booking = new Booking();
+
+            $alreadyBooked = $booking
+                ->where('room_id', '=', $room_id)
+                ->where(function ($q) use ($startDate, $endDate) {
+                    $q->whereBetween('start', [$startDate, $endDate])
+                        ->orWhereBetween('end', [$startDate, $endDate])
+                        ->orWhere(function ($query) use ($startDate, $endDate){
+                            $query->where('start', '<=', $startDate)
+                                ->where('end', '=>', $endDate);
+                        });
+                })
+                ->count();
+
+            return $alreadyBooked > 0;
+        }
+
+        static private function __prepareBookingData(
+            $start,
+            $end,
+            $room_id,
+            $client_id,
+            $company_id = null,
+            $event_id = null
+
+            )
+            {
+
+            $bookingData = [
+                'start' => $start,
+                'end' => $end,
+                'room_id' => $room_id,
+                'client_id' => $client_id,
+        ];
+
+        if ($company_id)
+        {
+            $bookingData['company_id'] = $company_id;
+        }
+        if ($event_id)
+        {
+            $bookingData['other']['event_id'] = $event_id;
+        }
+
+        return $bookingData;
     }
 
     static public function findFreeRoom (

@@ -73,7 +73,7 @@ class EventController extends Controller
         );
 
         if (isset($booking['error'])) {
-            return $this->jsonError('Could not create the booking', 500);
+            return $this->jsonError($booking['error'], 500);
         }
         $event->booking = $booking;
 

@@ -8,6 +8,7 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\BookingStoreRequest;
 use App\Http\Requests\Booking\BookingUpdateRequest;
+use App\Libs\BookingLib;
 use App\Models\Room;
 
 // TODO :
@@ -246,9 +247,16 @@ class BookingController extends Controller
      */
     public function store(BookingStoreRequest $request)
     {
-        $booking = Booking::create($request->all());
-        if (!$booking) {
-            return $this->jsonError('Something is wrong, please check datas - Code B20', 409);
+        $booking = BookingLib::makeBooking(
+            $request->input('start'),
+            $request->input('end'),
+            $request->input('room_id'),
+            $request->input('client_id'),
+            $request->input('company_id')
+        );
+
+        if (isset($booking['error'])) {
+            return $this->jsonError($booking['error'], 409);
         }
         return $this->jsonSuccess($booking);
     }
