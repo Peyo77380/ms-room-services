@@ -27,82 +27,36 @@ class BookingLib
         $room_id,
         $client_id,
         $company_id = null,
+        $order_id = null,
         $event_id = null
         )
-        {
-            if (Self::__checkForRoomBooking (
-                $room_id,
-                $start,
-                $end
-                )) {
-                    return ['error' => 'A booking already exists for this room at the same time.'];
-                }
-
-                $bookingData = Self::__prepareBookingData(
-                    $start,
-                    $end,
-                    $room_id,
-                    $client_id,
-                    $company_id,
-                    $event_id
-                );
-
-                $booking = new Booking();
-
-                $saved = $booking->create($bookingData);
-
-                return $saved ? $saved : ['error' => 'Could not create booking'];
-
+    {
+        if (Self::__checkForRoomBooking (
+            $room_id,
+            $start,
+            $end
+            )) {
+                return ['error' => 'A booking already exists for this room at the same time.'];
             }
 
-        static private function __checkForRoomBooking ( $room_id, $startDate, $endDate )
-        {
-            $booking = new Booking();
-
-            $alreadyBooked = $booking
-                ->where('room_id', '=', $room_id)
-                ->where(function ($q) use ($startDate, $endDate) {
-                    $q->whereBetween('start', [$startDate, $endDate])
-                        ->orWhereBetween('end', [$startDate, $endDate])
-                        ->orWhere(function ($query) use ($startDate, $endDate){
-                            $query->where('start', '<=', $startDate)
-                                ->where('end', '=>', $endDate);
-                        });
-                })
-                ->count();
-
-            return $alreadyBooked > 0;
-        }
-
-        static private function __prepareBookingData(
+        $bookingData = Self::__prepareBookingData(
             $start,
             $end,
             $room_id,
             $client_id,
-            $company_id = null,
-            $event_id = null
+            $company_id,
+            $order_id,
+            $event_id
+        );
 
-            )
-            {
+        $booking = new Booking();
 
-            $bookingData = [
-                'start' => $start,
-                'end' => $end,
-                'room_id' => $room_id,
-                'client_id' => $client_id,
-        ];
+        $saved = $booking->create($bookingData);
 
-        if ($company_id)
-        {
-            $bookingData['company_id'] = $company_id;
-        }
-        if ($event_id)
-        {
-            $bookingData['other']['event_id'] = $event_id;
-        }
+        return $saved ? $saved : ['error' => 'Could not create booking'];
 
-        return $bookingData;
     }
+
 
     static public function findFreeRoom (
         $startDate,
@@ -122,6 +76,60 @@ class BookingLib
             $maxCapacity
         );
 
+    }
+
+    static private function __checkForRoomBooking ( $room_id, $startDate, $endDate )
+    {
+        $booking = new Booking();
+
+        $alreadyBooked = $booking
+            ->where('room_id', '=', $room_id)
+            ->where(function ($q) use ($startDate, $endDate) {
+                $q->whereBetween('start', [$startDate, $endDate])
+                    ->orWhereBetween('end', [$startDate, $endDate])
+                    ->orWhere(function ($query) use ($startDate, $endDate){
+                        $query->where('start', '<=', $startDate)
+                            ->where('end', '=>', $endDate);
+                    });
+            })
+            ->count();
+
+        return $alreadyBooked > 0;
+    }
+
+    static private function __prepareBookingData(
+        $start,
+        $end,
+        $room_id,
+        $client_id,
+        $company_id = null,
+        $order_id = null,
+        $event_id = null
+
+        )
+    {
+
+        $bookingData = [
+            'start' => $start,
+            'end' => $end,
+            'room_id' => $room_id,
+            'client_id' => $client_id,
+        ];
+
+        if ($company_id)
+        {
+            $bookingData['company_id'] = $company_id;
+        }
+        if ($event_id)
+        {
+            $bookingData['other']['event_id'] = $event_id;
+        }
+        if ($order_id)
+        {
+            $bookingData['order_id'] = $order_id;
+        }
+
+        return $bookingData;
     }
 
     static private function __findBookedRoomsBetweenDates (
