@@ -121,8 +121,19 @@ class BookingController extends Controller
     {
         if ($result = $booking->with('room')->get()) {
             foreach ($result as $el) {
-                $el['color'] = $el['room']['color'];
-                $el['title'] = "Client : " . $el['client_id'] . " - Company : " . $el['company_id'];
+                if (isset($el['color'])) {
+                    $el['color'] = $el['room']['color'];
+                }
+
+                $el['title'] = "Reservation";
+
+                if (isset($el['client_id'])) {
+                    $el['title'] = "Client : " . $el['client_id'];
+                }
+                if (isset($el['company_id'])) {
+
+                    $el['title'] .= " - Company : " . $el['company_id'];
+                }
             }
             return $this->jsonSuccess($result);
         }
