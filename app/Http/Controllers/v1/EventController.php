@@ -4,11 +4,11 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Event;
 
-use App\Libs\PriceLibs;
 use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
+use App\Libs\PriceLibs;
 use App\Libs\BookingLib;
 
 class EventController extends Controller
