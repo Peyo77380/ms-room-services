@@ -9,10 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\BookingStoreRequest;
 use App\Http\Requests\Booking\BookingUpdateRequest;
 use App\Libs\BookingLib;
-use App\Models\Room;
 
-// TODO :
-// Créer méthode qui renvoie la liste des salles disponibles entre x temps et y temps
 class BookingController extends Controller
 {
     use ApiResponder;
