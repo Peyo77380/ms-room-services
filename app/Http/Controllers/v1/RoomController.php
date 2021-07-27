@@ -426,11 +426,12 @@ class RoomController extends Controller
      */
     public function destroy ($id)
     {
-        if (!Room::destroy($id)) {
-            return $this->jsonError('Nothing found at this ID - Code R40', 404);
+        if ($room = Room::find($id)) {
+            $archived = $room->update(["archived_at" => date_format(now(), 'c')]);
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
         }
+        return $this->jsonError('Nothing found at this ID - Code R40', 404);
 
-        return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
     public function findAvailableRoom (RoomSearchRequest $request)

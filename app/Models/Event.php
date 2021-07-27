@@ -13,6 +13,7 @@ class Event extends Model
      */
     protected $fillable = [
         'name',
+        'category_id',
         'images',
         'description',
         'capacityMin',
@@ -21,6 +22,7 @@ class Event extends Model
         'startDate',
         'endDate',
         'status',
+        'availability',
         'booking_id',
         'archived_at'
     ];
@@ -35,6 +37,28 @@ class Event extends Model
      *
      */
     protected $_id;
+
+    /**
+     *@OA\Property(
+     *          title="category_id",
+     *          description="Category, fetched from MS Custom Fields",
+     *          type="ObjectId",
+     *          example="60b794304e00fd5950e78718"
+     *          )
+     *
+     */
+    protected $category_id;
+
+    /**
+     *@OA\Property(
+     *          title="availability",
+     *          description="Set the availability (private, members, public)",
+     *          type="ObjectId",
+     *          example="60b794304e00fd5950e78718"
+     *          )
+     *
+     */
+    protected $availability;
 
     /**
      *@OA\Property(

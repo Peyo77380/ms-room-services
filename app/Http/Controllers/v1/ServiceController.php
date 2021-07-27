@@ -319,9 +319,11 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        $service = Service::find($id);
-        $archived = $service->update(["archived_at" => date_format(now(), 'c')]);
-        return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
+        if ($service = Service::find($id)) {
+            $archived = $service->update(["archived_at" => date_format(now(), 'c')]);
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
+        }
+        return $this->jsonError('Nothing found at this ID - Code R40', 404);
     }
 
 

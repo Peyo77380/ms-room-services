@@ -34,7 +34,8 @@ class Room extends Model
         'enabled',
         'services',
         'type',
-        'images'
+        'images',
+        'archived_at'
     ];
 
 
@@ -167,6 +168,17 @@ class Room extends Model
      *          )
      */
     protected $type;
+
+
+    /**
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at;
 
     public function building()
     {
