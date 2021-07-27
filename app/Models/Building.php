@@ -56,6 +56,16 @@ class Building extends Model
 
     /**
      *@OA\Property(
+     *          title="name",
+     *          description="name",
+     *          type="string",
+     *          example="Batiment"
+     *          )
+     */
+    protected $name;
+
+    /**
+     *@OA\Property(
      *          title="surface",
      *          description="surface of location",
      *          type="integer",

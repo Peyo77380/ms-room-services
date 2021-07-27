@@ -23,6 +23,16 @@ class Image extends Model
         'path',
         'title'
     ];
+
+    /**
+     *@OA\Property(
+     *          title="_id",
+     *          description="_id of the entity",
+     *          type="ObjectId",
+     *          example="60b794304e00fd5950e78718"
+     *          )
+     *
+     */
     protected $_id;
 
     public function building()

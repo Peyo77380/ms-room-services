@@ -17,8 +17,6 @@ class Service extends Model
 {
     /**
      * The attributes that are mass assignable.
-     *
-     * @var array
      */
     protected $fillable = [
         'name',
@@ -31,7 +29,6 @@ class Service extends Model
         'images',
         'key',
         'state', // Activated or not,
-        'content', // TODO : A quoi ça correspond?
         'variation'
     ];
 
@@ -39,9 +36,9 @@ class Service extends Model
     /**
      *@OA\Property(
      *          title="images",
-     *          description="images of the building",
-     *          type="array",
-     *          @OA\Items({})
+     *          description="image of the building",
+     *          type="ObjectId",
+     *          example="60b794304e00fd5950e78718"
      *          )
      */
     protected $images;
@@ -56,6 +53,17 @@ class Service extends Model
      *
      */
     protected $_id;
+
+    /**
+     *@OA\Property(
+     *          title="key",
+     *          description="ey of the entity",
+     *          type="String",
+     *          example="DRINK_COFFEE"
+     *          )
+     *
+     */
+    protected $key;
 
     /**
      *@OA\Property(
@@ -144,7 +152,7 @@ class Service extends Model
     *          title="variation",
     *          description="Different variations of a product",
     *          type="array",
-    *          example="TRUE"
+    *          @OA\Items({})
     *          )
     */
     protected $variation;

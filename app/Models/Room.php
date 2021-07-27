@@ -25,7 +25,7 @@ class Room extends Model
     protected $fillable = [
         'name',
         'description',
-        'buildingId', // TODO : foreign key
+        'buildingId',
         'floorId',
         'surface',
         'rules',
@@ -41,9 +41,9 @@ class Room extends Model
     /**
      *@OA\Property(
      *          title="images",
-     *          description="images of the building",
-     *          type="array",
-     *          @OA\Items({})
+     *          description="image of the room",
+     *          type="ObjectId",
+     *          example="60b794304e00fd5950e78718"
      *          )
      */
     protected $images;
@@ -58,6 +58,7 @@ class Room extends Model
      *          )
      */
     protected $_id;
+
     /**
      *@OA\Property(
      *          title="name",
@@ -113,7 +114,7 @@ class Room extends Model
      *          title="rules",
      *          description="Billing, rental, and miscellanious rules applied to the entity",
      *          type="integer",
-     *          example="100"
+     *          example="{public: true}"
      *          )
      */
     protected $rules;
