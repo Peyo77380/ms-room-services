@@ -28,12 +28,23 @@ class Service extends Model
         'descriptionLong',
         'descriptionShort',
         'archived_at',
-        // TODO : image_id
+        'images',
         'key',
         'state', // Activated or not,
         'content', // TODO : A quoi ça correspond?
         'variation'
     ];
+
+
+    /**
+     *@OA\Property(
+     *          title="images",
+     *          description="images of the building",
+     *          type="array",
+     *          @OA\Items({})
+     *          )
+     */
+    protected $images;
 
     /**
      *@OA\Property(

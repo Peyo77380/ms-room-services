@@ -263,8 +263,9 @@ class BuildingController extends Controller
      */
     public function destroy($id)
     {
-        if (Building::destroy($id)) {
-            return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Building::destroy($id), 204);
+        if ($building = Building::find($id)) {
+            $archived = $building->update(["archived_at" => date_format(now(), 'c')]);
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived', $archived, 204);
         }
 
         return $this->jsonError('Cannot delete building', 409);

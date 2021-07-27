@@ -34,7 +34,7 @@ class Room extends Model
         'enabled',
         'services',
         'type',
-        'image'
+        'images'
     ];
 
 

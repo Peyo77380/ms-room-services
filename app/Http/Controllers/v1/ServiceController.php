@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Traits\ApiResponder;
+use App\Libs\ImageLib;
 
-use App\Http\Controllers\Controller;
+use App\Libs\PriceLibs;
 
 use App\Models\Service;
+use App\Traits\ApiResponder;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Service\ServiceStoreRequest;
 use App\Http\Requests\Service\ServiceUpdateRequest;
-use App\Libs\PriceLibs;
 
 class ServiceController extends Controller
 {
@@ -369,10 +370,26 @@ class ServiceController extends Controller
      */
     public function add(ServiceStoreRequest $request)
     {
-        $service = Service::create($request->all());
+        $service = new Service($request->all());
+
+        if ($request->file()) {
+            $image = new ImageLib();
+            $savedImage = $image->saveImage($request);
+
+            if (!$savedImage) {
+                return $this->jsonError('Could not save image', 409);
+            }
+            $service->images = $savedImage->_id;
+        }
+
         $service->prices = PriceLibs::set($service->type, $service->_id, $request->prices);
 
-        return $this->jsonSuccess('created',$service, 201);;
+
+        if ($service->save()) {
+            return $this->jsonSuccess($service, 'Created', 201);
+        }
+
+        return $this->jsonError('Could not create. Check datas again', 409);
     }
 
 
@@ -440,13 +457,28 @@ class ServiceController extends Controller
     public function update($id, ServiceUpdateRequest $request)
     {
         $service = Service::find($id);
-        // type & category_id are fixed and cannot be change
-        $service->update($request->except(['category_id', 'type']));
 
-        if ($request->prices) {
-            $service->prices = PriceLibs::replace(1, $id, $request->prices);
+        if (!$service) {
+            return $this->jsonError('Nothing found at id ' . $id . '.', 404);
+        }
+        // type & category_id are fixed and cannot be change
+        $service->fill($request->except(['category_id', 'type']));
+
+        if ($request->file()['file']) {
+            $image = new ImageLib();
+            $savedImage = $image->saveImage($request);
+
+            if (!$savedImage) {
+                return $this->jsonError('Could not save image', 409);
+            }
+
+            $service->images = $savedImage->_id;
         }
 
-        return $this->jsonSuccess('updated',$service, 200);
+        if ($service->save()) {
+            return $this->jsonSuccess($service, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
+
     }
 }
