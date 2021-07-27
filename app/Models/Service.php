@@ -11,7 +11,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
  *      @OA\Xml(
  *           name="Service"
  *          )
- *
  * ),
  */
 class Service extends Model
@@ -23,17 +22,17 @@ class Service extends Model
      */
     protected $fillable = [
         'name',
-        'variation',
-        'type', // 0 = produit, 1 = service
-        'category', // experiences, adhésion... => fetch from custom fields
-        'longDescription',
-        'shortDescription',
-        'content',
-        'prices', // collection of prices
-        'state', // true : activated, false: disactivated
-        'quantity', // TODO : créer nouvelle table?
-        'memberDiscountAvailable' // TODO : validé avec la colloc?
-        // TODO : image?
+        'type', // 1 = product, 2 = service
+        'category_id', // Category Id from ms-customFields
+        'display', // Display privilege to the role (and under) (eg : admin, member, shop) => default value by front : admin
+        'descriptionLong',
+        'descriptionShort',
+        'archived_at',
+        // TODO : image_id
+        'key',
+        'state', // Activated or not,
+        'content', // TODO : A quoi ça correspond?
+        // TODO : A voir avec Flo : 'variation'
     ];
 
     /**
@@ -71,66 +70,90 @@ class Service extends Model
 
     /**
      *@OA\Property(
-     *          title="description",
-     *          description="Description",
+     *          title="category_id",
+     *          description="Category Id from ms-customFields",
      *          type="string",
-     *          example="Café expresso de notre cafétaria"
+     *          example="Food"
      *          )
      */
-    protected $description;
+    protected $category_id;
 
     /**
      *@OA\Property(
-     *          title="price",
-     *          description="Price",
-     *          type="ObjectId",
-     *          example="60b8d5d74e00fd5950e78719"
+     *          title="display",
+     *          description="Allow displaying depending on user role",
+     *          type="string",
+     *          example="member"
      *          )
      */
-    protected $price;
+    protected $display;
 
     /**
      *@OA\Property(
-     *          title="Availability start date",
-     *          description="Availability start date",
-     *          type="date",
-     *          example="2021-06-10 00H00"
+     *          title="descriptionLong",
+     *          description="Long description of the service or product",
+     *          type="string",
+     *          example="This is a really long description of our perfect product"
      *          )
      */
-    protected $startDate;
+    protected $descriptionLong;
 
     /**
-     *@OA\Property(
-     *          title="Availability end date",
-     *          description="Availability end date",
-     *          type="date",
-     *          example="2021-06-11 00H00"
-     *          )
-     */
-    protected $endDate;
+    *@OA\Property(
+    *          title="descriptionShort",
+    *          description="Short description of the service or product",
+    *          type="string",
+    *          example="Short description of our product"
+    *          )
+    */
+    protected $descriptionShort;
 
     /**
-     *@OA\Property(
-     *          title="Member availability available",
-     *          description="Member availability available",
-     *          type="boolean",
-     *          example="true"
-     *          )
-     */
-    protected $memberDiscountAvailable;
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at;
 
+    /**
+    *@OA\Property(
+    *          title="key",
+    *          description="Key of the product",
+    *          type="string",
+    *          example="CAFE_PETIT"
+    *          )
+    */
+    protected $key;
+
+    /**
+    *@OA\Property(
+    *          title="state",
+    *          description="Activate the product for users or not",
+    *          type="boolean",
+    *          example="TRUE"
+    *          )
+    */
+    protected $state;
+
+
+    protected $content; // TODO : A quoi ça correspond?
 
     public function orders()
     {
         return $this->belongsToMany(Order::class);
     }
-    /* public function bookings()
-    {
-        return $this->belongsToMany(Booking::class);
-    } */
+
     public function room()
     {
         return $this->belongsToMany(Room::class);
+    }
+
+    public function prices()
+    {
+        return $this->hasMany(Price::class);
     }
 
 }
