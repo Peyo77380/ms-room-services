@@ -21,7 +21,6 @@ class RoomStoreRequest extends FormRequest
             // TODO: voir avec Florian : comment identifier Floor?
             //'floorId' => 'required',
             'surface' => 'integer|min:1',
-            'rules' => 'required|array',
             'rules.maxCapacity' => 'integer',
             'rules.minRental.unit' => 'string|size:1',
             'rules.minRental.value' => 'integer',
@@ -33,7 +32,14 @@ class RoomStoreRequest extends FormRequest
             'openingHours.*.end' => 'int',
             'enabled' => 'required|boolean',
             'services' => 'boolean',
-            'type' => 'string'
+            'type' => 'string',
+            'prices' => 'required',
+            'prices.amounts.hourly' => 'required',
+            'prices.amounts.daily' => 'required',
+            'prices.amounts.halfDaily' => 'required',
+            'prices.amounts' => 'required',
+            'prices.amounts.*.public' => 'required|numeric|gt:0',
+            'prices.startDate' => 'date'
         ];
     }
 }

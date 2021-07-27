@@ -33,7 +33,13 @@ class RoomUpdateRequest extends FormRequest
             'openingHours.*.end' => 'int',
             'enabled' => 'boolean',
             'services' => 'boolean',
-            'type' => 'string'
+            'type' => 'string',
+            'prices.amounts.hourly' => 'required',
+            'prices.amounts.daily' => 'required',
+            'prices.amounts.halfDaily' => 'required',
+            'prices.amounts' => 'required',
+            'prices.amounts.*.public' => 'required|numeric|gt:0',
+            'prices.startDate' => 'date'
         ];
     }
 }

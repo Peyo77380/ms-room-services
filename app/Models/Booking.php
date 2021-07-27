@@ -27,7 +27,8 @@ class Booking extends Model
         'company_id',
         'state',
         'start',
-        'end'
+        'end',
+        'other'
     ];
 
    /**
@@ -112,5 +113,15 @@ class Booking extends Model
     public function room()
     {
         return $this->belongsTo(Room::class);
+    }
+
+    public function price ()
+    {
+        return $this->hasOne(Price::class);
+    }
+
+    public function event ()
+    {
+        return $this->hasOne(Event::class);
     }
 }

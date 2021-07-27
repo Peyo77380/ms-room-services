@@ -32,7 +32,7 @@ class Service extends Model
         'key',
         'state', // Activated or not,
         'content', // TODO : A quoi ça correspond?
-        // TODO : A voir avec Flo : 'variation'
+        'variation'
     ];
 
     /**
@@ -120,16 +120,6 @@ class Service extends Model
 
     /**
     *@OA\Property(
-    *          title="key",
-    *          description="Key of the product",
-    *          type="string",
-    *          example="CAFE_PETIT"
-    *          )
-    */
-    protected $key;
-
-    /**
-    *@OA\Property(
     *          title="state",
     *          description="Activate the product for users or not",
     *          type="boolean",
@@ -138,8 +128,15 @@ class Service extends Model
     */
     protected $state;
 
-
-    protected $content; // TODO : A quoi ça correspond?
+    /**
+    *@OA\Property(
+    *          title="variation",
+    *          description="Different variations of a product",
+    *          type="array",
+    *          example="TRUE"
+    *          )
+    */
+    protected $variation;
 
     public function orders()
     {

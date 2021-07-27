@@ -11,7 +11,7 @@ use App\Http\Controllers\v1\PriceController as PricesV1;
 use App\Http\Controllers\v1\BookingController as BookingV1;
 use App\Http\Controllers\v1\OrderController as OrderV1;
 use App\Http\Controllers\v1\RoomController as RoomV1;
-use App\Http\Controllers\v1\SearchController as SearchV1;
+use App\Http\Controllers\v1\EventController as EventV1;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,11 +45,11 @@ Route::group([
     Route::post('/service', [ServiceV1::class, 'add']);
     Route::put('/service/{id}', [ServiceV1::class, 'update']);
 
-    Route::get('/price', [PricesV1::class, 'get']);
-    Route::get('/price/{id}', [PricesV1::class, 'getByID']);
-    Route::delete('/price/{id}', [PricesV1::class, 'destroy']);
-    Route::post('/price/add', [PricesV1::class, 'add']);
-    Route::put('/price/{id}', [PricesV1::class, 'update']);
+    // Route::get('/price', [PricesV1::class, 'get']);
+    // Route::get('/price/{id}', [PricesV1::class, 'getByID']);
+    // Route::delete('/price/{id}', [PricesV1::class, 'destroy']);
+    // Route::post('/price/add', [PricesV1::class, 'add']);
+    // Route::put('/price/{id}', [PricesV1::class, 'update']);
 
     Route::prefix('/uploadImage')->group(function () {
         Route::get('/', [UploadImageV1::class, 'get']);
@@ -61,6 +61,7 @@ Route::group([
 
     Route::prefix('/room')->group(function () {
         Route::get('/', [RoomV1::class, 'get']);
+        Route::get('/available', [RoomV1::class, 'findAvailableRoom']);
         Route::get('/{id}', [RoomV1::class, 'getById']);
         Route::post('/', [RoomV1::class, 'store']);
         Route::put('/{id}', [RoomV1::class, 'update']);
@@ -86,13 +87,14 @@ Route::group([
     });
 
 
-    Route::prefix('/events')->group(
+    Route::prefix('/event')->group(
         function () {
-            Route::get('/', [EventsV1::class, 'get']);
-            Route::get('/{id}', [EventsV1::class, 'getById']);
-            Route::post('/', [EventsV1::class, 'store']);
-            Route::put('/{id}', [EventsV1::class, 'update']);
-            Route::delete('/{id}', [EventsV1::class, 'destroy']);
+            Route::get('/', [EventV1::class, 'get']);
+            Route::get('/{id}', [EventV1::class, 'getById']);
+            Route::post('/', [EventV1::class, 'store']);
+            Route::post('/duplicate/{id}', [EventV1::class, 'duplicate']);
+            Route::put('/{id}', [EventV1::class, 'update']);
+            Route::delete('/{id}', [EventV1::class, 'destroy']);
         }
     );
 });

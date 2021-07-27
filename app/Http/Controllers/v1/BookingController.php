@@ -8,14 +8,11 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Booking\BookingStoreRequest;
 use App\Http\Requests\Booking\BookingUpdateRequest;
-use App\Models\Room;
+use App\Libs\BookingLib;
 
-// TODO :
-// Créer méthode qui renvoie la liste des salles disponibles entre x temps et y temps
 class BookingController extends Controller
 {
     use ApiResponder;
-    private $posts;
 
     /**
      * @OA\Schema(
@@ -142,6 +139,7 @@ class BookingController extends Controller
     }
 
 
+
     /**
      * @OA\GET(
      *      path="/api/v1/booking/{id}",
@@ -257,9 +255,16 @@ class BookingController extends Controller
      */
     public function store(BookingStoreRequest $request)
     {
-        $booking = Booking::create($request->all());
-        if (!$booking) {
-            return $this->jsonError('Something is wrong, please check datas - Code B20', 409);
+        $booking = BookingLib::makeBooking(
+            $request->input('start'),
+            $request->input('end'),
+            $request->input('room_id'),
+            $request->input('client_id'),
+            $request->input('company_id')
+        );
+
+        if (isset($booking['error'])) {
+            return $this->jsonError($booking['error'], 409);
         }
         return $this->jsonSuccess($booking);
     }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Service;
+namespace App\Http\Requests\Event;
 
 use App\Http\Requests\FormRequest;
 
-class ServiceStoreRequest extends FormRequest
+class EventStoreRequest extends FormRequest
 {
 
     public function authorize()
@@ -16,19 +16,19 @@ class ServiceStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string',
-            'type' => 'required|numeric|gt:0|lt:3',
-            'display' => 'required|string',
-            'descriptionLong' => 'string',
-            'descriptionShort' => 'string',
-            'state' => 'required|boolean',
+            'description' => 'required|string',
+            'capacityMin' => 'int',
+            'capacityMax' => 'int',
             'prices' => 'required',
             'prices.startDate' => 'date',
             'prices.amounts' => 'required',
             'prices.amounts.public' => 'required|numeric',
             'prices.amounts.member' => 'numeric',
             'prices.amounts.co' => 'numeric',
-            'variation' => 'array'
-            // image_id
+            'display' => 'required|string',
+            'startDate' => 'required|date',
+            'endDate' => 'required|date',
+            'status' => 'required|boolean'
         ];
     }
 }

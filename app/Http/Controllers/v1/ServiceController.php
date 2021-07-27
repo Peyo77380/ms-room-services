@@ -7,8 +7,6 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 
 use App\Models\Service;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\Service\ServiceStoreRequest;
 use App\Http\Requests\Service\ServiceUpdateRequest;
 use App\Libs\PriceLibs;
@@ -442,12 +440,13 @@ class ServiceController extends Controller
     public function update($id, ServiceUpdateRequest $request)
     {
         $service = Service::find($id);
-        $service->update($request->all());
+        // type & category_id are fixed and cannot be change
+        $service->update($request->except(['category_id', 'type']));
 
         if ($request->prices) {
             $service->prices = PriceLibs::replace(1, $id, $request->prices);
         }
 
-        return $this->jsonSuccess('updated',$service, 200);;
+        return $this->jsonSuccess('updated',$service, 200);
     }
 }
