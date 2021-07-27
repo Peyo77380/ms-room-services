@@ -2,30 +2,15 @@
 
 namespace App\Http\Controllers\v1;
 
-use App\Models\Image;
-
+use App\Libs\ImageLib;
 use GuzzleHttp\Client;
-use Illuminate\Support\Str;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Validator;
-
 
 class ImageController extends Controller
 {
     use ApiResponder;
-
-    function __construct ()
-    {
-        $this->client = new Client([
-            'base_uri' => 'http://172.21.0.1:80/api/'
-        ]);
-
-
-    }
 
     /**
      * Return an array of all the images in the database
@@ -34,14 +19,8 @@ class ImageController extends Controller
      */
     function get()
     {
-        $response = $this->client->request('GET', 'image');
-
-        if ($response->getStatusCode() == 200 && $datas = $response->getBody()->getContents()) {
-            return $this->jsonSuccess(json_decode($datas)->datas, 'youpiiiii');
-        }
-
-        return $this->jsonError('nein', 500);
-
+        $img = new ImageLib();
+        return $img->getImages();
     }
 
     /**
@@ -52,29 +31,15 @@ class ImageController extends Controller
      */
     function getById($id)
     {
-        $response = $this->client->request('GET', 'image/'.$id);
-
-        if ($response->getStatusCode() == 200 && $datas = $response->getBody()->getContents()) {
-            return $this->jsonSuccess(json_decode($datas), 'youpiiiii');
-        }
-
-        return $this->jsonError('nein', 500);
+        $img = new ImageLib();
+        return $img->getImageById($id);
     }
 
-    function getFileByFilename($filename)
+
+    function store(Request $request)
     {
-        $imageResult = $this->client->request('GET', 'image/files/'.$filename);
-
-        $image = $imageResult->getBody()->getContents();
-
-        $decodedimage = base64_decode(preg_replace('#^data:image/w+;base64,#i', '', $image));
-
-        $tmpFilePath = 'app/public/img/test.png';
-        file_put_contents($tmpFilePath, $decodedimage);
-
-        return response()->file($tmpFilePath, [$decodedimage]);
-
-
+        $img = new ImageLib();
+        return $img->saveImage($request);
     }
 
     // /**
@@ -108,23 +73,23 @@ class ImageController extends Controller
     // }
 
 
-    /**
-     * Destroy existing item in database by Id
-     *
-     * @param $id
-     * @return void
-     */
-    function destroy($id)
-    {
-        // TODO : en attente de MS-Custom-Fields la route n'est pas encore dispo.
-        $response = $this->client->request('DELETE', 'image/'.$id);
+    // /**
+    //  * Destroy existing item in database by Id
+    //  *
+    //  * @param $id
+    //  * @return void
+    //  */
+    // function destroy($id)
+    // {
+    //     // TODO : en attente de MS-Custom-Fields la route n'est pas encore dispo.
+    //     $response = $this->client->request('DELETE', 'image/'.$id);
 
-        if ($response->getStatusCode() == 204) {
-            return $this->jsonSuccessNoDatas('Successfully deleted');
-        }
+    //     if ($response->getStatusCode() == 204) {
+    //         return $this->jsonSuccessNoDatas('Successfully deleted');
+    //     }
 
-        return $this->jsonError('nein', 500);
-    }
+    //     return $this->jsonError('nein', 500);
+    // }
 
 }
 
