@@ -28,7 +28,8 @@ class Booking extends Model
         'state',
         'start',
         'end',
-        'other'
+        'other',
+        'archived_at'
     ];
 
    /**
@@ -41,6 +42,16 @@ class Booking extends Model
      *
      */
     protected $_id;
+
+    /**
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at;
 
     /**
      *

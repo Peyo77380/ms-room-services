@@ -99,7 +99,7 @@ class BuildingController extends Controller
      */
     function get()
     {
-        if ($buildings = Building::get()) {
+        if ($buildings = Building::whereNull('archived_at')->get()) {
             return $this->jsonSuccess($buildings);
         }
         return $this->jsonError('Not found.', 404);

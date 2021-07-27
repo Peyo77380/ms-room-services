@@ -31,7 +31,8 @@ class Building extends Model
         'characterics',
         'state',
         'enabled',
-        'floors'
+        'floors',
+        'archived_at'
     ];
 
     /**
@@ -43,6 +44,16 @@ class Building extends Model
      *          )
      */
     protected $_id;
+
+     /**
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at;
 
     /**
      *@OA\Property(
