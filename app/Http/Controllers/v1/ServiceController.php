@@ -410,7 +410,7 @@ class ServiceController extends Controller
      *          )
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Succesfully updated",
      *          @OA\JsonContent(
      *              @OA\Property(
