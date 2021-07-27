@@ -15,17 +15,15 @@ class BookingStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'roomId' => 'required|exists:App\Models\Room,_id',
+            'room_id' => 'required|exists:App\Models\Room,_id',
             // TODO : a vérifier au moment où client ID sera accessible (cf MS-CRM)
-            'clientId' => 'required|int',
+            'client_id' => 'required|int',
             // TODO : a vérifier au moment où company ID sera accessible (cf MS-CRM)
-            'companyId' => 'required|int',
+            'company_id' => 'int',
             'state' => 'int|between:0,5',
-            'start' => 'required|date_format:d-m-Y H:i',
-            'end' => 'required|date_format:d-m-Y H:i',
-            'services.*.id' => 'required|exists:App\Models\Service,_id',
-            'services.*.qty' => 'required|int|min:1'
-
+            'start' => 'required|date_format:"Y-m-d\TH:i:s"',
+            'end' => 'required|date_format:"Y-m-d\TH:i:s"'
+            // si besoin du format avec fuseau horaire : Y-m-d\TH:i:sP
         ];
     }
 }

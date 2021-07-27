@@ -8,27 +8,38 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class Price extends Model
 {
-    use HasFactory;
+
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
+     * @OA\Schema(
+     *      title="Service",
+     *      description="Service Model",
+     *      @OA\Xml(
+     *           name="Service"
+     *          )
+     * ),
      */
     protected $fillable = [
-        'hourlyRate',
-        'halfDailyRate',
-        'dailyRate',
         'startDate',
         'endDate',
-        'memberDiscountAvailbable'
+        'amounts',
+        'relatedEntityId',
+        'relatedEntityType' //0: room, 1: service/product
     ];
-    public function booking()
+
+    public function service()
     {
-        return $this->hasOne(Booking::class);
+        return $this->belongsTo(Service::class);
     }
-    public function order()
+
+    public function room ()
     {
-        return $this->hasOne(Booking::class);
+        return $this->belongsTo(Room::class);
     }
+
+    public function event ()
+    {
+        return $this->belongsTo(Event::class);
+    }
+
 }

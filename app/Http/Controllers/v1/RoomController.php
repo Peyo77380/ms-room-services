@@ -4,16 +4,19 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Room;
 
+use App\Libs\PriceLibs;
+use App\Libs\BookingLib;
 use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Room\RoomStoreRequest;
+use App\Http\Requests\Room\RoomSearchRequest;
 use App\Http\Requests\Room\RoomUpdateRequest;
-
 
 class RoomController extends Controller
 {
     use ApiResponder;
-    private $posts;
+
+    public $__Price_RelatedEntityType_Nb = 0;
 
     /**
      * @OA\GET(
@@ -80,7 +83,11 @@ class RoomController extends Controller
      */
     function get()
     {
-        if ($room = Room::get()) {
+        $room = Room::get();
+        if ($room) {
+            foreach ($room as $r) {
+                $r->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $r->_id);
+            }
             return $this->jsonSuccess($room);
         }
 
@@ -155,7 +162,11 @@ class RoomController extends Controller
      */
     function getById($id)
     {
-        return $this->jsonById($id, Room::find($id));
+        $room = Room::find($id);
+
+        $room->prices = PriceLibs::find($this->__Price_RelatedEntityType_Nb, $room->_id);
+
+        return $this->jsonById($id, $room);
     }
 
 
@@ -207,6 +218,14 @@ class RoomController extends Controller
         if (!$room) {
             return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
         }
+
+        $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $room->_id, $request->prices);
+
+        if (isset($prices['error'])) {
+            return $this->jsonError('Could not create the booking', 500);
+        }
+        $room->prices = $prices;
+
         return $this->jsonSuccess($room);
 
     }
@@ -286,7 +305,18 @@ class RoomController extends Controller
             return $this->jsonError('Could not update this item - Code R31', 502);
         }
 
-        return $this->jsonSuccess($updatedRoom);
+        if ($request->input('prices')) {
+            $prices = PriceLibs::replace($this->__Price_RelatedEntityType_Nb, $room->_id, $request->input('prices'));
+
+            if(isset($prices['error'])) {
+                return $this->jsonError('Could not update this item - Code R31', 502);
+            }
+
+            $room->prices = $prices;
+        }
+
+
+        return $this->jsonSuccess($room);
 
     }
 
@@ -381,6 +411,19 @@ class RoomController extends Controller
         return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
+    public function findAvailableRoom (RoomSearchRequest $request)
+    {
+        $availableRooms = BookingLib::findFreeRoom(
+            $request->input('start'),
+            $request->input('end'),
+            $request->input('minCapacity'),
+            $request->input('maxCapacity')
+        );
+        if(!$availableRooms) {
+            return $this->jsonError('Could not update this item - Code R31', 502);
+        }
 
+        return $this->jsonSuccess($availableRooms);
+    }
 }
 

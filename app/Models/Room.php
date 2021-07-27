@@ -168,20 +168,4 @@ class Room extends Model
         return $this->hasMany(Services::class);
     }
 
-
-    // TODO : adapt select cf FRONT
-    public static function searchByName($name)
-    {
-        return self::where('name', 'LIKE', '%' . $name . '%')->get();
-    }
-
-    public static function searchAll()
-    {
-        return "coucou";
-    }
-
-    public static function search($fields)
-    {
-        return self::where($fields)->get();
-    }
 }
