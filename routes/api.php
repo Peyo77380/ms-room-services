@@ -75,17 +75,9 @@ Route::group([
     });
 
     Route::prefix('/booking')->group(function () {
-        Route::get('/test', [BookingV1::class, 'getWithDetails']);
-        Route::get('/', [BookingV1::class, 'get']);
-        Route::get('/{id}', [BookingV1::class, 'getById']);
-        Route::post('/', [BookingV1::class, 'store']);
-        Route::put('/{id}', [BookingV1::class, 'update']);
-        Route::delete('/{id}', [BookingV1::class, 'destroy']);
-    });
-
-    Route::prefix('/booking')->group(function () {
         Route::get('/', [BookingV1::class, 'get']);
         Route::get('/full', [BookingV1::class, 'getWithDetails']);
+        Route::get('/calendar', [BookingV1::class, 'getCalendarDetails']);
         Route::get('/{id}', [BookingV1::class, 'getById']);
         Route::post('/', [BookingV1::class, 'store']);
         Route::put('/{id}', [BookingV1::class, 'update']);
