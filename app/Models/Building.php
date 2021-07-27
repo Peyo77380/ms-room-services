@@ -27,7 +27,7 @@ class Building extends Model
         'surface',
         'openingHours',
         'description',
-        'pictures',
+        'images',
         'characterics',
         'state',
         'enabled',
@@ -86,13 +86,13 @@ class Building extends Model
 
     /**
      *@OA\Property(
-     *          title="pictures",
+     *          title="images",
      *          description="images of the building",
      *          type="array",
      *          @OA\Items({})
      *          )
      */
-    protected $pictures;
+    protected $images;
 
     /**
      *@OA\Property(

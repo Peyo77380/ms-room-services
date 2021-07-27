@@ -35,7 +35,7 @@ Route::group([
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
     Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
     Route::post('/building', [BuildingV1::class, 'add']);
-    Route::put('/building/{id}', [BuildingV1::class, 'update']);
+    Route::post('/building/{id}', [BuildingV1::class, 'update']);
 
 
     Route::get('/service', [ServiceV1::class, 'get']);

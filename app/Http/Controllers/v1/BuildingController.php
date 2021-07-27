@@ -7,10 +7,10 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 
 use App\Models\Building;
-use Illuminate\Http\Request;
 
 use App\Http\Requests\Building\BuildingStoreRequest;
 use App\Http\Requests\Building\BuildingUpdateRequest;
+use App\Libs\ImageLib;
 
 class BuildingController extends Controller
 {
@@ -99,7 +99,10 @@ class BuildingController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Building::get());
+        if ($buildings = Building::get()) {
+            return $this->jsonSuccess($buildings);
+        }
+        return $this->jsonError('Not found.', 404);
     }
 
     /**
@@ -170,7 +173,10 @@ class BuildingController extends Controller
      */
     function getById($id)
     {
-        return $this->jsonById($id, Building::find($id));
+        if ($building = Building::find($id)) {
+            return $this->jsonById($id, $building);
+        }
+        return $this->jsonError('Not found at id ' . $id . '.', 404);
     }
 
     /**
@@ -257,11 +263,11 @@ class BuildingController extends Controller
      */
     public function destroy($id)
     {
-        return $this->jsonSuccess(
-            'item : ' . $id . ' successfully deleted',
-            Building::destroy($id),
-            204
-        );
+        if (Building::destroy($id)) {
+            return $this->jsonSuccess('item : ' . $id . ' successfully deleted', Building::destroy($id), 204);
+        }
+
+        return $this->jsonError('Cannot delete building', 409);
     }
 
     /**
@@ -308,8 +314,21 @@ class BuildingController extends Controller
      */
     public function add(BuildingStoreRequest $request)
     {
+        $image = new ImageLib();
+        $savedImage = $image->saveImage($request);
+
+        if (!$savedImage) {
+            return $this->jsonError('Could not save image', 409);
+        }
+
         $building = new Building($request->all());
-        $building->save();
+        $building->images = $savedImage->_id;
+
+        if ($building->save()) {
+            return $this->jsonSuccess($building, 'Created', 201);
+        }
+
+        return $this->jsonError('Could not create. Check datas again', 409);
     }
 
     /**
@@ -376,7 +395,28 @@ class BuildingController extends Controller
     public function update($id, BuildingUpdateRequest $request)
     {
         $building = Building::find($id);
+
+        if (!$building) {
+            return $this->jsonError('Nothing found at id ' . $id . '.', 404);
+        }
+
+        $image = new ImageLib();
+        $savedImage = $image->saveImage($request);
+
+        if (!$savedImage) {
+            return $this->jsonError('Could not save image', 409);
+        }
+
         $building->fill($request->all());
-        $building->save();
+        $building->images = $savedImage->_id;
+
+        if ($building->save()) {
+            return $this->jsonSuccess($building, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
+
+
     }
 }
+
+

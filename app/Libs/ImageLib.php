@@ -29,10 +29,10 @@ class ImageLib
         $response = $this->client->request('GET', 'image');
 
         if ($response->getStatusCode() == 200 && $datas = $response->getBody()->getContents()) {
-            return $this->jsonSuccess(json_decode($datas)->datas, 'Successfully got the images');
+            return json_decode($datas);
         }
 
-        return $this->jsonError('Could not get the images list', 500);
+        return ['error' => 'Could not get images'];
     }
 
 
@@ -44,10 +44,10 @@ class ImageLib
         $response = $this->client->request('GET', 'image/'.$id);
 
         if ($response->getStatusCode() == 200 && $datas = $response->getBody()->getContents()) {
-            return $this->jsonSuccess(json_decode($datas)->datas, 'Successfully got the image');
+            return json_decode($datas)->datas;
         }
 
-        return $this->jsonError('Could not get the image', 500);
+        return ['error' => 'Could not get image'];
     }
 
     public function saveImage ($imageSubmission)
@@ -55,10 +55,10 @@ class ImageLib
         $response = $this->client->request('post', 'image', $this->__prepareMultipartFormData($imageSubmission));
 
         if ($response->getStatusCode() == 201 && $datas = $response->getBody()->getContents()) {
-            return $this->jsonSuccess(json_decode($datas)->datas, 'Successfully created the image');
+            return json_decode($datas)->datas;
         }
 
-        return $this->jsonError('Could not get the image', 500);
+        return false;
     }
 
     private function __prepareMultipartFormData ($data)
@@ -69,7 +69,7 @@ class ImageLib
                 [
                     'Content-type' => 'multipart/form-data',
                     'name' => 'body',
-                    'contents' => json_encode($data->all())
+                    'contents' => json_encode([$data->input('user'),$data->input('wl'),$data->input('caption')])
                 ],
                 [
                     'Content-type' => 'multipart/form-data',
