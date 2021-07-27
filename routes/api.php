@@ -65,7 +65,7 @@ Route::group([
         Route::get('/available', [RoomV1::class, 'findAvailableRoom']);
         Route::get('/{id}', [RoomV1::class, 'getById']);
         Route::post('/', [RoomV1::class, 'store']);
-        Route::put('/{id}', [RoomV1::class, 'update']);
+        Route::post('/{id}', [RoomV1::class, 'update']);
         Route::delete('/{id}', [RoomV1::class, 'destroy']);
     });
 

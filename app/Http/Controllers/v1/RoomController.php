@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Room;
 
+use App\Libs\ImageLib;
 use App\Libs\PriceLibs;
 use App\Libs\BookingLib;
 use App\Traits\ApiResponder;
@@ -214,9 +215,20 @@ class RoomController extends Controller
      */
     public function store (RoomStoreRequest $request)
     {
-        $room = Room::create($request->all());
-        if (!$room) {
-            return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
+        $room = new Room($request->all());
+
+        if ($request->file()) {
+            $image = new ImageLib();
+            $savedImage = $image->saveImage($request);
+
+            if (!$savedImage) {
+                return $this->jsonError('Could not save image', 409);
+            }
+            $room->images = $savedImage->_id;
+        }
+
+        if (!$room->save()) {
+            return $this->jsonError('Could not save room', 409);
         }
 
         $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $room->_id, $request->prices);
@@ -296,13 +308,20 @@ class RoomController extends Controller
         $room = Room::find($id);
 
         if (!$room) {
-            return $this->jsonError('Something is wrong, please check datas - Code R30', 409);
+            return $this->jsonError('Nothing found at id ' . $id . '.',404);
         }
 
-        $updatedRoom = $room->update($request->all());
+        $room->fill($request->all());
 
-        if(!$updatedRoom) {
-            return $this->jsonError('Could not update this item - Code R31', 502);
+        if ($request->file()['file']) {
+            $image = new ImageLib();
+            $savedImage = $image->saveImage($request);
+
+            if (!$savedImage) {
+                return $this->jsonError('Could not save image', 409);
+            }
+
+            $room->images = $savedImage->_id;
         }
 
         if ($request->input('prices')) {
@@ -316,7 +335,10 @@ class RoomController extends Controller
         }
 
 
-        return $this->jsonSuccess($room);
+        if ($room->save()) {
+            return $this->jsonSuccess($room, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
 
     }
 
@@ -426,4 +448,6 @@ class RoomController extends Controller
         return $this->jsonSuccess($availableRooms);
     }
 }
+
+
 

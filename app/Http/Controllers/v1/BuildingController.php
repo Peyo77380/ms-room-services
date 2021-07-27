@@ -314,15 +314,18 @@ class BuildingController extends Controller
      */
     public function add(BuildingStoreRequest $request)
     {
-        $image = new ImageLib();
-        $savedImage = $image->saveImage($request);
+        $building = new Building($request->all());
 
-        if (!$savedImage) {
-            return $this->jsonError('Could not save image', 409);
+        if ($request->file()) {
+            $image = new ImageLib();
+            $savedImage = $image->saveImage($request);
+
+            if (!$savedImage) {
+                return $this->jsonError('Could not save image', 409);
+            }
+            $building->images = $savedImage->_id;
         }
 
-        $building = new Building($request->all());
-        $building->images = $savedImage->_id;
 
         if ($building->save()) {
             return $this->jsonSuccess($building, 'Created', 201);
@@ -400,15 +403,18 @@ class BuildingController extends Controller
             return $this->jsonError('Nothing found at id ' . $id . '.', 404);
         }
 
-        $image = new ImageLib();
-        $savedImage = $image->saveImage($request);
-
-        if (!$savedImage) {
-            return $this->jsonError('Could not save image', 409);
-        }
-
         $building->fill($request->all());
-        $building->images = $savedImage->_id;
+
+        if ($request->file()['file']) {
+            $image = new ImageLib();
+            $savedImage = $image->saveImage($request);
+
+            if (!$savedImage) {
+                return $this->jsonError('Could not save image', 409);
+            }
+
+            $building->images = $savedImage->_id;
+        }
 
         if ($building->save()) {
             return $this->jsonSuccess($building, 'Updated');

@@ -33,8 +33,21 @@ class Room extends Model
         'openingHours',
         'enabled',
         'services',
-        'type'
+        'type',
+        'image'
     ];
+
+
+    /**
+     *@OA\Property(
+     *          title="images",
+     *          description="images of the building",
+     *          type="array",
+     *          @OA\Items({})
+     *          )
+     */
+    protected $images;
+
 
     /**
      *@OA\Property(
