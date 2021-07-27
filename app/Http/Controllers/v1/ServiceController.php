@@ -458,6 +458,7 @@ class ServiceController extends Controller
     public function update($id, ServiceUpdateRequest $request)
     {
         $service = Service::find($id);
+        $type = $service->type;
 
         if (!$service) {
             return $this->jsonError('Nothing found at id ' . $id . '.', 404);
@@ -478,7 +479,7 @@ class ServiceController extends Controller
 
 
         if ($request->input('prices')) {
-            $prices = PriceLibs::replace($service->type, $service->_id, $request->input('prices'));
+            $prices = PriceLibs::replace($type, $service->_id, $request->input('prices'));
 
             if(isset($prices['error'])) {
                 return $this->jsonError('Could not update this item - Code R31', 502);
