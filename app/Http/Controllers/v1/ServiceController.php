@@ -15,7 +15,6 @@ use App\Http\Requests\Service\ServiceUpdateRequest;
 class ServiceController extends Controller
 {
     use ApiResponder;
-
     /**
      * @OA\GET(
      *      path="/api/v1/service",
@@ -124,7 +123,7 @@ class ServiceController extends Controller
      *              ),
      *              @OA\Property(
      *                  property="time",
-     *                  type="string",
+     *                  type="string",public $__Price_RelatedEntityType_Nb = 0;
      *                  example="Current time"
      *              )
      *          )
@@ -382,7 +381,7 @@ class ServiceController extends Controller
             $service->images = $savedImage->_id;
         }
 
-        $service->prices = PriceLibs::set($service->type, $service->_id, $request->prices);
+        $service->prices = PriceLibs::set($service->type, $service->_id, $request->input('prices'));
 
 
         if ($service->save()) {
@@ -464,7 +463,7 @@ class ServiceController extends Controller
         // type & category_id are fixed and cannot be change
         $service->fill($request->except(['category_id', 'type']));
 
-        if ($request->file()['file']) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 
@@ -473,6 +472,17 @@ class ServiceController extends Controller
             }
 
             $service->images = $savedImage->_id;
+        }
+
+
+        if ($request->input('prices')) {
+            $prices = PriceLibs::replace($service->type, $service->_id, $request->input('prices'));
+
+            if(isset($prices['error'])) {
+                return $this->jsonError('Could not update this item - Code R31', 502);
+            }
+
+            $service->prices = $prices;
         }
 
         if ($service->save()) {

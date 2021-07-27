@@ -13,7 +13,7 @@ class Event extends Model
      */
     protected $fillable = [
         'name',
-        // 'images',
+        'images',
         'description',
         'capacityMin',
         'capacityMax',
@@ -24,6 +24,17 @@ class Event extends Model
         'booking_id',
         'archived_at'
     ];
+
+    /**
+     *@OA\Property(
+     *          title="images",
+     *          description="images of the building",
+     *          type="array",
+     *          @OA\Items({})
+     *          )
+     */
+    protected $images;
+
 
     public function bookings ()
     {
