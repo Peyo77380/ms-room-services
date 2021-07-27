@@ -123,7 +123,7 @@ class ServiceController extends Controller
      *              ),
      *              @OA\Property(
      *                  property="time",
-     *                  type="string",public $__Price_RelatedEntityType_Nb = 0;
+     *                  type="string",
      *                  example="Current time"
      *              )
      *          )
