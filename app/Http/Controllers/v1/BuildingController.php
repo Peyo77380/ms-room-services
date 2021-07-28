@@ -317,7 +317,7 @@ class BuildingController extends Controller
     {
         $building = new Building($request->all());
 
-        if ($request->file()) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 
@@ -406,7 +406,7 @@ class BuildingController extends Controller
 
         $building->fill($request->all());
 
-        if ($request->file()['file']) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 
