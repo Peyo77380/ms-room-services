@@ -373,7 +373,7 @@ class ServiceController extends Controller
     {
         $service = new Service($request->all());
 
-        if ($request->file()) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 

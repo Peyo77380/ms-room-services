@@ -57,7 +57,7 @@ class EventController extends Controller
     {
         $event = new Event($request->all());
 
-        if ($request->file()) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 
@@ -130,7 +130,7 @@ class EventController extends Controller
         }
         $event->fill($request->all());
 
-        if ($request->file()['file']) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 

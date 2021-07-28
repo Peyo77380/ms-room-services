@@ -217,7 +217,7 @@ class RoomController extends Controller
     {
         $room = new Room($request->all());
 
-        if ($request->file()) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 
@@ -313,7 +313,7 @@ class RoomController extends Controller
 
         $room->fill($request->all());
 
-        if ($request->file()['file']) {
+        if (isset($request->file()['file'])) {
             $image = new ImageLib();
             $savedImage = $image->saveImage($request);
 
