@@ -4,7 +4,6 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Event;
 
-use App\Libs\ImageLib;
 use App\Libs\PriceLibs;
 use App\Libs\BookingLib;
 use App\Traits\ApiResponder;
@@ -56,17 +55,6 @@ class EventController extends Controller
     public function store(EventStoreRequest $request)
     {
         $event = new Event($request->all());
-
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-            $event->images = $savedImage->_id;
-        }
-
 
         $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->input('prices'));
 
@@ -129,17 +117,6 @@ class EventController extends Controller
             return $this->jsonError('Nothing found at id ' . $id . '.', 404);
         }
         $event->fill($request->all());
-
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-
-            $event->images = $savedImage->_id;
-        }
 
         if ($request->input('prices')) {
             $event->prices = PriceLibs::replace(

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Room;
 
-use App\Libs\ImageLib;
 use App\Libs\PriceLibs;
 use App\Libs\BookingLib;
 use App\Traits\ApiResponder;
@@ -217,16 +216,6 @@ class RoomController extends Controller
     {
         $room = new Room($request->all());
 
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-            $room->images = $savedImage->_id;
-        }
-
         if (!$room->save()) {
             return $this->jsonError('Could not save room', 409);
         }
@@ -312,17 +301,6 @@ class RoomController extends Controller
         }
 
         $room->fill($request->all());
-
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-
-            $room->images = $savedImage->_id;
-        }
 
         if ($request->input('prices')) {
             $prices = PriceLibs::replace($room->type, $room->_id, $request->input('prices'));

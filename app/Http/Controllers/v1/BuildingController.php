@@ -10,7 +10,6 @@ use App\Models\Building;
 
 use App\Http\Requests\Building\BuildingStoreRequest;
 use App\Http\Requests\Building\BuildingUpdateRequest;
-use App\Libs\ImageLib;
 
 class BuildingController extends Controller
 {
@@ -317,17 +316,6 @@ class BuildingController extends Controller
     {
         $building = new Building($request->all());
 
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-            $building->images = $savedImage->_id;
-        }
-
-
         if ($building->save()) {
             return $this->jsonSuccess($building, 'Created', 201);
         }
@@ -405,17 +393,6 @@ class BuildingController extends Controller
         }
 
         $building->fill($request->all());
-
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-
-            $building->images = $savedImage->_id;
-        }
 
         if ($building->save()) {
             return $this->jsonSuccess($building, 'Updated');

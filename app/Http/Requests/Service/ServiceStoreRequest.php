@@ -28,7 +28,6 @@ class ServiceStoreRequest extends FormRequest
             'prices.amounts.member' => 'numeric',
             'prices.amounts.co' => 'numeric',
             'variation' => 'array'
-            // image_id
         ];
     }
 }

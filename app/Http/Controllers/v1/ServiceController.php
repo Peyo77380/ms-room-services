@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Libs\ImageLib;
-
 use App\Libs\PriceLibs;
 
 use App\Models\Service;
@@ -373,18 +371,7 @@ class ServiceController extends Controller
     {
         $service = new Service($request->all());
 
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-            $service->images = $savedImage->_id;
-        }
-
         $service->prices = PriceLibs::set($service->type, $service->_id, $request->input('prices'));
-
 
         if ($service->save()) {
             return $this->jsonSuccess($service, 'Created', 201);
@@ -458,25 +445,14 @@ class ServiceController extends Controller
     public function update($id, ServiceUpdateRequest $request)
     {
         $service = Service::find($id);
-        $type = $service->type;
 
         if (!$service) {
             return $this->jsonError('Nothing found at id ' . $id . '.', 404);
         }
+
+        $type = $service->type;
         // type & category_id are fixed and cannot be change
         $service->fill($request->except(['category_id', 'type']));
-
-        if (isset($request->file()['file'])) {
-            $image = new ImageLib();
-            $savedImage = $image->saveImage($request);
-
-            if (!$savedImage) {
-                return $this->jsonError('Could not save image', 409);
-            }
-
-            $service->images = $savedImage->_id;
-        }
-
 
         if ($request->input('prices')) {
             $prices = PriceLibs::replace($type, $service->_id, $request->input('prices'));
