@@ -461,18 +461,19 @@ class ServiceController extends Controller
         // type & category_id are fixed and cannot be change
         $service->fill($request->except(['category_id', 'type']));
 
-        if ($request->input('prices')) {
-            $prices = PriceLibs::replace($type, $service->_id, $request->input('prices'));
-
-            if(isset($prices['error'])) {
-                return $this->jsonError('Could not update this item - Code R31', 502);
-            }
-
-            $service->prices = $prices;
-        }
-
         if ($service->save()) {
+            if ($request->input('prices')) {
+                $prices = PriceLibs::replace($type, $service->_id, $request->input('prices'));
+
+                if(isset($prices['error'])) {
+                    return $this->jsonError('Could not update this item - Code R31', 502);
+                }
+
+                $service->prices = $prices;
+            }
             return $this->jsonSuccess($service, 'Updated');
+
+        
         };
         return $this->jsonError('Something went wrong', 409);
 
