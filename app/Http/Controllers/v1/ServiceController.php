@@ -371,11 +371,18 @@ class ServiceController extends Controller
     {
         $service = new Service($request->all());
 
-        $service->prices = PriceLibs::set($service->type, $service->_id, $request->input('prices'));
-
         if ($service->save()) {
-            return $this->jsonSuccess($service, 'Created', 201);
+
+            $prices = PriceLibs::set($service->type, $service->_id, $request->input('prices'));
+            
+            if ($prices) {
+                $service->prices = $prices;
+                return $this->jsonSuccess($service, 'Created', 201);
+            }
+
+            return $this->jsonError('Could not create the prices. Check datas again', 409);
         }
+
 
         return $this->jsonError('Could not create. Check datas again', 409);
     }
