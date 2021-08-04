@@ -28,7 +28,8 @@ class EventStoreRequest extends FormRequest
             'display' => 'required|string',
             'startDate' => 'required|date',
             'endDate' => 'required|date',
-            'status' => 'required|boolean'
+            'status' => 'required|boolean',
+            'category_id' => 'required|string'
         ];
     }
 }
