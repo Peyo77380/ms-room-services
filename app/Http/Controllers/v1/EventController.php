@@ -4,12 +4,12 @@ namespace App\Http\Controllers\v1;
 
 use App\Models\Event;
 
+use App\Libs\PriceLibs;
+use App\Libs\BookingLib;
 use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Event\EventStoreRequest;
 use App\Http\Requests\Event\EventUpdateRequest;
-use App\Libs\PriceLibs;
-use App\Libs\BookingLib;
 
 class EventController extends Controller
 {
@@ -54,9 +54,9 @@ class EventController extends Controller
      */
     public function store(EventStoreRequest $request)
     {
-        $event = Event::create($request->all());
+        $event = new Event($request->all());
 
-        $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->prices);
+        $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->input('prices'));
 
         if (isset($prices['error'])) {
             return $this->jsonError('Could not create the booking', 500);
@@ -77,7 +77,12 @@ class EventController extends Controller
         }
         $event->booking = $booking;
 
-        return $this->jsonSuccess('created',$event, 201);;
+
+        if ($event->save()) {
+            return $this->jsonSuccess($event, 'Created', 201);
+        }
+
+        return $this->jsonError('Could not create. Check datas again', 409);
     }
 
     public function duplicate ($id)
@@ -109,19 +114,23 @@ class EventController extends Controller
     {
         $event = Event::find($id);
         if (!$event) {
-            return $this->jsonError('Something is wrong, please check datas - Code B30', 409);
+            return $this->jsonError('Nothing found at id ' . $id . '.', 404);
         }
-        $event->update($request->all());
+        $event->fill($request->all());
 
-        if ($request->prices) {
+        if ($request->input('prices')) {
             $event->prices = PriceLibs::replace(
                 $this->__Price_RelatedEntityType_Nb,
                 $id,
-                $request->prices
+                $request->input('prices')
             );
         }
 
-        return $this->jsonSuccess('updated',$event, 200);
+        if ($event->save()) {
+            return $this->jsonSuccess($event, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
+
 
     }
 

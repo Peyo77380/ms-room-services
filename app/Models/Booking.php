@@ -28,7 +28,8 @@ class Booking extends Model
         'state',
         'start',
         'end',
-        'other'
+        'other',
+        'archived_at'
     ];
 
    /**
@@ -43,9 +44,20 @@ class Booking extends Model
     protected $_id;
 
     /**
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at;
+
+    /**
      *
      *@OA\Property(
      *          title="orderId",
+     *          description="order related to this booking",
      *          type="ObjectId",
      *          example="60b927367825c419083d3588"
      *          )
@@ -56,25 +68,28 @@ class Booking extends Model
      *
      *@OA\Property(
      *          title="clientId",
+     *          description="Client ID",
      *          type="integer",
      *          example="112"
      *          )
      */
-    protected $clientId;
+    protected $client_id;
 
     /**
      *
      *@OA\Property(
-     *          title="companyId",
+     *          title="company_id",
+     *          description="Company Id",
      *          type="integer",
      *          example="2"
      *          )
      */
-    protected $companyId;
+    protected $company_id;
 
     /**
      * @OA\Property(
      *          title="state",
+     *          description="Status of the booking",
      *          type="integer",
      *          example = "1"
      *          )
@@ -89,6 +104,7 @@ class Booking extends Model
      *
      *@OA\Property(
      *          title="start",
+     *          description="Date of the beginning",
      *          type="timestamp",
      *          example="1621987200"
      *          )
@@ -99,11 +115,22 @@ class Booking extends Model
      *
      *@OA\Property(
      *          title="end",
+     *          description="Date of the end",
      *          type="timestamp",
      *          example="1622073600"
      *          )
      */
     protected $end;
+
+
+    /**
+     *
+     *@OA\Property(
+     *          title="other",
+     *          type="array"
+     *          )
+     */
+    protected $other;
 
     public function order()
     {

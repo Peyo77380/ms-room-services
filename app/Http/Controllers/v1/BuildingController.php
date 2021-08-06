@@ -7,7 +7,6 @@ use App\Traits\ApiResponder;
 use App\Http\Controllers\Controller;
 
 use App\Models\Building;
-use Illuminate\Http\Request;
 
 use App\Http\Requests\Building\BuildingStoreRequest;
 use App\Http\Requests\Building\BuildingUpdateRequest;
@@ -99,7 +98,10 @@ class BuildingController extends Controller
      */
     function get()
     {
-        return $this->jsonSuccess(Building::get());
+        if ($buildings = Building::whereNull('archived_at')->get()) {
+            return $this->jsonSuccess($buildings);
+        }
+        return $this->jsonError('Not found.', 404);
     }
 
     /**
@@ -170,7 +172,10 @@ class BuildingController extends Controller
      */
     function getById($id)
     {
-        return $this->jsonById($id, Building::find($id));
+        if ($building = Building::find($id)) {
+            return $this->jsonById($id, $building);
+        }
+        return $this->jsonError('Not found at id ' . $id . '.', 404);
     }
 
     /**
@@ -257,11 +262,12 @@ class BuildingController extends Controller
      */
     public function destroy($id)
     {
-        return $this->jsonSuccess(
-            'item : ' . $id . ' successfully deleted',
-            Building::destroy($id),
-            204
-        );
+        if ($building = Building::find($id)) {
+            $archived = $building->update(["archived_at" => date_format(now(), 'c')]);
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived', $archived, 204);
+        }
+
+        return $this->jsonError('Cannot delete building', 409);
     }
 
     /**
@@ -309,7 +315,12 @@ class BuildingController extends Controller
     public function add(BuildingStoreRequest $request)
     {
         $building = new Building($request->all());
-        $building->save();
+
+        if ($building->save()) {
+            return $this->jsonSuccess($building, 'Created', 201);
+        }
+
+        return $this->jsonError('Could not create. Check datas again', 409);
     }
 
     /**
@@ -376,7 +387,20 @@ class BuildingController extends Controller
     public function update($id, BuildingUpdateRequest $request)
     {
         $building = Building::find($id);
+
+        if (!$building) {
+            return $this->jsonError('Nothing found at id ' . $id . '.', 404);
+        }
+
         $building->fill($request->all());
-        $building->save();
+
+        if ($building->save()) {
+            return $this->jsonSuccess($building, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
+
+
     }
 }
+
+

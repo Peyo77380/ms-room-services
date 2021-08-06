@@ -27,11 +27,12 @@ class Building extends Model
         'surface',
         'openingHours',
         'description',
-        'pictures',
+        'images',
         'characterics',
         'state',
         'enabled',
-        'floors'
+        'floors',
+        'archived_at'
     ];
 
     /**
@@ -44,6 +45,16 @@ class Building extends Model
      */
     protected $_id;
 
+     /**
+    *@OA\Property(
+    *          title="archived_at",
+    *          description="Archiving date",
+    *          type="string",
+    *          example="2021-07-19T14:41:26+00:00"
+    *          )
+    */
+    protected $archived_at;
+
     /**
      *@OA\Property(
      *          title="location",
@@ -53,6 +64,16 @@ class Building extends Model
      *          )
      */
     protected $location;
+
+    /**
+     *@OA\Property(
+     *          title="name",
+     *          description="name",
+     *          type="string",
+     *          example="Batiment"
+     *          )
+     */
+    protected $name;
 
     /**
      *@OA\Property(
@@ -86,13 +107,13 @@ class Building extends Model
 
     /**
      *@OA\Property(
-     *          title="pictures",
+     *          title="images",
      *          description="images of the building",
      *          type="array",
      *          @OA\Items({})
      *          )
      */
-    protected $pictures;
+    protected $images;
 
     /**
      *@OA\Property(

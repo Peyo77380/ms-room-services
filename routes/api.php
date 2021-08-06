@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\v1\PingController as PingV1;
 use App\Http\Controllers\v1\BuildingController as BuildingV1;
 use App\Http\Controllers\v1\ServiceController as ServiceV1;
-use App\Http\Controllers\v1\UploadImageController as UploadImageV1;
+use App\Http\Controllers\v1\ImageController as ImageV1;
 use App\Http\Controllers\v1\PriceController as PricesV1;
 use App\Http\Controllers\v1\BookingController as BookingV1;
 use App\Http\Controllers\v1\OrderController as OrderV1;
@@ -35,7 +35,7 @@ Route::group([
     Route::get('/building/{id}', [BuildingV1::class, 'getByID']);
     Route::delete('/building/{id}', [BuildingV1::class, 'destroy']);
     Route::post('/building', [BuildingV1::class, 'add']);
-    Route::put('/building/{id}', [BuildingV1::class, 'update']);
+    Route::post('/building/{id}', [BuildingV1::class, 'update']);
 
 
     Route::get('/service', [ServiceV1::class, 'get']);
@@ -51,12 +51,13 @@ Route::group([
     // Route::post('/price/add', [PricesV1::class, 'add']);
     // Route::put('/price/{id}', [PricesV1::class, 'update']);
 
-    Route::prefix('/uploadImage')->group(function () {
-        Route::get('/', [UploadImageV1::class, 'get']);
-        Route::get('/{id}', [UploadImageV1::class, 'getById']);
-        Route::post('/', [UploadImageV1::class, 'store']);
-        Route::put('/{id}', [UploadImageV1::class, 'update']);
-        Route::delete('/{id}', [UploadImageV1::class, 'destroy']);
+    Route::prefix('/image')->group(function () {
+        Route::get('/files/{filename}', [ImageV1::class, 'getFileByFilename']);
+        Route::get('/{id}', [ImageV1::class, 'getById']);
+        Route::get('/', [ImageV1::class, 'get']);
+        Route::post('/', [ImageV1::class, 'store']);
+        Route::put('/{id}', [ImageV1::class, 'update']);
+        Route::delete('/{id}', [ImageV1::class, 'destroy']);
     });
 
     Route::prefix('/room')->group(function () {
@@ -64,7 +65,7 @@ Route::group([
         Route::get('/available', [RoomV1::class, 'findAvailableRoom']);
         Route::get('/{id}', [RoomV1::class, 'getById']);
         Route::post('/', [RoomV1::class, 'store']);
-        Route::put('/{id}', [RoomV1::class, 'update']);
+        Route::post('/{id}', [RoomV1::class, 'update']);
         Route::delete('/{id}', [RoomV1::class, 'destroy']);
     });
 

@@ -105,6 +105,62 @@ class BookingController extends Controller
         return $this->jsonDatabaseError('Unable to reache database - B10');
     }
 
+
+    /**
+     * @OA\GET(
+     *      path="/api/v1/booking/full",
+     *      summary="Returns all the bookings in list with details.",
+     *      description="Returns all the bookings saved in database in list.",
+     *      operationId="get booking",
+     *      tags={"booking"},
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the booking list",
+     *      )
+     *  )
+     */
     function getWithDetails (Booking $booking)
     {
         if ($result = $booking->with('room')->get()) {
@@ -114,6 +170,62 @@ class BookingController extends Controller
         return $this->jsonDatabaseError('Unable to reache database - B10');
     }
 
+
+    /**
+     * @OA\GET(
+     *      path="/api/v1/booking/calendat",
+     *      summary="Returns array with datas for calendar display",
+     *      description="Returns all the bookings saved in database in database, with datas for calendar display.",
+     *      operationId="get booking",
+     *      tags={"booking"},
+     *      @OA\Response(
+     *          response=404,
+     *          description="Nothing found",
+     *          @OA\JsonContent(
+     *              @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Not found"
+     *              ),
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *              ),
+     *              @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *               @OA\Property(
+     *                  property="message",
+     *                  type="string",
+     *                  example="Database error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="status",
+     *                  type="string",
+     *                  example="error"
+     *                  ),
+     *               @OA\Property(
+     *                  property="time",
+     *                  type="string",
+     *                  example="Current time"
+     *                  )
+     *           )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successfully got the booking list",
+     *      )
+     *  )
+     */
     function getCalendarDetails (Booking $booking)
     {
         if ($result = $booking->with('room')->get()) {

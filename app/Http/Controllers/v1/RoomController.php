@@ -214,12 +214,13 @@ class RoomController extends Controller
      */
     public function store (RoomStoreRequest $request)
     {
-        $room = Room::create($request->all());
-        if (!$room) {
-            return $this->jsonError('Something is wrong, please check datas - Code R20', 409);
+        $room = new Room($request->all());
+
+        if (!$room->save()) {
+            return $this->jsonError('Could not save room', 409);
         }
 
-        $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $room->_id, $request->prices);
+        $prices = PriceLibs::set($room->type, $room->_id, $request->input('prices'));
 
         if (isset($prices['error'])) {
             return $this->jsonError('Could not create the booking', 500);
@@ -296,17 +297,13 @@ class RoomController extends Controller
         $room = Room::find($id);
 
         if (!$room) {
-            return $this->jsonError('Something is wrong, please check datas - Code R30', 409);
+            return $this->jsonError('Nothing found at id ' . $id . '.',404);
         }
 
-        $updatedRoom = $room->update($request->all());
-
-        if(!$updatedRoom) {
-            return $this->jsonError('Could not update this item - Code R31', 502);
-        }
+        $room->fill($request->all());
 
         if ($request->input('prices')) {
-            $prices = PriceLibs::replace($this->__Price_RelatedEntityType_Nb, $room->_id, $request->input('prices'));
+            $prices = PriceLibs::replace($room->type, $room->_id, $request->input('prices'));
 
             if(isset($prices['error'])) {
                 return $this->jsonError('Could not update this item - Code R31', 502);
@@ -316,7 +313,10 @@ class RoomController extends Controller
         }
 
 
-        return $this->jsonSuccess($room);
+        if ($room->save()) {
+            return $this->jsonSuccess($room, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
 
     }
 
@@ -404,11 +404,12 @@ class RoomController extends Controller
      */
     public function destroy ($id)
     {
-        if (!Room::destroy($id)) {
-            return $this->jsonError('Nothing found at this ID - Code R40', 404);
+        if ($room = Room::find($id)) {
+            $archived = $room->update(["archived_at" => date_format(now(), 'c')]);
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
         }
+        return $this->jsonError('Nothing found at this ID - Code R40', 404);
 
-        return $this->jsonSuccessWithoutData('Successfully deleted from database');
     }
 
     public function findAvailableRoom (RoomSearchRequest $request)
@@ -426,4 +427,6 @@ class RoomController extends Controller
         return $this->jsonSuccess($availableRooms);
     }
 }
+
+
 

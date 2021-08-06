@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Traits\ApiResponder;
-
-use App\Http\Controllers\Controller;
+use App\Libs\PriceLibs;
 
 use App\Models\Service;
+use App\Traits\ApiResponder;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Service\ServiceStoreRequest;
 use App\Http\Requests\Service\ServiceUpdateRequest;
-use App\Libs\PriceLibs;
 
 class ServiceController extends Controller
 {
     use ApiResponder;
-
     /**
      * @OA\GET(
      *      path="/api/v1/service",
@@ -319,9 +317,11 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        $service = Service::find($id);
-        $archived = $service->update(["archived_at" => date_format(now(), 'c')]);
-        return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
+        if ($service = Service::find($id)) {
+            $archived = $service->update(["archived_at" => date_format(now(), 'c')]);
+            return $this->jsonSuccess('item : ' . $id . ' successfully archived',$archived, 204);
+        }
+        return $this->jsonError('Nothing found at this ID - Code R40', 404);
     }
 
 
@@ -369,10 +369,15 @@ class ServiceController extends Controller
      */
     public function add(ServiceStoreRequest $request)
     {
-        $service = Service::create($request->all());
-        $service->prices = PriceLibs::set($service->type, $service->_id, $request->prices);
+        $service = new Service($request->all());
 
-        return $this->jsonSuccess('created',$service, 201);;
+        $service->prices = PriceLibs::set($service->type, $service->_id, $request->input('prices'));
+
+        if ($service->save()) {
+            return $this->jsonSuccess($service, 'Created', 201);
+        }
+
+        return $this->jsonError('Could not create. Check datas again', 409);
     }
 
 
@@ -394,7 +399,7 @@ class ServiceController extends Controller
      *          )
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Succesfully updated",
      *          @OA\JsonContent(
      *              @OA\Property(
@@ -440,13 +445,29 @@ class ServiceController extends Controller
     public function update($id, ServiceUpdateRequest $request)
     {
         $service = Service::find($id);
-        // type & category_id are fixed and cannot be change
-        $service->update($request->except(['category_id', 'type']));
 
-        if ($request->prices) {
-            $service->prices = PriceLibs::replace(1, $id, $request->prices);
+        if (!$service) {
+            return $this->jsonError('Nothing found at id ' . $id . '.', 404);
         }
 
-        return $this->jsonSuccess('updated',$service, 200);
+        $type = $service->type;
+        // type & category_id are fixed and cannot be change
+        $service->fill($request->except(['category_id', 'type']));
+
+        if ($request->input('prices')) {
+            $prices = PriceLibs::replace($type, $service->_id, $request->input('prices'));
+
+            if(isset($prices['error'])) {
+                return $this->jsonError('Could not update this item - Code R31', 502);
+            }
+
+            $service->prices = $prices;
+        }
+
+        if ($service->save()) {
+            return $this->jsonSuccess($service, 'Updated');
+        };
+        return $this->jsonError('Something went wrong', 409);
+
     }
 }
