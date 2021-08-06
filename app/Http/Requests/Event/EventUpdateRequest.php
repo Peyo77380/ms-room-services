@@ -27,7 +27,8 @@ class EventUpdateRequest extends FormRequest
             'display' => 'string',
             'startDate' => 'date',
             'endDate' => 'date',
-            'status' => 'boolean'
+            'status' => 'boolean',
+            'category_id' => 'string'
         ];
     }
 }
