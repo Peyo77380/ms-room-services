@@ -55,30 +55,29 @@ class EventController extends Controller
     public function store(EventStoreRequest $request)
     {
         $event = new Event($request->all());
-
-        $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->input('prices'));
-
-        if (isset($prices['error'])) {
-            return $this->jsonError('Could not create the booking', 500);
-        }
-        $event->prices = $prices;
-
-        $booking = BookingLib::makeBooking(
-            $request->input('startDate'),
-            $request->input('endDate'),
-            $request->input('room_id'),
-            $request->input('client_id'),
-            $request->input('company_id'),
-            $event->_id
-        );
-
-        if (isset($booking['error'])) {
-            return $this->jsonError($booking['error'], 500);
-        }
-        $event->booking = $booking;
-
-
         if ($event->save()) {
+
+            $prices = PriceLibs::set($this->__Price_RelatedEntityType_Nb, $event->_id, $request->input('prices'));
+
+            if (isset($prices['error'])) {
+                return $this->jsonError('Could not create the booking', 500);
+            }
+            $event->prices = $prices;
+
+            $booking = BookingLib::makeBooking(
+                $request->input('startDate'),
+                $request->input('endDate'),
+                $request->input('room_id'),
+                $request->input('client_id'),
+                $request->input('company_id'),
+                $event->_id
+            );
+
+            if (isset($booking['error'])) {
+                return $this->jsonError($booking['error'], 500);
+            }
+            $event->booking = $booking;
+        
             return $this->jsonSuccess($event, 'Created', 201);
         }
 
@@ -117,16 +116,16 @@ class EventController extends Controller
             return $this->jsonError('Nothing found at id ' . $id . '.', 404);
         }
         $event->fill($request->all());
-
-        if ($request->input('prices')) {
-            $event->prices = PriceLibs::replace(
-                $this->__Price_RelatedEntityType_Nb,
-                $id,
-                $request->input('prices')
-            );
-        }
-
+        
         if ($event->save()) {
+            if ($request->input('prices')) {
+                $event->prices = PriceLibs::replace(
+                    $this->__Price_RelatedEntityType_Nb,
+                    $id,
+                    $request->input('prices')
+                );
+            }
+
             return $this->jsonSuccess($event, 'Updated');
         };
         return $this->jsonError('Something went wrong', 409);

@@ -27,7 +27,8 @@ class ServiceStoreRequest extends FormRequest
             'prices.amounts.public' => 'required|numeric',
             'prices.amounts.member' => 'numeric',
             'prices.amounts.co' => 'numeric',
-            'variation' => 'array'
+            'variation' => 'array',
+            'category_id' => 'required|string'
         ];
     }
 }

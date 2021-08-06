@@ -91,8 +91,8 @@ class Service extends Model
      *@OA\Property(
      *          title="category_id",
      *          description="Category Id from ms-customFields",
-     *          type="string",
-     *          example="Food"
+     *          type="ObjectId",
+     *          example="60b794304e00fd5950e78718"
      *          )
      */
     protected $category_id;

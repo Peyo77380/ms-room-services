@@ -25,8 +25,8 @@ class ServiceUpdateRequest extends FormRequest
             'prices.amounts.public' => 'required_if:prices,true|numeric',
             'prices.amounts.member' => 'numeric',
             'prices.amounts.co' => 'numeric',
-            'variation' => 'array'
-            // image_id
+            'variation' => 'array',
+            'category_id' => 'string'
         ];
     }
 }
